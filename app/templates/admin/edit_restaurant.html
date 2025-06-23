@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Agregar Plato - ReservaElegante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+ <h2>Editar Restaurante</h2>
+<form method="POST" enctype="multipart/form-data">
+    <label>Nombre:</label>
+    <input type="text" name="name" value="{{ restaurant.name }}" required><br>
+
+    <label>Dirección:</label>
+    <input type="text" name="address" value="{{ restaurant.address }}"><br>
+
+    <label>Teléfono:</label>
+    <input type="text" name="phone" value="{{ restaurant.phone }}"><br>
+
+    <label>Descripción:</label>
+    <textarea name="description">{{ restaurant.description }}</textarea><br>
+
+    <label>Imagen:</label>
+    <input type="file" name="image"><br>
+
+    {% if restaurant.image_filename %}
+        <img src="{{ url_for('static', filename='uploads/' + restaurant.image_filename) }}" width="200">
+    {% endif %}
+
+    <button type="submit">Guardar cambios</button>
+</form>
+
+</body>
+</html>
