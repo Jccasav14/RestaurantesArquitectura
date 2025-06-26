@@ -1285,3 +1285,575 @@ button[type="submit"]:active {
         justify-content: center;
     }
 }
+
+/* Restaurant Form Specific Styles */
+.restaurant-form {
+    margin-top: 1.5rem;
+}
+
+.current-image {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: #f8f9fc;
+    border-radius: 0.35rem;
+}
+
+.current-image p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.75rem;
+}
+
+.image-preview {
+    max-width: 300px;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-preview {
+        max-width: 100%;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+.messages {
+            margin-bottom: 20px;
+        }
+        
+        .messages ul {
+            list-style: none;
+        }
+        
+        .messages li {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .messages .error {
+            background-color: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+        
+        .messages .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+        
+/* Tables List Styles */
+.tables-list {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.tables-list th {
+    background-color: #f8f9fc;
+    color: var(--dark-color);
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.tables-list td {
+    padding: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+    vertical-align: middle;
+}
+
+.tables-list tr:last-child td {
+    border-bottom: none;
+}
+
+.tables-list tr:hover {
+    background-color: #f8f9fc;
+}
+
+/* Table Type Badges */
+.type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.type-badge.standard {
+    background-color: rgba(78, 115, 223, 0.1);
+    color: var(--primary-color);
+}
+
+.type-badge.vip {
+    background-color: rgba(246, 194, 62, 0.1);
+    color: var(--warning-color);
+}
+
+.type-badge.family {
+    background-color: rgba(28, 200, 138, 0.1);
+    color: var(--success-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .tables-list td:nth-child(5),
+    .tables-list th:nth-child(5) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .tables-list {
+        display: block;
+    }
+    
+    .tables-list thead {
+        display: none;
+    }
+    
+    .tables-list tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .tables-list td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: none;
+    }
+    
+    .tables-list td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--dark-color);
+        margin-right: 1rem;
+    }
+    
+    .tables-list td:last-child {
+        border-bottom: none;
+    }
+    
+    .actions {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 576px) {
+    .tables-list td:nth-child(4),
+    .tables-list th:nth-child(4) {
+        display: none;
+    }
+}
+/* Restaurants List Styles */
+.restaurants-list-container {
+    margin-top: 1.5rem;
+}
+
+.restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.restaurant-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    transition: all 0.3s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+.restaurant-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.restaurant-meta {
+    margin-bottom: 1.5rem;
+}
+
+.restaurant-meta p {
+    font-size: 0.9rem;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.restaurant-meta i {
+    color: var(--primary-color);
+    width: 1rem;
+}
+
+.restaurant-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .restaurants-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .restaurant-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .restaurant-actions .btn {
+        width: 100%;
+    }
+}
+/* Table Form Styles */
+.table-form {
+    margin-top: 1.5rem;
+}
+
+.table-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.table-form label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.table-form label:after {
+    content: " *";
+    color: var(--danger-color);
+    opacity: 0;
+}
+
+.table-form label[required]:after {
+    opacity: 1;
+}
+
+.table-form input[type="number"],
+.table-form textarea,
+.table-form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    background-color: #f8f9fc;
+}
+
+.table-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.table-form input:focus,
+.table-form textarea:focus,
+.table-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Select Wrapper */
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper i {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    pointer-events: none;
+}
+
+.table-form select {
+    appearance: none;
+    padding-right: 2.5rem;
+}
+
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 1.5rem;
+}
+
+.flash-messages div {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.flash-success {
+    background-color: rgba(28, 200, 138, 0.1);
+    color: var(--success-color);
+    border-left: 4px solid var(--success-color);
+}
+
+.flash-error {
+    background-color: rgba(231, 74, 59, 0.1);
+    color: var(--danger-color);
+    border-left: 4px solid var(--danger-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+/* Reservations Table Styles */
+.reservations-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.reservations-table th {
+    background-color: #f8f9fc;
+    color: var(--dark-color);
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.reservations-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+    vertical-align: middle;
+}
+
+.reservations-table tr:last-child td {
+    border-bottom: none;
+}
+
+.reservations-table tr:hover {
+    background-color: #f8f9fc;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.confirmed {
+    background-color: rgba(28, 200, 138, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge.pending {
+    background-color: rgba(246, 194, 62, 0.1);
+    color: var(--warning-color);
+}
+
+.status-badge.cancelled {
+    background-color: rgba(231, 74, 59, 0.1);
+    color: var(--danger-color);
+}
+
+.status-badge.completed {
+    background-color: rgba(54, 185, 204, 0.1);
+    color: var(--info-color);
+}
+
+/* Responsive Table */
+@media (max-width: 1200px) {
+    .reservations-table td:nth-child(7),
+    .reservations-table th:nth-child(7) {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .reservations-table td:nth-child(1),
+    .reservations-table th:nth-child(1) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .reservations-table {
+        display: block;
+    }
+    
+    .reservations-table thead {
+        display: none;
+    }
+    
+    .reservations-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .reservations-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: none;
+    }
+    
+    .reservations-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--dark-color);
+        margin-right: 1rem;
+    }
+    
+    .reservations-table td:last-child {
+        border-bottom: none;
+    }
+    
+    .actions {
+        justify-content: flex-end;
+    }
+}
+/* Reservation Form Styles */
+.reservation-form {
+    margin-top: 1.5rem;
+}
+
+.reservation-form .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.reservation-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.reservation-form label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.reservation-form label:after {
+    content: " *";
+    color: var(--danger-color);
+    opacity: 0;
+}
+
+.reservation-form label[required]:after {
+    opacity: 1;
+}
+
+.reservation-form input[type="text"],
+.reservation-form input[type="number"],
+.reservation-form input[type="date"],
+.reservation-form input[type="time"],
+.reservation-form textarea,
+.reservation-form select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    background-color: #f8f9fc;
+}
+
+.reservation-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.reservation-form input:focus,
+.reservation-form textarea:focus,
+.reservation-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Input with Icon */
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+}
+
+.input-with-icon input {
+    padding-left: 2.5rem !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .reservation-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}

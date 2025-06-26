@@ -3,35 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Agregar Plato - ReservaElegante</title>
+    <title>Admin | Editar Restaurante - ReservaElegante</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
- <h2>Editar Restaurante</h2>
-<form method="POST" enctype="multipart/form-data">
-    <label>Nombre:</label>
-    <input type="text" name="name" value="{{ restaurant.name }}" required><br>
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item active">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
 
-    <label>Dirección:</label>
-    <input type="text" name="address" value="{{ restaurant.address }}"><br>
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i> 
+                <span>Platos</span>
+            </a>
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+            
+        </div>
+    </div>
 
-    <label>Teléfono:</label>
-    <input type="text" name="phone" value="{{ restaurant.phone }}"><br>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            
+            <div class="user-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+        <!-- Content -->
+        <div class="content">
+            <div class="form-container">
+                <h2 class="section-title">
+                    <i class="fas fa-edit"></i> Editar Restaurante
+                </h2>
+                
+                <form method="POST" enctype="multipart/form-data" class="restaurant-form">
+                    <div class="form-group">
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="name" name="name" value="{{ restaurant.name }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Dirección:</label>
+                        <input type="text" id="address" name="address" value="{{ restaurant.address }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono:</label>
+                        <input type="text" id="phone" name="phone" value="{{ restaurant.phone }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Descripción:</label>
+                        <textarea id="description" name="description">{{ restaurant.description }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="image">Nueva Imagen:</label>
+                        <div class="file-upload">
+                            <label for="image">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span id="file-name">Seleccionar imagen</span>
+                            </label>
+                            <input type="file" id="image" name="image" accept="image/*">
+                        </div>
+                    </div>
+                    
+                    {% if restaurant.image_filename %}
+                    <div class="current-image">
+                        <p><strong>Imagen actual:</strong></p>
+                        <div class="image-preview">
+                            <img src="{{ url_for('static', filename='uploads/' + restaurant.image_filename) }}" alt="{{ restaurant.name }}">
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar cambios
+                        </button>
+                        <a href="{{ url_for('restaurant.list_restaurants') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <label>Descripción:</label>
-    <textarea name="description">{{ restaurant.description }}</textarea><br>
-
-    <label>Imagen:</label>
-    <input type="file" name="image"><br>
-
-    {% if restaurant.image_filename %}
-        <img src="{{ url_for('static', filename='uploads/' + restaurant.image_filename) }}" width="200">
-    {% endif %}
-
-    <button type="submit">Guardar cambios</button>
-</form>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar nombre del archivo seleccionado
+            const fileInput = document.getElementById('image');
+            const fileNameSpan = document.getElementById('file-name');
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    fileNameSpan.textContent = this.files[0].name;
+                } else {
+                    fileNameSpan.textContent = 'Seleccionar imagen';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

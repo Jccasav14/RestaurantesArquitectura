@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Reservaciones - ReservaElegante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="{{ url_for('reservation.create_reservation') }}" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+            
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar reservaciones...">
+            </div>
+            
+            <div class="user-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Mensajes Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        <ul>
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-calendar-check"></i>
+                    <h1>Lista de Reservaciones</h1>
+                </div>
+                <a href="{{ url_for('reservation.create_reservation') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Agregar Reservación
+                </a>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="reservations-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Restaurante</th>
+                                <th>Mesa</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for res in reservations %}
+                            <tr>
+                                <td>{{ res.id }}</td>
+                                <td>{{ res.customer.username if res.customer else 'Cliente no disponible' }}</td>
+                                <td>{{ res.restaurant.name if res.restaurant else 'Restaurante no disponible' }}</td>
+                                <td>Mesa #{{ res.table.number if res.table else 'N/A' }}</td>
+                                <td>{{ res.reservation_date.strftime('%d/%m/%Y') }}</td>
+                                <td>{{ res.reservation_time.strftime('%H:%M') }}</td>
+                                <td>
+                                    <span class="status-badge {{ res.status }}">{{ res.status|capitalize }}</span>
+                                </td>
+                                <td class="actions">
+                                    <a href="#" class="btn btn-sm btn-edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="#" method="POST" class="delete-form">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta reservación?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="8" class="empty-table">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <p>No hay reservaciones registradas</p>
+                                    <a href="{{ url_for('reservation.create_reservation') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Crear Reservación
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aquí puedes agregar interacciones JavaScript si es necesario
+        });
+    </script>
+</body>
+</html>

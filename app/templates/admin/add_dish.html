@@ -26,8 +26,8 @@
                 <span>Restaurantes</span>
             </a>
 
-            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> <!-- Icono alternativo para platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item active">
+                <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
@@ -38,16 +38,16 @@
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
-                <span>Reportes</span>
+                <span>Mesas</span>
             </a>
+            
         </div>
     </div>
 
-    <!-- Main Content -->
+
     <div class="main-content">
-        <!-- Header -->
         <div class="header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
@@ -74,57 +74,57 @@
 
         <!-- Content -->
         <div class="content">
-            <div class="form-container">
-                <h2><i class="fas fa-utensils"></i> Agregar Plato a {{ restaurant.name }}</h2>
-                
-                <form method="POST" enctype="multipart/form-data" class="dish-form">
-                    <div class="form-group">
-                        <label for="name">Nombre del plato:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="ingredients">Ingredientes:</label>
-                        <textarea id="ingredients" name="ingredients" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="description">Descripción:</label>
-                        <textarea id="description" name="description"></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="price">Precio:</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-dollar-sign"></i>
-                                <input type="number" id="price" name="price" step="0.01" min="0" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="image">Imagen:</label>
-                            <div class="file-upload">
-                                <label for="image">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span id="file-name">Seleccionar imagen</span>
-                                </label>
-                                <input type="file" id="image" name="image" accept="image/*">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Agregar Plato
-                        </button>
-                        <a href="{{ url_for('restaurant.view_dishes', restaurant_id=restaurant.id) }}" class="btn btn-secondary">
-                            <i class="fas fa-times"></i> Cancelar
-                        </a>
-                    </div>
-                </form>
+    <div class="form-container">
+        <h2><i class="fas fa-utensils"></i> Agregar Plato a {{ restaurant.name }}</h2>
+        
+        <form method="POST" enctype="multipart/form-data" class="dish-form">
+            <div class="form-group">
+                <label for="name">Nombre del plato:</label>
+                <input type="text" id="name" name="name" required>
             </div>
-        </div>
+            
+            <div class="form-group">
+                <label for="ingredients">Ingredientes:</label>
+                <textarea id="ingredients" name="ingredients" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Descripción:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price">Precio:</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">Imagen:</label>
+                    <div class="file-upload">
+                        <label for="image">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name">Seleccionar imagen</span>
+                        </label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Agregar Plato
+                </button>
+                <a href="{{ url_for('dish.view_dishes', restaurant_id=restaurant.id) }}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
     </div>
 
     <script>

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">
             <div class="brand-logo">RE</div>
@@ -17,7 +16,7 @@
         </div>
         
         <div class="nav-menu">
-            <a href="#" class="nav-item active">
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item active">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
@@ -27,20 +26,20 @@
             </a>
 
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> <!-- Icono alternativo para platos -->
+                <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
                 <i class="fas fa-users"></i>
                 <span>Usuarios</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
-                <span>Reportes</span>
+                <span>Mesas</span>
             </a>
             
         </div>

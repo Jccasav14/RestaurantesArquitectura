@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">
             <div class="brand-logo">RE</div>
@@ -26,8 +25,8 @@
                 <span>Restaurantes</span>
             </a>
 
-            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> <!-- Icono alternativo para platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item active">
+                <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
@@ -38,10 +37,11 @@
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
-                <span>Reportes</span>
+                <span>Mesas</span>
             </a>
+            
         </div>
     </div>
 
@@ -74,52 +74,63 @@
 
         <!-- Content -->
         <div class="content">
-            <div class="page-title">
-                <i class="fas fa-utensils"></i>
-                Restaurantes Registrados
-            </div>
-            
-            <div class="restaurants-grid">
-                {% for r in restaurants %}
-                <div class="restaurant-card">
-                    <div class="restaurant-image">
-                        {% if r.image_filename %}
-                            <img src="{{ url_for('static', filename='uploads/' + r.image_filename) }}" alt="{{ r.name }}">
-                        {% else %}
-                            <div style="background: #e2e8f0; height: 100%; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-utensils" style="font-size: 50px; color: #94a3b8;"></i>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="restaurant-body">
-                        <h3 class="restaurant-title">{{ r.name }}</h3>
-                        <div class="restaurant-info">
-                            <p><strong>Dirección:</strong> {{ r.address }}</p>
-                            <p><strong>Teléfono:</strong> {{ r.phone }}</p>
-                            <p><strong>Descripción:</strong> {{ r.description }}</p>
-                        </div>
-                        <div class="restaurant-actions">
-                            <a href="{{ url_for('restaurant.add_dish', restaurant_id=r.id) }}" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Agregar platos
-                            </a>
-                            <a href="{{ url_for('restaurant.view_dishes', restaurant_id=r.id) }}" class="btn btn-secondary">
-                                <i class="fas fa-eye"></i> Ver platos
-                            </a>
-                        </div>
-                    </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
                 </div>
-                {% else %}
-                <div class="empty-state">
+            {% endif %}
+        {% endwith %}
+                <div class="page-title">
                     <i class="fas fa-utensils"></i>
-                    <h3>No hay restaurantes registrados</h3>
-                    <p>Comienza agregando tu primer restaurante</p>
-                    <a href="{{ url_for('restaurant.add_restaurant') }}" class="btn btn-primary" style="margin-top: 20px;">
-                        <i class="fas fa-plus"></i> Agregar Restaurante
-                    </a>
+                    Restaurantes Registrados
                 </div>
-                {% endfor %}
+                
+                <div class="restaurants-grid">
+                    {% for r in restaurants %}
+                    <div class="restaurant-card">
+                        <div class="restaurant-image">
+                            {% if r.image_filename %}
+                                <img src="{{ url_for('static', filename='uploads/' + r.image_filename) }}" alt="{{ r.name }}">
+                            {% else %}
+                                <div style="background: #e2e8f0; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-utensils" style="font-size: 50px; color: #94a3b8;"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="restaurant-body">
+                            <h3 class="restaurant-title">{{ r.name }}</h3>
+                            <div class="restaurant-info">
+                                <p><strong>Dirección:</strong> {{ r.address }}</p>
+                                <p><strong>Teléfono:</strong> {{ r.phone }}</p>
+                                <p><strong>Descripción:</strong> {{ r.description }}</p>
+                            </div>
+                            <div class="restaurant-actions">
+                                <a href="{{ url_for('dish.add_dish', restaurant_id=r.id) }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Agregar platos
+                                </a>
+                                <a href="{{ url_for('dish.view_dishes', restaurant_id=r.id) }}" class="btn btn-secondary">
+                                    <i class="fas fa-eye"></i> Ver platos
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-utensils"></i>
+                        <h3>No hay restaurantes registrados</h3>
+                        <p>Comienza agregando tu primer restaurante</p>
+                        <a href="{{ url_for('restaurant.add_restaurant') }}" class="btn btn-primary" style="margin-top: 20px;">
+                            <i class="fas fa-plus"></i> Agregar Restaurante
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
     </div>
 
     <script>

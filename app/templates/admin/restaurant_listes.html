@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">
             <div class="brand-logo">RE</div>
@@ -21,13 +20,13 @@
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item active">
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
 
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> <!-- Icono alternativo para platos -->
+                <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
@@ -38,10 +37,11 @@
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
-                <span>Reportes</span>
+                <span>Mesas</span>
             </a>
+            
         </div>
     </div>
 
@@ -70,6 +70,17 @@
 
         <!-- Content -->
         <div class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
             <div class="page-header">
                 <div class="header-title">
                     <i class="fas fa-utensils"></i>

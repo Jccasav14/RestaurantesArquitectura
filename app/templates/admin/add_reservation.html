@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Crear Reservación</title>
+</head>
+<body>
+
+<h1>Crear Nueva Reservación</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="flash-{{ category }}">
+                                    <i class="fas {{ 'fa-check-circle' if category == 'success' else 'fa-exclamation-circle' }}"></i>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+<form method="POST" action="{{ url_for('reservation.create_reservation') }}">
+  <div>
+    <label for="restaurant_id">Restaurante *</label>
+    <select name="restaurant_id" id="restaurant_id" required onchange="this.form.submit()">
+
+      <option value="">Seleccione restaurante</option>
+      {% for r in restaurants %}
+        <option value="{{ r.id }}" {% if r.id == selected_restaurant_id %}selected{% endif %}>{{ r.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label for="customer_id">Cliente *</label>
+    <select name="customer_id" id="customer_id" required>
+      <option value="">Seleccione cliente</option>
+      {% for c in customers %}
+        <option value="{{ c.id }}">{{ c.username }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label for="table_id">Mesa *</label>
+    <select name="table_id" id="table_id" required>
+      <option value="">Seleccione mesa</option>
+      {% for t in tables %}
+        <option value="{{ t.id }}">Mesa {{ t.number }} ({{ t.type }}, {{ t.capacity }} personas)</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label for="menu">Menú (Plato) - Opcional</label>
+    <select name="menu" id="menu">
+      <option value="">Seleccione un plato</option>
+      {% for d in dishes %}
+        <option value="{{ d.id }}">{{ d.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label for="reservation_date">Fecha de Reservación *</label>
+    <input type="date" id="reservation_date" name="reservation_date" required>
+  </div>
+
+  <div>
+    <label for="reservation_time">Hora de Reservación *</label>
+    <input type="time" id="reservation_time" name="reservation_time" required>
+  </div>
+
+  <div>
+    <label for="special_requests">Peticiones Especiales</label>
+    <textarea id="special_requests" name="special_requests" rows="3"></textarea>
+  </div>
+
+  <button type="submit">Crear Reservación</button>
+</form>
+
+</body>
+</html>

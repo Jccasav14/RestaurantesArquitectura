@@ -1,6 +1,9 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app.extensions import db  
+from datetime import datetime
+
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -24,8 +27,6 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
-from app.extensions import db
-
 class Restaurant(db.Model):
     __tablename__ = 'restaurants'
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +38,8 @@ class Restaurant(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', backref='restaurants')
+    tables = db.relationship('Table', back_populates='restaurant', cascade='all, delete-orphan')
+    
 
 class Dish(db.Model):
     __tablename__ = 'dishes'
@@ -49,3 +52,35 @@ class Dish(db.Model):
 
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
     restaurant = db.relationship('Restaurant', backref='dishes')
+
+class Table(db.Model):
+    __tablename__ = 'tables'
+
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, nullable=False)
+    type = db.Column(db.String(50), nullable=False)  # Ej: 'vip', 'normal'
+    capacity = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String(255))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+
+    restaurant = db.relationship('Restaurant', back_populates='tables')
+
+class Reservation(db.Model):
+    __tablename__ = 'reservations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+    table_id = db.Column(db.Integer, db.ForeignKey('tables.id'), nullable=False)
+    reservation_date = db.Column(db.Date, nullable=False)
+    reservation_time = db.Column(db.Time, nullable=False)
+    special_requests = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    menu = db.Column(db.String(255), nullable=True)
+
+
+    # Relaciones
+    customer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    customer = db.relationship('User', backref='reservations', lazy=True)
+    restaurant = db.relationship('Restaurant', backref='reservations', lazy=True)
+    table = db.relationship('Table', backref='reservations', lazy=True)

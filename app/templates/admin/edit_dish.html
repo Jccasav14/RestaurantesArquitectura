@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">
             <div class="brand-logo">RE</div>
@@ -26,8 +25,8 @@
                 <span>Restaurantes</span>
             </a>
 
-            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> <!-- Icono alternativo para platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item active">
+                <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
@@ -38,10 +37,11 @@
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
-                <span>Reportes</span>
+                <span>Mesas</span>
             </a>
+            
         </div>
     </div>
 
@@ -127,7 +127,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Guardar cambios
                         </button>
-                        <a href="{{ url_for('restaurant.view_dishes', restaurant_id=restaurant.id) }}" class="btn btn-secondary">
+                        <a href="{{ url_for('dish.view_dishes', restaurant_id=restaurant.id) }}" class="btn btn-secondary">
                             <i class="fas fa-times"></i> Cancelar
                         </a>
                     </div>

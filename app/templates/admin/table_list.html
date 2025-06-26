@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Mesas - ReservaElegante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+            
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar mesas...">
+            </div>
+            
+            <div class="user-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Mensajes Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        <ul>
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-chair"></i>
+                    <h1>Mesas del restaurante: {{ restaurant.name }}</h1>
+                </div>
+                <a href="{{ url_for('table.add_table', restaurant_id=restaurant.id) }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Agregar Mesa
+                </a>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="tables-list">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Número</th>
+                                <th>Tipo</th>
+                                <th>Capacidad</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for table in tables %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ table.number }}</td>
+                                <td>{{ table.type }}</td>
+                                <td>{{ table.capacity }}</td>
+                                <td>{{ table.description }}</td>
+                                <td class="actions">
+                                    <a href="{{ url_for('table.edit_table', table_id=table.id) }}" class="btn btn-sm btn-edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ url_for('table.delete_table', table_id=table.id) }}" method="post" class="delete-form">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta mesa?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="empty-table">
+                                    <i class="fas fa-chair"></i>
+                                    <p>No hay mesas registradas</p>
+                                    <a href="{{ url_for('table.add_table', restaurant_id=restaurant.id) }}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Agregar Mesa
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aquí puedes agregar interacciones JavaScript si es necesario
+        });
+    </script>
+</body>
+</html>

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">
             <div class="brand-logo">RE</div>
@@ -26,8 +25,8 @@
                 <span>Restaurantes</span>
             </a>
 
-            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> <!-- Icono alternativo para platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item active">
+                <i class="fas fa-utensil-spoon"></i> 
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
@@ -38,10 +37,11 @@
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
-                <span>Reportes</span>
+                <span>Mesas</span>
             </a>
+            
         </div>
     </div>
 
@@ -74,12 +74,23 @@
 
         <!-- Content -->
         <div class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
             <div class="page-header">
                 <div class="header-title">
                     <i class="fas fa-utensils"></i>
                     <h1>Platos de {{ restaurant.name }}</h1>
                 </div>
-                <a href="{{ url_for('restaurant.add_dish', restaurant_id=restaurant.id) }}" class="btn btn-primary">
+                <a href="{{ url_for('dish.add_dish', restaurant_id=restaurant.id) }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Agregar Plato
                 </a>
             </div>
@@ -109,17 +120,17 @@
                                 <p><strong>Descripción:</strong> {{ dish.description }}</p>
                                 {% endif %}
                             </div>
-                                <div class="dish-actions">
-                                    <a href="{{ url_for('restaurant.edit_dish', dish_id=dish.id) }}" class="btn btn-sm btn-edit">
-                                        <i class="fas fa-edit"></i> Editar
-                                    </a>
-                                    
-                                    <form action="{{ url_for('restaurant.delete_dish', dish_id=dish.id) }}" method="POST" class="delete-form">
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este plato?')">
-                                            <i class="fas fa-trash"></i> Eliminar
-                                        </button>
-                                    </form>
-                                </div>
+                            <div class="dish-actions">
+                                <a href="{{ url_for('dish.edit_dish', dish_id=dish.id) }}" class="btn btn-sm btn-edit">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                
+                                <form action="{{ url_for('dish.delete_dish', dish_id=dish.id) }}" method="POST" class="delete-form">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este plato?')">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
@@ -129,7 +140,7 @@
                     <i class="fas fa-utensils"></i>
                     <h3>No hay platos registrados</h3>
                     <p>Comienza agregando tu primer plato</p>
-                    <a href="{{ url_for('restaurant.add_dish', restaurant_id=restaurant.id) }}" class="btn btn-primary">
+                    <a href="{{ url_for('dish.add_dish', restaurant_id=restaurant.id) }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Agregar Plato
                     </a>
                 </div>
