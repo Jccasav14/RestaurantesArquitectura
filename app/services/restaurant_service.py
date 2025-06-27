@@ -3,29 +3,24 @@ from app.extensions import db
 from app.dtos.restaurant_dto import RestaurantDTO
 from app.factories.restaurant_factory import RestaurantFactory
 from app.factories.cache_factory import CacheFactory
+from app.services.cache.redis_cache_service import RedisCacheService
 
 
 class RestaurantService:
     factory = RestaurantFactory()
+    cache = RedisCacheService()  # instancia del cache
 
     @staticmethod
     def get_all():
-        cache = CacheFactory.get_cache_service()
-        cache_key = "restaurants_all"
-
-        cached_data = cache.get(cache_key)
+        cache_key = 'restaurant_list'
+        cached_data = RestaurantService.cache.get(cache_key)
         if cached_data:
-            # Reconstruir DTOs desde dicts
-            return [RestaurantDTO(**item) for item in cached_data]
+            return [RestaurantDTO(**r) for r in cached_data]
 
         restaurants = Restaurant.query.all()
-        dto_list = [RestaurantService.factory.create_dto_from_model(r) for r in restaurants]
-
-        # Convertir a dicts antes de almacenar
-        dto_dicts = [dto.to_dict() for dto in dto_list]
-        cache.set(cache_key, dto_dicts)
-
-        return dto_list
+        dto_list = [RestaurantService.factory.create_dto_from_model(r).to_dict() for r in restaurants]
+        RestaurantService.cache.set(cache_key, dto_list)
+        return [RestaurantDTO(**r) for r in dto_list]
 
 
 
@@ -50,6 +45,10 @@ class RestaurantService:
             restaurant.created_by = created_by
             db.session.add(restaurant)
             db.session.commit()
+
+            # 🔥 Invalida la caché
+            RestaurantService.cache.delete('restaurant_list')
+
             return True
         except Exception as e:
             db.session.rollback()
