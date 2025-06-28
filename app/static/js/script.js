@@ -1,11 +1,11 @@
 // Gráficos de estadísticas
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar gráficos si existen en la página
+    // Si existe el gráfico de restaurantes, inicializa los gráficos
     if (document.getElementById('frequentRestaurantsChart')) {
         initCharts();
     }
     
-    // Dropdown de usuario
+    // Manejo del dropdown del perfil de usuario
     const userProfile = document.getElementById('userProfile');
     if (userProfile) {
         userProfile.addEventListener('click', function(e) {
@@ -13,17 +13,20 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.user-dropdown').classList.toggle('show');
         });
         
+        // Cierra el dropdown al hacer clic fuera
         document.addEventListener('click', function() {
             document.querySelector('.user-dropdown').classList.remove('show');
         });
     }
 });
 
+// Variables globales para gráficos
 let restaurantChart;
 const chartColors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#5a5c69', '#858796', '#6f42c1', '#fd7e14', '#20c997'];
 
+// Inicializa ambos gráficos si existen
 function initCharts() {
-    // Gráfico de restaurantes frecuentados
+    // Gráfico de barras: restaurantes más visitados
     const ctx = document.getElementById('frequentRestaurantsChart').getContext('2d');
     restaurantChart = new Chart(ctx, {
         type: 'bar',
@@ -43,7 +46,7 @@ function initCharts() {
         plugins: [ChartDataLabels]
     });
 
-    // Gráfico de reservas por día
+    // Gráfico de líneas: reservas por día
     const ctx2 = document.getElementById('reservationChart').getContext('2d');
     new Chart(ctx2, {
         type: 'line',
@@ -69,6 +72,7 @@ function initCharts() {
     });
 }
 
+// Retorna opciones comunes para los distintos tipos de gráfico
 function getChartOptions(type) {
     const commonOptions = {
         responsive: true,
@@ -95,6 +99,7 @@ function getChartOptions(type) {
         }
     };
 
+    // Configura etiquetas para gráficos tipo barra o doughnut
     if (type === 'bar' || type === 'doughnut') {
         commonOptions.plugins.datalabels = {
             color: '#fff',
@@ -105,6 +110,7 @@ function getChartOptions(type) {
         };
     }
 
+    // Configuración específica para el gráfico de líneas
     if (type === 'line') {
         commonOptions.scales = {
             y: {
@@ -122,11 +128,14 @@ function getChartOptions(type) {
     return commonOptions;
 }
 
+// Cambia el tipo de gráfico dinámicamente (barra, pastel, etc.)
 function changeChartType(type) {
+    // Marca el botón seleccionado como activo
     document.querySelectorAll('.chart-btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent.toLowerCase() === type);
     });
 
+    // Destruye el gráfico anterior y crea uno nuevo con el nuevo tipo
     restaurantChart.destroy();
     const ctx = document.getElementById('frequentRestaurantsChart').getContext('2d');
     restaurantChart = new Chart(ctx, {
