@@ -1,3 +1,4 @@
+/* Variables globales: Colores y dimensiones */
 :root {
     --primary-color: #4e73df;
     --primary-hover: #3a5fce;
@@ -14,12 +15,14 @@
     --image-overlay: rgba(78, 115, 223, 0.2); /* Overlay azul sutil al 20% */
 }
 
+/* Reset general: Márgenes, relleno y box-sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Estilos base del body: Fondo, tipografía, centrado y posicionamiento */
 body {
     font-family: 'Poppins', sans-serif;
     background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
@@ -33,6 +36,7 @@ body {
     position: relative;
 }
 
+/* Overlay oscuro semi-transparente sobre el fondo */
 body::before {
     content: '';
     position: absolute;
@@ -44,6 +48,7 @@ body::before {
     z-index: -1;
 }
 
+/* Overlay de degradado azul sobre el fondo */
 .overlay {
     position: absolute;
     top: 0;
@@ -54,6 +59,7 @@ body::before {
     z-index: 0;
 }
 
+/* Contenedor principal del login: fondo blanco, sombra, tamaño y padding */
 .login-container {
     position: relative;
     z-index: 1;
@@ -67,15 +73,18 @@ body::before {
     transition: transform 0.3s ease;
 }
 
+/* Animación hover para levantar el contenedor */
 .login-container:hover {
     transform: translateY(-5px);
 }
 
+/* Logo: centrado y margen inferior */
 .logo {
     text-align: center;
     margin-bottom: 30px;
 }
 
+/* Título del logo: fuente serif, tamaño y color */
 .logo h1 {
     font-family: 'DM Serif Display', serif;
     font-size: 32px;
@@ -84,6 +93,7 @@ body::before {
     letter-spacing: 0.5px;
 }
 
+/* Subtítulo del logo: tamaño pequeño y color secundario */
 .logo p {
     font-size: 14px;
     color: var(--secondary-color);
@@ -91,6 +101,7 @@ body::before {
     font-weight: 300;
 }
 
+/* Título principal h2: centrado, tamaño y color */
 h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -99,11 +110,13 @@ h2 {
     font-size: 22px;
 }
 
+/* Grupos de formulario: margen y posicionamiento */
 .form-group {
     margin-bottom: 25px;
     position: relative;
 }
 
+/* Etiquetas del formulario: bloque, tamaño y color */
 .form-group label {
     display: block;
     margin-bottom: 8px;
@@ -112,6 +125,7 @@ h2 {
     color: var(--dark-color);
 }
 
+/* Inputs del formulario: ancho, padding, borde y transición */
 .form-group input {
     width: 100%;
     padding: 14px 16px;
@@ -122,12 +136,14 @@ h2 {
     background-color: var(--light-color);
 }
 
+/* Estado focus de inputs: borde y sombra azul */
 .form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
 }
 
+/* Botón de login: estilo, tamaño y transición */
 .btn-login {
     width: 100%;
     padding: 14px;
@@ -143,17 +159,20 @@ h2 {
     margin-top: 10px;
 }
 
+/* Hover botón login: cambio de color y leve elevación */
 .btn-login:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
 }
 
+/* Enlaces de footer: margen, centrado y tamaño */
 .footer-links {
     margin-top: 25px;
     text-align: center;
     font-size: 14px;
 }
 
+/* Estilo para links footer: color y transición */
 .footer-links a {
     color: var(--primary-color);
     text-decoration: none;
@@ -162,11 +181,13 @@ h2 {
     transition: color 0.3s;
 }
 
+/* Hover en links footer: cambio de color y subrayado */
 .footer-links a:hover {
     color: var(--secondary-color);
     text-decoration: underline;
 }
 
+/* Divisor horizontal con texto centrado */
 .divider {
     display: flex;
     align-items: center;
@@ -175,6 +196,7 @@ h2 {
     font-size: 14px;
 }
 
+/* Líneas antes y después del texto divisor */
 .divider::before, .divider::after {
     content: "";
     flex: 1;
@@ -189,14 +211,17 @@ h2 {
     margin-left: 10px;
 }
 
+/* Contenedor mensajes */
 .messages {
     margin-bottom: 20px;
 }
 
+/* Lista de mensajes sin estilo por defecto */
 .messages ul {
     list-style: none;
 }
 
+/* Estilo para cada mensaje */
 .messages li {
     padding: 12px;
     margin-bottom: 10px;
@@ -204,12 +229,14 @@ h2 {
     font-size: 14px;
 }
 
+/* Mensajes de error: fondo rojo claro y borde izquierdo rojo */
 .messages .error {
     background-color: #ffebee;
     color: #c62828;
     border-left: 4px solid #c62828;
 }
 
+/* Mensajes de éxito: fondo verde claro y borde izquierdo verde */
 .messages .success {
     background-color: #e8f5e9;
     color: #2e7d32;

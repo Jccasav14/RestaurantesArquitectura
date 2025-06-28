@@ -1,5 +1,5 @@
 :root {
-    /* Paleta de colores */
+    /* Variables globales de color y dimensiones para fácil mantenimiento */
     --primary-color: #4e73df;
     --primary-hover: #3a5fce;
     --primary-light: rgba(78, 115, 223, 0.1);
@@ -15,8 +15,8 @@
     --gray-200: #eaecf4;
     --gray-300: #dddfeb;
     --gray-400: #d1d3e2;
-    
-    /* Dimensiones */
+
+    /* Dimensiones base */
     --sidebar-width: 280px;
     --topbar-height: 70px;
     --border-radius: 6px;
@@ -24,28 +24,29 @@
     --transition: all 0.2s ease;
 }
 
-/* Reset y estilos base */
+/* Reset general */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Estilos base del body */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--gray-100);
     color: var(--dark-color);
     line-height: 1.6;
-    display: flex;
+    display: flex;  /* Para layout sidebar + main */
     min-height: 100vh;
 }
 
-/* Sidebar elegante sin puntos */
+/* Sidebar fijo lateral */
 .sidebar {
     width: var(--sidebar-width);
     background: var(--white);
     height: 100vh;
-    position: fixed;
+    position: fixed; /* fijo para que no se mueva */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.03);
     z-index: 1000;
     display: flex;
@@ -53,6 +54,7 @@ body {
     border-right: 1px solid var(--gray-200);
 }
 
+/* Logo dentro sidebar */
 .logo-container {
     padding: 1.5rem 2rem;
     border-bottom: 1px solid var(--gray-200);
@@ -73,14 +75,15 @@ body {
     font-weight: 400;
 }
 
+/* Menu navegación */
 .nav-menu {
-    flex: 1;
+    flex: 1; /* toma todo el espacio disponible */
     padding: 1.5rem 0;
-    overflow-y: auto;
+    overflow-y: auto; /* scroll vertical si excede altura */
 }
 
 .nav-menu ul {
-    list-style: none; /* Elimina los puntos/bullets */
+    list-style: none; /* sin bullets */
     padding: 0;
 }
 
@@ -125,16 +128,14 @@ body {
     color: var(--white);
 }
 
-/* [Resto del CSS permanece igual...] */
-
-/* Main Content */
+/* Contenido principal ajustado al sidebar */
 .main-content {
     margin-left: var(--sidebar-width);
     width: calc(100% - var(--sidebar-width));
     min-height: 100vh;
 }
 
-/* Topbar profesional */
+/* Barra superior fija y estilizada */
 .topbar {
     height: var(--topbar-height);
     background: var(--white);
@@ -149,6 +150,7 @@ body {
     border-bottom: 1px solid var(--gray-200);
 }
 
+/* Perfil usuario en topbar */
 .user-profile {
     display: flex;
     align-items: center;
@@ -174,6 +176,7 @@ body {
     color: var(--dark-color);
 }
 
+/* Dropdown menú usuario oculto por defecto */
 .user-dropdown {
     position: absolute;
     top: 100%;
@@ -187,6 +190,7 @@ body {
     border: 1px solid var(--gray-200);
 }
 
+/* Mostrar dropdown cuando tiene clase 'show' */
 .user-dropdown.show {
     display: block;
 }
@@ -221,11 +225,12 @@ body {
     margin: 0.5rem 0;
 }
 
-/* Contenido principal */
+/* Wrapper para contenido */
 .content-wrapper {
     padding: 2rem;
 }
 
+/* Sección de bienvenida */
 .welcome-section {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -247,7 +252,7 @@ body {
     max-width: 600px;
 }
 
-/* Tarjetas de métricas */
+/* Grid para métricas */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -275,10 +280,11 @@ body {
     margin-bottom: 1rem;
 }
 
+/* Ícono dentro de la tarjeta métrica */
 .card-icon {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 50%;            /* círculo */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -288,6 +294,7 @@ body {
     background-color: var(--primary-color);
 }
 
+/* Variantes de color para ícono según estado */
 .card-icon.success {
     background-color: var(--success-color);
 }
@@ -296,6 +303,7 @@ body {
     background-color: var(--warning-color);
 }
 
+/* Títulos, valores y descripciones dentro de la tarjeta */
 .card-title {
     font-size: 0.95rem;
     font-weight: 500;
@@ -314,24 +322,24 @@ body {
     color: var(--secondary-color);
 }
 
-/* Responsive */
+/* Responsividad para sidebar y menú móvil */
 @media (max-width: 992px) {
     .sidebar {
-        transform: translateX(-100%);
+        transform: translateX(-100%); /* ocultar sidebar fuera de pantalla */
         transition: transform 0.3s ease;
     }
     
     .sidebar.show {
-        transform: translateX(0);
+        transform: translateX(0); /* mostrar sidebar */
     }
     
     .main-content {
-        margin-left: 0;
-        width: 100%;
+        margin-left: 0;  /* quitar margen izquierdo cuando sidebar oculto */
+        width: 100%;     /* contenido ocupa todo el ancho */
     }
     
     .topbar {
-        justify-content: space-between;
+        justify-content: space-between; /* para espacio entre menú y avatar */
     }
     
     .mobile-menu-btn {
@@ -346,13 +354,15 @@ body {
 
 @media (min-width: 993px) {
     .mobile-menu-btn {
-        display: none;
+        display: none; /* botón menú móvil oculto en pantallas grandes */
     }
 }
+
 .content-wrapper {
     padding: 2rem;
 }
 
+/* Título general de página */
 .page-title {
     color: var(--dark-color);
     font-size: 1.75rem;
@@ -360,6 +370,7 @@ body {
     font-weight: 600;
 }
 
+/* Grid de restaurantes: cards adaptables */
 .restaurants-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -367,6 +378,7 @@ body {
     margin-top: 1.5rem;
 }
 
+/* Estilo de cada tarjeta restaurante */
 .restaurant-card {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -381,12 +393,14 @@ body {
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 
+/* Imagen del restaurante */
 .restaurant-image img {
     width: 100%;
     height: 180px;
-    object-fit: cover;
+    object-fit: cover; /* recorte de imagen proporcional */
 }
 
+/* Info y texto dentro de la card */
 .restaurant-info {
     padding: 1.5rem;
 }
@@ -432,6 +446,7 @@ body {
     text-align: center;
 }
 
+/* Botón para ver platos */
 .btn-view-dishes {
     display: inline-block;
     width: 100%;
@@ -451,8 +466,9 @@ body {
     background-color: var(--primary-hover);
 }
 
+/* Estado vacío (sin restaurantes) */
 .empty-state {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* ocupa toda la fila */
     text-align: center;
     padding: 2rem;
     background: var(--white);
@@ -464,7 +480,7 @@ body {
     color: var(--secondary-color);
 }
 
-/* Responsive */
+/* Responsive para restaurantes (pantallas pequeñas) */
 @media (max-width: 768px) {
     .restaurants-grid {
         grid-template-columns: 1fr;
@@ -474,7 +490,8 @@ body {
         height: 200px;
     }
 }
-/* Estilos para la página de platos */
+
+/* Estilos grilla de platos y sus cards */
 .dishes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -491,11 +508,13 @@ body {
     border: 1px solid var(--gray-200);
 }
 
+/* Efecto hover en card de plato */
 .dish-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 
+/* Imagen del plato */
 .dish-card img {
     width: 100%;
     height: 180px;
@@ -504,6 +523,7 @@ body {
     margin-bottom: 1rem;
 }
 
+/* Nombre e info del plato */
 .dish-name {
     color: var(--primary-color);
     font-size: 1.25rem;
@@ -520,11 +540,13 @@ body {
     line-height: 1.5;
 }
 
+/* Precio del plato destacado */
 .dish-price {
     font-weight: 600;
     color: var(--dark-color);
 }
 
+/* Enlace para volver */
 .back-link {
     display: inline-flex;
     align-items: center;
@@ -543,6 +565,7 @@ body {
     margin-right: 0.5rem;
 }
 
+/* Mensaje cuando no hay platos */
 .no-dishes {
     color: var(--secondary-color);
     font-style: italic;
@@ -553,13 +576,14 @@ body {
     box-shadow: var(--box-shadow);
 }
 
-/* Responsive */
+/* Responsive para grilla de platos (1 columna) */
 @media (max-width: 768px) {
     .dishes-grid {
         grid-template-columns: 1fr;
     }
 }
-/* Estilos para el formulario de reservación */
+
+/* Formulario de reservación: diseño y estilos */
 .reservation-form {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -570,6 +594,7 @@ body {
     margin: 0 auto;
 }
 
+/* Espaciado y etiquetas */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -581,6 +606,7 @@ body {
     color: var(--dark-color);
 }
 
+/* Inputs y textarea con estilos y focus */
 .form-group select,
 .form-group input[type="date"],
 .form-group input[type="time"],
@@ -608,6 +634,7 @@ body {
     resize: vertical;
 }
 
+/* Botón enviar con hover */
 .btn-submit {
     background-color: var(--primary-color);
     color: var(--white);
@@ -626,6 +653,7 @@ body {
     transform: translateY(-2px);
 }
 
+/* Mensajes flash: estilos para éxito y error */
 .flash-messages {
     margin-bottom: 1.5rem;
 }
@@ -656,7 +684,7 @@ body {
     margin-right: 0.75rem;
 }
 
-/* Responsive */
+/* Responsive: Formulario en dos columnas en pantallas grandes */
 @media (min-width: 768px) {
     .form-row {
         display: grid;
@@ -669,7 +697,8 @@ body {
         min-width: 200px;
     }
 }
-/* Estilos para la página de mis reservaciones */
+
+/* Contenedor principal de mis reservaciones */
 .reservations-container {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -679,12 +708,14 @@ body {
     overflow-x: auto;
 }
 
+/* Tabla de reservaciones: estilo básico */
 .reservations-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1.5rem;
 }
 
+/* Encabezados de tabla de reservaciones */
 .reservations-table th {
     background-color: var(--primary-color);
     color: var(--white);
@@ -693,20 +724,24 @@ body {
     font-weight: 500;
 }
 
+/* Celdas de tabla de reservaciones */
 .reservations-table td {
     padding: 1rem;
     border-bottom: 1px solid var(--gray-200);
     color: var(--dark-color);
 }
 
+/* Filas pares con fondo alterno */
 .reservations-table tr:nth-child(even) {
     background-color: var(--gray-100);
 }
 
+/* Hover en filas de tabla */
 .reservations-table tr:hover {
     background-color: var(--primary-light);
 }
 
+/* Mensaje cuando no hay reservaciones */
 .no-reservations {
     text-align: center;
     padding: 2rem;
@@ -717,7 +752,7 @@ body {
     box-shadow: var(--box-shadow);
 }
 
-/* Responsive para tablas */
+/* Responsive para tabla: scroll horizontal y padding reducido */
 @media (max-width: 768px) {
     .reservations-container {
         padding: 1rem;
@@ -734,7 +769,8 @@ body {
         padding: 0.75rem;
     }
 }
-/* Estilos para la sección de analíticas */
+
+/* Tarjetas para sección de analíticas */
 .analytics-card {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -743,12 +779,14 @@ body {
     border: 1px solid var(--gray-200);
 }
 
+/* Contenedor para gráficos */
 .chart-container {
     position: relative;
     height: 400px;
     margin-bottom: 2rem;
 }
 
+/* Resumen estadístico en grilla */
 .stats-summary {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -756,6 +794,7 @@ body {
     margin-top: 2rem;
 }
 
+/* Tarjeta individual de estadística */
 .stat-card {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -767,11 +806,13 @@ body {
     transition: var(--transition);
 }
 
+/* Efecto hover en tarjeta estadística */
 .stat-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
 }
 
+/* Ícono circular de estadística */
 .stat-icon {
     width: 50px;
     height: 50px;
@@ -785,6 +826,7 @@ body {
     margin-right: 1rem;
 }
 
+/* Título dentro de tarjeta estadística */
 .stat-content h3 {
     font-size: 0.95rem;
     color: var(--secondary-color);
@@ -792,6 +834,7 @@ body {
     font-weight: 500;
 }
 
+/* Valor numérico destacado */
 .stat-value {
     font-size: 1.5rem;
     font-weight: 600;
@@ -799,7 +842,7 @@ body {
     margin: 0;
 }
 
-/* Responsive */
+/* Responsive: Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
     .chart-container {
         height: 300px;
@@ -810,13 +853,14 @@ body {
     }
 }
 
-/* Estilos para la página de estadísticas */
+/* Contenedor principal de estadísticas */
 .analytics-section {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
 }
 
+/* Tarjeta individual de estadísticas */
 .analytics-card {
   background: var(--white);
   border-radius: var(--border-radius);
@@ -825,6 +869,7 @@ body {
   border: 1px solid var(--gray-200);
 }
 
+/* Contenedor para gráficos */
 .chart-container {
   position: relative;
   height: 400px;
@@ -832,6 +877,7 @@ body {
   margin: 1rem 0;
 }
 
+/* Cabecera de gráficos (título y botones) */
 .chart-header {
   display: flex;
   justify-content: space-between;
@@ -839,12 +885,14 @@ body {
   margin-bottom: 1.5rem;
 }
 
+/* Título del gráfico */
 .chart-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--dark-color);
 }
 
+/* Botones para selección de métricas */
 .chart-btn {
   background: var(--gray-100);
   border: none;
@@ -855,15 +903,18 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Hover en botones */
 .chart-btn:hover {
   background: var(--gray-200);
 }
 
+/* Botón activo */
 .chart-btn.active {
   background: var(--primary-color);
   color: white;
 }
 
+/* Grilla de métricas */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -871,13 +922,14 @@ body {
   margin: 2rem 0;
 }
 
-/* Estilos específicos para gráficos */
+/* Tooltip personalizado para gráficos Chart.js */
 .chartjs-tooltip {
   background: rgba(0, 0, 0, 0.85) !important;
   border-radius: var(--border-radius) !important;
   padding: 0.5rem 1rem !important;
 }
 
+/* Indicador de color en tooltip */
 .chartjs-tooltip-key {
   display: inline-block;
   width: 10px;

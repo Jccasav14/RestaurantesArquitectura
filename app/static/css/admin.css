@@ -1,5 +1,6 @@
-/* Base Styles */
+/* Estilos base */
 :root {
+    /* Variables globales: colores y tamaños del layout */
     --primary-color: #4e73df;
     --primary-hover: #3a5fce;
     --secondary-color: #858796;
@@ -13,14 +14,15 @@
     --sidebar-collapsed-width: 6.5rem;
     --topbar-height: 4.375rem;
 }
-
 * {
+    /* Estilos base: quita márgenes y rellenos, caja consistente */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
+    /* Texto base y fondo claro, sin scroll horizontal */
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #f8f9fc;
     color: #333;
@@ -28,7 +30,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Sidebar Styles */
+/* Barra lateral fija con fondo degradado y sombra */
 .sidebar {
     position: fixed;
     top: 0;
@@ -43,6 +45,7 @@ body {
 }
 
 .brand {
+    /* Contenedor de marca: horizontal, centrado y con borde inferior */
     display: flex;
     align-items: center;
     padding: 1.5rem 1rem;
@@ -51,6 +54,7 @@ body {
 }
 
 .brand-logo {
+    /* Logo de marca: círculo blanco semitransparente con texto centrado */
     font-size: 1.5rem;
     font-weight: 800;
     color: white;
@@ -65,16 +69,19 @@ body {
 }
 
 .brand-name {
+    /* Nombre de la marca: tamaño y peso moderado, sin salto de línea */
     font-size: 1.2rem;
     font-weight: 600;
     white-space: nowrap;
 }
 
 .nav-menu {
+    /* Contenedor del menú de navegación con padding vertical */
     padding: 0.5rem 0;
 }
 
 .nav-item {
+    /* Ítems del menú: flex para alinear, padding, margen, color y transición */
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
@@ -86,6 +93,7 @@ body {
 }
 
 .nav-item i {
+    /* Ícono dentro del ítem: tamaño pequeño, margen y centrado */
     font-size: 0.85rem;
     margin-right: 0.5rem;
     width: 1.5rem;
@@ -93,30 +101,33 @@ body {
 }
 
 .nav-item span {
+    /* Texto dentro del ítem: tamaño pequeño, peso medio, sin salto de línea */
     font-size: 0.85rem;
     font-weight: 500;
     white-space: nowrap;
 }
 
 .nav-item:hover {
+    /* Hover del ítem: fondo semitransparente y texto blanco */
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
 }
 
 .nav-item.active {
+    /* Ítem activo: fondo más visible, texto blanco y negrita */
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
     font-weight: 600;
 }
 
-/* Main Content Styles */
+/* Contenido principal: margen para barra lateral y altura mínima */
 .main-content {
     margin-left: var(--sidebar-width);
     min-height: 100vh;
     transition: all 0.3s;
 }
 
-/* Header Styles */
+/* Encabezado: layout flex, espacio entre elementos, fondo blanco, sombra y fijo al tope */
 .header {
     display: flex;
     justify-content: space-between;
@@ -130,11 +141,13 @@ body {
     z-index: 999;
 }
 
+/* Barra de búsqueda: contenedor relativo con ancho fijo */
 .search-bar {
     position: relative;
     width: 20rem;
 }
 
+/* Ícono en barra de búsqueda: posición absoluta centrado verticalmente */
 .search-bar i {
     position: absolute;
     top: 50%;
@@ -144,6 +157,7 @@ body {
     font-size: 0.9rem;
 }
 
+/* Input búsqueda: ancho completo, padding con espacio para ícono, borde y fondo claro */
 .search-bar input {
     width: 100%;
     padding: 0.5rem 1rem 0.5rem 2.5rem;
@@ -154,6 +168,7 @@ body {
     font-size: 0.85rem;
 }
 
+/* Input búsqueda enfocado: resalta borde y sombra */
 .search-bar input:focus {
     outline: none;
     border-color: var(--primary-color);
@@ -161,12 +176,14 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
 }
 
+/* Contenedor acciones usuario: flex con separación entre elementos */
 .user-actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
+/* Icono notificaciones: posición relativa, color y cursor pointer */
 .notification {
     position: relative;
     color: var(--dark-color);
@@ -174,10 +191,12 @@ body {
     transition: all 0.3s;
 }
 
+/* Icono notificaciones al pasar mouse: cambia color */
 .notification:hover {
     color: var(--primary-color);
 }
 
+/* Badge notificación: posición absoluta, círculo rojo con texto blanco */
 .notification-badge {
     position: absolute;
     top: -0.5rem;
@@ -194,6 +213,7 @@ body {
     font-weight: 600;
 }
 
+/* Contenedor perfil usuario: flex, centrado y cursor pointer */
 .user-profile {
     display: flex;
     align-items: center;
@@ -202,6 +222,7 @@ body {
     cursor: pointer;
 }
 
+/* Avatar usuario: círculo con fondo color primario, texto blanco y centrado */
 .user-avatar {
     width: 2.5rem;
     height: 2.5rem;
@@ -215,6 +236,7 @@ body {
     text-transform: uppercase;
 }
 
+/* Nombre usuario: texto oscuro, tamaño pequeño y sin salto de línea */
 .user-name {
     font-size: 0.9rem;
     font-weight: 600;
@@ -222,11 +244,13 @@ body {
     white-space: nowrap;
 }
 
+/* Icono en perfil usuario: tamaño pequeño y color secundario */
 .user-profile i {
     font-size: 0.7rem;
     color: var(--secondary-color);
 }
 
+/* Contenedor desplegable: oculto por defecto, posición absoluta bajo el perfil */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -240,6 +264,7 @@ body {
     padding: 0.5rem 0;
 }
 
+/* Enlaces dentro del desplegable: color oscuro, padding, bloque y transición */
 .dropdown-content a {
     color: var(--dark-color);
     padding: 0.5rem 1rem;
@@ -249,20 +274,23 @@ body {
     transition: all 0.2s;
 }
 
+/* Enlaces en hover: fondo claro y color primario */
 .dropdown-content a:hover {
     background-color: #f8f9fc;
     color: var(--primary-color);
 }
 
+/* Mostrar menú desplegable al pasar mouse sobre perfil */
 .user-profile:hover .dropdown-content {
     display: block;
 }
 
-/* Content Styles */
+/* Contenedor general de contenido con padding */
 .content {
     padding: 1.5rem;
 }
 
+/* Título de sección: tamaño, peso y color, con icono */
 .section-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -273,11 +301,12 @@ body {
     gap: 0.5rem;
 }
 
+/* Color primario para icono en título */
 .section-title i {
     color: var(--primary-color);
 }
 
-/* Quick Actions */
+/* Contenedor de acciones rápidas: grid responsivo */
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -285,10 +314,12 @@ body {
     margin-bottom: 2.5rem;
 }
 
+/* Enlaces sin subrayado */
 .action-link {
     text-decoration: none;
 }
 
+/* Tarjeta de acción: fondo blanco, sombra, borde lateral primario */
 .action-card {
     background-color: white;
     border-radius: 0.35rem;
@@ -299,11 +330,13 @@ body {
     height: 100%;
 }
 
+/* Tarjeta de acción en hover: elevación y sombra más fuerte */
 .action-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
 }
 
+/* Icono en tarjeta: círculo, color primario y fondo semitransparente */
 .action-icon {
     width: 2.5rem;
     height: 2.5rem;
@@ -317,6 +350,7 @@ body {
     font-size: 1rem;
 }
 
+/* Título dentro de la acción: tamaño y peso medio */
 .action-title {
     font-size: 1rem;
     font-weight: 600;
@@ -324,13 +358,14 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Descripción en acción: texto más pequeño y color secundario */
 .action-desc {
     font-size: 0.85rem;
     color: var(--secondary-color);
     margin-bottom: 0;
 }
 
-/* Activity List */
+/* Lista de actividades: fondo blanco, borde redondeado y sombra */
 .activity-list {
     background-color: white;
     border-radius: 0.35rem;
@@ -338,6 +373,7 @@ body {
     overflow: hidden;
 }
 
+/* Elemento de actividad: flex para alinear contenido, padding y borde inferior */
 .activity-item {
     display: flex;
     align-items: center;
@@ -346,14 +382,17 @@ body {
     transition: all 0.3s;
 }
 
+/* Último item sin borde inferior */
 .activity-item:last-child {
     border-bottom: none;
 }
 
+/* Hover en item: fondo claro */
 .activity-item:hover {
     background-color: #f8f9fc;
 }
 
+/* Icono en actividad: círculo con fondo semitransparente y color primario */
 .activity-icon {
     width: 2.5rem;
     height: 2.5rem;
@@ -367,10 +406,12 @@ body {
     font-size: 0.9rem;
 }
 
+/* Contenido textual de la actividad, ocupa todo el espacio restante */
 .activity-content {
     flex: 1;
 }
 
+/* Título de actividad: tamaño mediano, peso medio y color oscuro */
 .activity-title {
     font-size: 0.9rem;
     font-weight: 600;
@@ -378,11 +419,13 @@ body {
     margin-bottom: 0.25rem;
 }
 
+/* Hora o tiempo de actividad: texto pequeño y color secundario */
 .activity-time {
     font-size: 0.8rem;
     color: var(--secondary-color);
 }
 
+/* Badge de actividad: texto pequeño, mayúsculas y borde redondeado */
 .activity-badge {
     font-size: 0.7rem;
     font-weight: 600;
@@ -391,6 +434,7 @@ body {
     text-transform: uppercase;
 }
 
+/* Variantes de badge con colores según estado */
 .badge-success {
     background-color: rgba(28, 200, 138, 0.1);
     color: var(--success-color);
@@ -406,40 +450,48 @@ body {
     color: var(--danger-color);
 }
 
-/* Responsive Styles */
+/* Estilos responsivos para pantallas ≤ 992px */
 @media (max-width: 992px) {
+    /* Sidebar colapsada */
     .sidebar {
         width: var(--sidebar-collapsed-width);
     }
     
+    /* Ocultar texto en nombre de marca y menú */
     .brand-name, .nav-item span {
         display: none;
     }
     
+    /* Centrar marca y ajustar padding */
     .brand {
         justify-content: center;
         padding: 1.5rem 0;
     }
     
+    /* Centrar ítems del menú y reducir margen */
     .nav-item {
         justify-content: center;
         padding: 0.75rem 0;
         margin: 0 0.25rem;
     }
     
+    /* Ajuste iconos del menú */
     .nav-item i {
         margin-right: 0;
         font-size: 1rem;
     }
     
+    /* Ajustar margen del contenido principal */
     .main-content {
         margin-left: var(--sidebar-collapsed-width);
     }
     
+    /* Barra de búsqueda ajustable */
     .search-bar {
         width: auto;
     }
     
+    /* Input de búsqueda oculto por defecto */
     .search-bar input {
         width: 0;
         padding: 0.5rem 0;
@@ -447,6 +499,7 @@ body {
         background-color: transparent;
     }
     
+    /* Input de búsqueda visible al enfocar */
     .search-bar input:focus {
         width: 15rem;
         padding: 0.5rem 1rem 0.5rem 2.5rem;
@@ -455,33 +508,40 @@ body {
     }
 }
 
+/* Estilos responsivos para pantallas ≤ 768px */
 @media (max-width: 768px) {
+    /* Sidebar oculta */
     .sidebar {
         transform: translateX(-100%);
     }
     
+    /* Sidebar visible cuando tiene clase show */
     .sidebar.show {
         transform: translateX(0);
     }
     
+    /* Contenido principal sin margen lateral */
     .main-content {
         margin-left: 0;
     }
     
+    /* Quick actions en una sola columna */
     .quick-actions {
         grid-template-columns: 1fr;
     }
     
+    /* Ajustar padding del header */
     .header {
         padding: 1rem;
     }
     
+    /* Ocultar nombre de usuario */
     .user-name {
         display: none;
     }
 }
 
-/* Animation for sidebar toggle */
+/* Animación y estilos para sidebar colapsada */
 .sidebar-collapse {
     width: var(--sidebar-collapsed-width);
 }
@@ -507,11 +567,12 @@ body {
     font-size: 1rem;
 }
 
+/* Ajuste del contenido cuando sidebar está colapsada */
 .main-content-expand {
     margin-left: var(--sidebar-collapsed-width);
 }
 
-/* Form Container Styles */
+/* Estilos para el contenedor de formularios */
 .form-container {
     background-color: white;
     border-radius: 0.35rem;
@@ -521,6 +582,7 @@ body {
     margin: 0 auto;
 }
 
+/* Título del formulario con icono */
 .form-container h2 {
     font-size: 1.5rem;
     font-weight: 600;
@@ -535,11 +597,12 @@ body {
     color: var(--primary-color);
 }
 
-/* Form Group Styles */
+/* Grupo de campos del formulario con margen inferior */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
+/* Etiquetas de formulario */
 .form-group label {
     display: block;
     font-size: 0.9rem;
@@ -548,6 +611,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Inputs, selects y textarea estilos base */
 .form-group input[type="text"],
 .form-group input[type="file"],
 .form-group textarea,
@@ -561,15 +625,18 @@ body {
     background-color: #f8f9fc;
 }
 
+/* Ajuste específico para input file */
 .form-group input[type="file"] {
     padding: 0.5rem 1rem;
 }
 
+/* Textarea tamaño mínimo y posibilidad de redimensionar vertical */
 .form-group textarea {
     min-height: 120px;
     resize: vertical;
 }
 
+/* Estilos al enfocar inputs, textarea y select */
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
@@ -579,7 +646,7 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
 }
 
-/* Button Styles */
+/* Botón submit estilos base */
 button[type="submit"] {
     background-color: var(--primary-color);
     color: white;
@@ -595,23 +662,26 @@ button[type="submit"] {
     gap: 0.5rem;
 }
 
+/* Hover efecto para botón */
 button[type="submit"]:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
+/* Estado activo para botón */
 button[type="submit"]:active {
     transform: translateY(0);
 }
 
-/* Responsive Form Styles */
+/* Estilos responsivos para formularios en pantallas ≤ 768px */
 @media (max-width: 768px) {
     .form-container {
         padding: 1.5rem;
     }
 }
 
+/* Estilos responsivos para formularios en pantallas ≤ 576px */
 @media (max-width: 576px) {
     .form-container {
         padding: 1rem;
@@ -633,7 +703,8 @@ button[type="submit"]:active {
         justify-content: center;
     }
 }
-/* Page Title Styles */
+
+/* Título principal de página */
 .page-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -649,7 +720,7 @@ button[type="submit"]:active {
     font-size: 1.3rem;
 }
 
-/* Restaurants Grid Styles */
+/* Grid para tarjetas de restaurantes */
 .restaurants-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -657,6 +728,7 @@ button[type="submit"]:active {
     margin-bottom: 2rem;
 }
 
+/* Tarjeta individual de restaurante */
 .restaurant-card {
     background-color: white;
     border-radius: 0.5rem;
@@ -667,16 +739,19 @@ button[type="submit"]:active {
     flex-direction: column;
 }
 
+/* Hover efecto para tarjeta restaurante */
 .restaurant-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
 }
 
+/* Contenedor de imagen en tarjeta */
 .restaurant-image {
     height: 200px;
     overflow: hidden;
 }
 
+/* Imagen con ajuste y transición */
 .restaurant-image img {
     width: 100%;
     height: 100%;
@@ -684,10 +759,12 @@ button[type="submit"]:active {
     transition: transform 0.3s ease;
 }
 
+/* Zoom imagen al hacer hover */
 .restaurant-card:hover .restaurant-image img {
     transform: scale(1.05);
 }
 
+/* Cuerpo de la tarjeta con padding y estructura */
 .restaurant-body {
     padding: 1.5rem;
     flex: 1;
@@ -695,6 +772,7 @@ button[type="submit"]:active {
     flex-direction: column;
 }
 
+/* Título del restaurante */
 .restaurant-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -702,6 +780,7 @@ button[type="submit"]:active {
     margin-bottom: 1rem;
 }
 
+/* Información adicional del restaurante */
 .restaurant-info {
     margin-bottom: 1.5rem;
     flex: 1;
@@ -719,13 +798,14 @@ button[type="submit"]:active {
     color: var(--dark-color);
 }
 
+/* Contenedor para acciones (botones, links) */
 .restaurant-actions {
     display: flex;
     gap: 0.75rem;
     margin-top: auto;
 }
 
-/* Button Styles */
+/* Botones base */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -741,31 +821,36 @@ button[type="submit"]:active {
     border: none;
 }
 
+/* Iconos en botones */
 .btn i {
     font-size: 0.8rem;
 }
 
+/* Botón primario */
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
 }
 
+/* Hover botón primario */
 .btn-primary:hover {
     background-color: var(--primary-hover);
     color: white;
 }
 
+/* Botón secundario */
 .btn-secondary {
     background-color: #e2e8f0;
     color: var(--dark-color);
 }
 
+/* Hover botón secundario */
 .btn-secondary:hover {
     background-color: #cbd5e1;
     color: var(--dark-color);
 }
 
-/* Empty State Styles */
+/* Estado vacío para listas o grids */
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
@@ -775,12 +860,14 @@ button[type="submit"]:active {
     box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
 }
 
+/* Icono en estado vacío */
 .empty-state i {
     font-size: 3rem;
     color: var(--primary-color);
     margin-bottom: 1.5rem;
 }
 
+/* Título en estado vacío */
 .empty-state h3 {
     font-size: 1.5rem;
     font-weight: 600;
@@ -788,19 +875,21 @@ button[type="submit"]:active {
     margin-bottom: 0.5rem;
 }
 
+/* Texto en estado vacío */
 .empty-state p {
     font-size: 1rem;
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
 }
 
-/* Responsive Styles */
+/* Responsive para grid restaurantes (pantallas ≤ 992px) */
 @media (max-width: 992px) {
     .restaurants-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
+/* Responsive para grid y botones (pantallas ≤ 768px) */
 @media (max-width: 768px) {
     .restaurants-grid {
         grid-template-columns: 1fr;
@@ -815,6 +904,7 @@ button[type="submit"]:active {
     }
 }
 
+/* Ajustes para pantallas pequeñas ≤ 576px */
 @media (max-width: 576px) {
     .page-title {
         font-size: 1.25rem;
@@ -837,7 +927,7 @@ button[type="submit"]:active {
     }
 }
 
-/* Page Header Styles */
+/* Contenedor y estilos de cabecera de página */
 .page-header {
     display: flex;
     justify-content: space-between;
@@ -847,12 +937,14 @@ button[type="submit"]:active {
     gap: 1rem;
 }
 
+/* Título principal con icono */
 .header-title {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
+/* Texto del título */
 .header-title h1 {
     font-size: 1.75rem;
     font-weight: 600;
@@ -860,23 +952,25 @@ button[type="submit"]:active {
     margin: 0;
 }
 
+/* Icono junto al título */
 .header-title i {
     color: var(--primary-color);
     font-size: 1.5rem;
 }
 
-/* Dishes Container */
+/* Contenedor general de platos */
 .dishes-container {
     margin-top: 1.5rem;
 }
 
+/* Grid para mostrar platos en tarjetas */
 .dishes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 1.5rem;
 }
 
-/* Dish Card Styles */
+/* Estilo general de la carta del plato */
 .dish-card {
     background-color: white;
     border-radius: 0.5rem;
@@ -887,17 +981,20 @@ button[type="submit"]:active {
     flex-direction: column;
 }
 
+/* Efecto hover para elevar la carta */
 .dish-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
 }
 
+/* Contenedor de la imagen del plato */
 .dish-image {
     height: 200px;
     overflow: hidden;
     position: relative;
 }
 
+/* Imagen ajustada al contenedor */
 .dish-image img {
     width: 100%;
     height: 100%;
@@ -905,10 +1002,12 @@ button[type="submit"]:active {
     transition: transform 0.3s ease;
 }
 
+/* Zoom imagen al pasar el mouse */
 .dish-card:hover .dish-image img {
     transform: scale(1.05);
 }
 
+/* Estilo para cuando no hay imagen disponible */
 .no-image {
     width: 100%;
     height: 100%;
@@ -923,6 +1022,7 @@ button[type="submit"]:active {
     font-size: 3rem;
 }
 
+/* Información general del plato */
 .dish-info {
     padding: 1.5rem;
     flex: 1;
@@ -930,6 +1030,7 @@ button[type="submit"]:active {
     flex-direction: column;
 }
 
+/* Título del plato */
 .dish-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -937,6 +1038,7 @@ button[type="submit"]:active {
     margin-bottom: 0.5rem;
 }
 
+/* Meta información (precio y otros) */
 .dish-meta {
     margin-bottom: 1rem;
     display: flex;
@@ -944,6 +1046,7 @@ button[type="submit"]:active {
     justify-content: space-between;
 }
 
+/* Precio del plato */
 .dish-price {
     font-size: 1.1rem;
     font-weight: 700;
@@ -953,6 +1056,7 @@ button[type="submit"]:active {
     border-radius: 1rem;
 }
 
+/* Detalles descriptivos */
 .dish-details {
     margin-bottom: 1.5rem;
     flex: 1;
@@ -970,18 +1074,20 @@ button[type="submit"]:active {
     color: var(--dark-color);
 }
 
+/* Contenedor de acciones (botones, links) */
 .dish-actions {
     display: flex;
     gap: 0.75rem;
     margin-top: auto;
 }
 
-/* Button Styles */
+/* Botones pequeños */
 .btn-sm {
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
 }
 
+/* Botón de edición */
 .btn-edit {
     background-color: rgba(54, 185, 204, 0.1);
     color: var(--info-color);
@@ -992,6 +1098,7 @@ button[type="submit"]:active {
     color: var(--info-color);
 }
 
+/* Botón de peligro / eliminar */
 .btn-danger {
     background-color: rgba(231, 74, 59, 0.1);
     color: var(--danger-color);
@@ -1002,7 +1109,7 @@ button[type="submit"]:active {
     color: var(--danger-color);
 }
 
-/* Responsive Styles */
+/* Estilos responsivos para la grilla de platos y botones */
 @media (max-width: 992px) {
     .dishes-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1042,7 +1149,8 @@ button[type="submit"]:active {
         font-size: 1rem;
     }
 }
-/* Current Image Styles */
+
+/* Estilos para contenedor de imagen actual */
 .current-image {
     margin: 1.5rem 0;
     padding: 1rem;
@@ -1057,6 +1165,7 @@ button[type="submit"]:active {
     margin-bottom: 0.75rem;
 }
 
+/* Previsualización de imagen */
 .image-preview {
     max-width: 300px;
     border-radius: 0.25rem;
@@ -1070,14 +1179,14 @@ button[type="submit"]:active {
     display: block;
 }
 
-/* Responsive adjustments */
+/* Ajustes responsivos para previsualización */
 @media (max-width: 768px) {
     .image-preview {
         max-width: 100%;
     }
 }
 
-/* Table Styles */
+/* Contenedor y sombra para tabla */
 .table-container {
     background-color: white;
     border-radius: 0.5rem;
@@ -1086,16 +1195,19 @@ button[type="submit"]:active {
     margin-top: 1.5rem;
 }
 
+/* Contenedor con scroll horizontal para tablas */
 .table-responsive {
     overflow-x: auto;
 }
 
+/* Tabla usuarios: estilos base */
 .users-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
 }
 
+/* Encabezado tabla */
 .users-table th {
     background-color: #f8f9fc;
     color: var(--dark-color);
@@ -1105,21 +1217,24 @@ button[type="submit"]:active {
     border-bottom: 1px solid #e3e6f0;
 }
 
+/* Celdas tabla */
 .users-table td {
     padding: 1rem;
     border-bottom: 1px solid #e3e6f0;
     vertical-align: middle;
 }
 
+/* Quitar borde en última fila */
 .users-table tr:last-child td {
     border-bottom: none;
 }
 
+/* Hover fila tabla */
 .users-table tr:hover {
     background-color: #f8f9fc;
 }
 
-/* Role Badges */
+/* Badges para roles */
 .role-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -1129,32 +1244,36 @@ button[type="submit"]:active {
     text-transform: capitalize;
 }
 
+/* Badge admin */
 .role-badge.admin {
     background-color: rgba(78, 115, 223, 0.1);
     color: var(--primary-color);
 }
 
+/* Badge usuario */
 .role-badge.user {
     background-color: rgba(28, 200, 138, 0.1);
     color: var(--success-color);
 }
 
+/* Badge propietario */
 .role-badge.owner {
     background-color: rgba(246, 194, 62, 0.1);
     color: var(--warning-color);
 }
 
-/* Actions */
+/* Contenedor acciones */
 .actions {
     display: flex;
     gap: 0.5rem;
 }
 
+/* Estilo formulario eliminar sin margen */
 .delete-form {
     margin: 0;
 }
 
-/* Empty Table State */
+/* Estado vacio de tabla */
 .empty-table {
     text-align: center;
     padding: 2rem;
@@ -1171,22 +1290,26 @@ button[type="submit"]:active {
     margin: 0;
 }
 
-/* Responsive Styles */
+/* Estilos responsivos para tabla */
 @media (max-width: 768px) {
+    /* Mostrar tabla en bloque para móvil */
     .users-table {
         display: block;
     }
     
+    /* Ocultar encabezado */
     .users-table thead {
         display: none;
     }
     
+    /* Cada fila como bloque */
     .users-table tr {
         display: block;
         margin-bottom: 1rem;
         border-bottom: 1px solid #e3e6f0;
     }
     
+    /* Celdas como flex, con etiquetas antes */
     .users-table td {
         display: flex;
         justify-content: space-between;
@@ -1195,6 +1318,7 @@ button[type="submit"]:active {
         border-bottom: none;
     }
     
+    /* Etiquetas antes del contenido */
     .users-table td::before {
         content: attr(data-label);
         font-weight: 600;
@@ -1202,21 +1326,25 @@ button[type="submit"]:active {
         margin-right: 1rem;
     }
     
+    /* Sin borde en última celda */
     .users-table td:last-child {
         border-bottom: none;
     }
     
+    /* Alinea acciones al final */
     .actions {
         justify-content: flex-end;
     }
 }
-/* Restaurants Table Styles */
+
+/* Tabla restaurantes: estilos base */
 .restaurants-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
 }
 
+/* Encabezado tabla restaurantes */
 .restaurants-table th {
     background-color: #f8f9fc;
     color: var(--dark-color);
@@ -1226,36 +1354,43 @@ button[type="submit"]:active {
     border-bottom: 1px solid #e3e6f0;
 }
 
+/* Celdas tabla restaurantes */
 .restaurants-table td {
     padding: 1rem;
     border-bottom: 1px solid #e3e6f0;
     vertical-align: middle;
 }
 
+/* Quitar borde en última fila */
 .restaurants-table tr:last-child td {
     border-bottom: none;
 }
 
+/* Hover fila tabla restaurantes */
 .restaurants-table tr:hover {
     background-color: #f8f9fc;
 }
 
-/* Responsive Table */
+/* Estilos responsivos tabla restaurantes */
 @media (max-width: 768px) {
+    /* Tabla en bloque para móvil */
     .restaurants-table {
         display: block;
     }
     
+    /* Ocultar encabezado */
     .restaurants-table thead {
         display: none;
     }
     
+    /* Cada fila como bloque */
     .restaurants-table tr {
         display: block;
         margin-bottom: 1rem;
         border-bottom: 1px solid #e3e6f0;
     }
     
+    /* Celdas como flex con etiquetas antes */
     .restaurants-table td {
         display: flex;
         justify-content: space-between;
@@ -1264,6 +1399,7 @@ button[type="submit"]:active {
         border-bottom: none;
     }
     
+    /* Etiquetas antes del contenido */
     .restaurants-table td::before {
         content: attr(data-label);
         font-weight: 600;
@@ -1271,26 +1407,30 @@ button[type="submit"]:active {
         margin-right: 1rem;
     }
     
+    /* Sin borde en última celda */
     .restaurants-table td:last-child {
         border-bottom: none;
     }
     
+    /* Acciones en columna */
     .actions {
         flex-direction: column;
         gap: 0.5rem;
     }
     
+    /* Botones a 100% ancho en móvil */
     .btn-sm {
         width: 100%;
         justify-content: center;
     }
 }
 
-/* Restaurant Form Specific Styles */
+/* Formulario restaurante margen superior */
 .restaurant-form {
     margin-top: 1.5rem;
 }
 
+/* Contenedor imagen actual */
 .current-image {
     margin: 1.5rem 0;
     padding: 1rem;
@@ -1298,6 +1438,7 @@ button[type="submit"]:active {
     border-radius: 0.35rem;
 }
 
+/* Texto imagen actual */
 .current-image p {
     font-size: 0.9rem;
     font-weight: 600;
@@ -1305,6 +1446,7 @@ button[type="submit"]:active {
     margin-bottom: 0.75rem;
 }
 
+/* Vista previa imagen */
 .image-preview {
     max-width: 300px;
     border-radius: 0.25rem;
@@ -1312,6 +1454,7 @@ button[type="submit"]:active {
     box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
+/* Imagen dentro vista previa */
 .image-preview img {
     width: 100%;
     height: auto;
@@ -1320,7 +1463,7 @@ button[type="submit"]:active {
     object-fit: cover;
 }
 
-/* Responsive adjustments */
+/* Ajustes responsivos para imagen y botones */
 @media (max-width: 768px) {
     .image-preview {
         max-width: 100%;
@@ -1335,40 +1478,44 @@ button[type="submit"]:active {
     }
 }
 
+/* Mensajes de estado */
 .messages {
-            margin-bottom: 20px;
-        }
-        
-        .messages ul {
-            list-style: none;
-        }
-        
-        .messages li {
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        
-        .messages .error {
-            background-color: #ffebee;
-            color: #c62828;
-            border-left: 4px solid #c62828;
-        }
-        
-        .messages .success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border-left: 4px solid #2e7d32;
-        }
-        
-/* Tables List Styles */
+    margin-bottom: 20px;
+}
+
+.messages ul {
+    list-style: none;
+}
+
+.messages li {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Mensaje de error */
+.messages .error {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+}
+
+/* Mensaje de éxito */
+.messages .success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+/* Estilos base tabla de mesas */
 .tables-list {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
 }
 
+/* Encabezado tabla mesas */
 .tables-list th {
     background-color: #f8f9fc;
     color: var(--dark-color);
@@ -1378,21 +1525,24 @@ button[type="submit"]:active {
     border-bottom: 1px solid #e3e6f0;
 }
 
+/* Celdas tabla mesas */
 .tables-list td {
     padding: 1rem;
     border-bottom: 1px solid #e3e6f0;
     vertical-align: middle;
 }
 
+/* Última fila sin borde */
 .tables-list tr:last-child td {
     border-bottom: none;
 }
 
+/* Hover fila tabla mesas */
 .tables-list tr:hover {
     background-color: #f8f9fc;
 }
 
-/* Table Type Badges */
+/* Badges tipos mesa */
 .type-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -1417,7 +1567,7 @@ button[type="submit"]:active {
     color: var(--success-color);
 }
 
-/* Responsive Styles */
+/* Responsive: ocultar columna 5 en tabletas */
 @media (max-width: 992px) {
     .tables-list td:nth-child(5),
     .tables-list th:nth-child(5) {
@@ -1425,6 +1575,7 @@ button[type="submit"]:active {
     }
 }
 
+/* Responsive: tabla móvil como bloques */
 @media (max-width: 768px) {
     .tables-list {
         display: block;
@@ -1464,13 +1615,15 @@ button[type="submit"]:active {
     }
 }
 
+/* Responsive: ocultar columna 4 en móviles pequeños */
 @media (max-width: 576px) {
     .tables-list td:nth-child(4),
     .tables-list th:nth-child(4) {
         display: none;
     }
 }
-/* Restaurants List Styles */
+
+/* Contenedor y grid lista de restaurantes */
 .restaurants-list-container {
     margin-top: 1.5rem;
 }
@@ -1481,6 +1634,7 @@ button[type="submit"]:active {
     gap: 1.5rem;
 }
 
+/* Tarjeta restaurante */
 .restaurant-card {
     background-color: white;
     border-radius: 0.5rem;
@@ -1494,6 +1648,7 @@ button[type="submit"]:active {
     box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
 }
 
+/* Título restaurante */
 .restaurant-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -1501,6 +1656,7 @@ button[type="submit"]:active {
     margin-bottom: 1rem;
 }
 
+/* Meta información restaurante */
 .restaurant-meta {
     margin-bottom: 1.5rem;
 }
@@ -1519,13 +1675,14 @@ button[type="submit"]:active {
     width: 1rem;
 }
 
+/* Acciones restaurante */
 .restaurant-actions {
     display: flex;
     gap: 0.75rem;
     align-items: center;
 }
 
-/* Responsive Styles */
+/* Responsive: lista restaurantes en móvil */
 @media (max-width: 768px) {
     .restaurants-grid {
         grid-template-columns: 1fr;
@@ -1540,7 +1697,8 @@ button[type="submit"]:active {
         width: 100%;
     }
 }
-/* Table Form Styles */
+
+/* Formulario para mesas: margen y espaciado */
 .table-form {
     margin-top: 1.5rem;
 }
@@ -1549,6 +1707,7 @@ button[type="submit"]:active {
     margin-bottom: 1.5rem;
 }
 
+/* Etiquetas de formulario */
 .table-form label {
     display: block;
     font-size: 0.9rem;
@@ -1557,6 +1716,7 @@ button[type="submit"]:active {
     margin-bottom: 0.5rem;
 }
 
+/* Indicador de campo requerido */
 .table-form label:after {
     content: " *";
     color: var(--danger-color);
@@ -1567,6 +1727,7 @@ button[type="submit"]:active {
     opacity: 1;
 }
 
+/* Inputs y selects form mesas */
 .table-form input[type="number"],
 .table-form textarea,
 .table-form select {
@@ -1579,11 +1740,13 @@ button[type="submit"]:active {
     background-color: #f8f9fc;
 }
 
+/* Textarea altura mínima y redimensionable */
 .table-form textarea {
     min-height: 100px;
     resize: vertical;
 }
 
+/* Focus inputs form */
 .table-form input:focus,
 .table-form textarea:focus,
 .table-form select:focus {
@@ -1593,7 +1756,7 @@ button[type="submit"]:active {
     box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
 }
 
-/* Select Wrapper */
+/* Wrapper select con icono */
 .select-wrapper {
     position: relative;
 }
@@ -1612,7 +1775,7 @@ button[type="submit"]:active {
     padding-right: 2.5rem;
 }
 
-/* Flash Messages */
+/* Flash messages */
 .flash-messages {
     margin-bottom: 1.5rem;
 }
@@ -1628,19 +1791,21 @@ button[type="submit"]:active {
     gap: 0.75rem;
 }
 
+/* Mensaje éxito */
 .flash-success {
     background-color: rgba(28, 200, 138, 0.1);
     color: var(--success-color);
     border-left: 4px solid var(--success-color);
 }
 
+/* Mensaje error */
 .flash-error {
     background-color: rgba(231, 74, 59, 0.1);
     color: var(--danger-color);
     border-left: 4px solid var(--danger-color);
 }
 
-/* Responsive Styles */
+/* Responsive: botones y acciones formulario */
 @media (max-width: 768px) {
     .form-actions {
         flex-direction: column;
@@ -1650,7 +1815,8 @@ button[type="submit"]:active {
         width: 100%;
     }
 }
-/* Reservations Table Styles */
+
+/* Tabla reservas: estructura y estilos básicos */
 .reservations-table {
     width: 100%;
     border-collapse: collapse;
@@ -1680,7 +1846,7 @@ button[type="submit"]:active {
     background-color: #f8f9fc;
 }
 
-/* Status Badges */
+/* Status Badges: estilos para etiquetas de estado */
 .status-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -1710,7 +1876,7 @@ button[type="submit"]:active {
     color: var(--info-color);
 }
 
-/* Responsive Table */
+/* Responsive Table: ocultar columnas en pantallas pequeñas */
 @media (max-width: 1200px) {
     .reservations-table td:nth-child(7),
     .reservations-table th:nth-child(7) {
@@ -1725,6 +1891,7 @@ button[type="submit"]:active {
     }
 }
 
+/* Responsive Table: convertir tabla en bloques en pantallas pequeñas */
 @media (max-width: 768px) {
     .reservations-table {
         display: block;
@@ -1763,11 +1930,13 @@ button[type="submit"]:active {
         justify-content: flex-end;
     }
 }
-/* Reservation Form Styles */
+
+/* Reservation Form: margen superior */
 .reservation-form {
     margin-top: 1.5rem;
 }
 
+/* Reservation Form: diseño en grid para filas */
 .reservation-form .form-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1775,10 +1944,12 @@ button[type="submit"]:active {
     margin-bottom: 1.5rem;
 }
 
+/* Reservation Form: margen inferior para grupos */
 .reservation-form .form-group {
     margin-bottom: 1.5rem;
 }
 
+/* Reservation Form: etiquetas */
 .reservation-form label {
     display: block;
     font-size: 0.9rem;
@@ -1787,6 +1958,7 @@ button[type="submit"]:active {
     margin-bottom: 0.5rem;
 }
 
+/* Reservation Form: asterisco para campos requeridos */
 .reservation-form label:after {
     content: " *";
     color: var(--danger-color);
@@ -1797,6 +1969,7 @@ button[type="submit"]:active {
     opacity: 1;
 }
 
+/* Reservation Form: inputs, textarea y select estilos */
 .reservation-form input[type="text"],
 .reservation-form input[type="number"],
 .reservation-form input[type="date"],
@@ -1812,11 +1985,13 @@ button[type="submit"]:active {
     background-color: #f8f9fc;
 }
 
+/* Reservation Form: textarea altura mínima y redimensionable */
 .reservation-form textarea {
     min-height: 100px;
     resize: vertical;
 }
 
+/* Reservation Form: focus styles */
 .reservation-form input:focus,
 .reservation-form textarea:focus,
 .reservation-form select:focus {
@@ -1826,11 +2001,12 @@ button[type="submit"]:active {
     box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
 }
 
-/* Input with Icon */
+/* Input with Icon: contenedor relativo para posicionar el ícono */
 .input-with-icon {
     position: relative;
 }
 
+/* Ícono dentro del input: posición absoluta, centrado verticalmente */
 .input-with-icon i {
     position: absolute;
     left: 1rem;
@@ -1839,31 +2015,35 @@ button[type="submit"]:active {
     color: var(--secondary-color);
 }
 
+/* Input con espacio a la izquierda para que no quede sobre el ícono */
 .input-with-icon input {
     padding-left: 2.5rem !important;
 }
 
-/* Responsive Styles */
+/* Responsive Styles para pantallas menores a 768px */
 @media (max-width: 768px) {
+    /* La fila del formulario cambia a columna única */
     .reservation-form .form-row {
         grid-template-columns: 1fr;
     }
     
+    /* Contenedores de acciones cambian a columna */
     .form-actions {
         flex-direction: column;
     }
     
+    /* Botones toman todo el ancho */
     .btn {
         width: 100%;
     }
 }
-/* Agregar al final del archivo CSS existente */
 
-/* Flash Messages Styles */
+/* Flash Messages Styles: estilos para mensajes de notificación */
 .flash-messages {
     margin-bottom: 1.5rem;
 }
 
+/* Contenedor de cada mensaje con padding y separación */
 .flash-messages div {
     padding: 1rem;
     margin-bottom: 0.75rem;
@@ -1875,25 +2055,28 @@ button[type="submit"]:active {
     gap: 0.75rem;
 }
 
+/* Mensajes de éxito */
 .flash-success {
     background-color: rgba(28, 200, 138, 0.1);
     color: var(--success-color);
     border-left: 4px solid var(--success-color);
 }
 
+/* Mensajes de error */
 .flash-error {
     background-color: rgba(231, 74, 59, 0.1);
     color: var(--danger-color);
     border-left: 4px solid var(--danger-color);
 }
 
+/* Mensajes de advertencia */
 .flash-warning {
     background-color: rgba(246, 194, 62, 0.1);
     color: var(--warning-color);
     border-left: 4px solid var(--warning-color);
 }
 
-/* Form Row Styles */
+/* Form Row Styles: diseño en grid para filas en formularios */
 .form-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1901,7 +2084,7 @@ button[type="submit"]:active {
     margin-bottom: 1.5rem;
 }
 
-/* Date and Time Input Styles */
+/* Date and Time Input Styles: estilos para inputs tipo fecha y hora */
 input[type="date"],
 input[type="time"] {
     width: 100%;
@@ -1914,6 +2097,7 @@ input[type="time"] {
     font-family: 'Inter', sans-serif;
 }
 
+/* Focus para inputs de fecha y hora */
 input[type="date"]:focus,
 input[type="time"]:focus {
     outline: none;
@@ -1922,12 +2106,14 @@ input[type="time"]:focus {
     box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
 }
 
-/* Responsive Adjustments */
+/* Responsive Adjustments para pantallas pequeñas */
 @media (max-width: 768px) {
+    /* Form row pasa a una sola columna */
     .form-row {
         grid-template-columns: 1fr;
     }
     
+    /* Ajuste del margen inferior para grupos de formulario */
     .form-group {
         margin-bottom: 1rem;
     }
