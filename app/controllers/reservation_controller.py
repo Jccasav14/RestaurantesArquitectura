@@ -159,7 +159,7 @@ def create_reservation_client():
         success = ReservationService.create(dto)
         if success:
             flash('Reservación creada exitosamente.', 'success')
-            return redirect(url_for('customer.dashboard'))  # asumiendo tienes dashboard cliente
+            return redirect(url_for('customer.frequent_restaurants'))  # asumiendo tienes dashboard cliente
         else:
             flash('Error al crear reservación.', 'error')
 

@@ -117,14 +117,29 @@ def edit_restaurant(restaurant_id):
     restaurant = Restaurant.query.get_or_404(restaurant_id)
 
     if request.method == 'POST':
-        restaurant.name = request.form.get('name')
-        restaurant.address = request.form.get('address')
-        restaurant.phone = request.form.get('phone')
-        restaurant.description = request.form.get('description')
-        # Manejar imagen si se cambia
-        db.session.commit()
-        flash('Restaurante actualizado exitosamente.', 'success')
+        name = request.form.get('name')
+        address = request.form.get('address')
+        phone = request.form.get('phone')
+        description = request.form.get('description')
+
+        dto = RestaurantDTO(
+            id=restaurant_id,
+            name=name,
+            address=address,
+            phone=phone,
+            description=description,
+            image_filename=restaurant.image_filename
+        )
+
+        success = RestaurantService.update(restaurant_id, dto)
+
+        if success:
+            flash('Restaurante actualizado exitosamente.', 'success')
+        else:
+            flash('Error al actualizar restaurante.', 'error')
+
         return redirect(url_for('restaurant.list_restaurants_admin'))
+
 
     return render_template('admin/edit_restaurant.html', restaurant=restaurant)
 

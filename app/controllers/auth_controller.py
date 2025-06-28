@@ -30,7 +30,7 @@ def logout():
 def redirect_after_login():
     if current_user.role == 'admin':
         return redirect(url_for('admin.dashboard'))
-    return redirect(url_for('customer.dashboard'))  # Asegúrate de crear este blueprint
+    return redirect(url_for('customer.frequent_restaurants'))
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():

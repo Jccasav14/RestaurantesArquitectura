@@ -35,6 +35,7 @@ class RestaurantService:
         if restaurant:
             db.session.delete(restaurant)
             db.session.commit()
+            RestaurantService.cache.delete('restaurant_list')
             return True
         return False
 
@@ -46,7 +47,6 @@ class RestaurantService:
             db.session.add(restaurant)
             db.session.commit()
 
-            # 🔥 Invalida la caché
             RestaurantService.cache.delete('restaurant_list')
 
             return True
@@ -54,3 +54,27 @@ class RestaurantService:
             db.session.rollback()
             print(f"Error al crear restaurante: {e}")
             return False
+        
+    @staticmethod
+    def update(restaurant_id: int, dto: RestaurantDTO) -> bool:
+        try:
+            restaurant = Restaurant.query.get(restaurant_id)
+            if not restaurant:
+                return False
+
+            restaurant.name = dto.name
+            restaurant.address = dto.address
+            restaurant.phone = dto.phone
+            restaurant.description = dto.description
+            restaurant.image_filename = dto.image_filename
+
+            db.session.commit()
+
+            RestaurantService.cache.delete('restaurant_list')
+
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error al actualizar restaurante: {e}")
+            return False
+

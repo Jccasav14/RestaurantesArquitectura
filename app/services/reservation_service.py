@@ -42,4 +42,16 @@ class ReservationService:
     def get_by_customer_id(customer_id):
         return Reservation.query.filter_by(customer_id=customer_id).all()
     
+    @staticmethod
+    def get_reservation_stats_by_day(user_id):
+        from app.models.db import Reservation
+        from sqlalchemy import func
+        result = db.session.query(
+            func.date(Reservation.date_time),
+            func.count(Reservation.id)
+        ).filter_by(user_id=user_id).group_by(func.date(Reservation.date_time)).all()
+
+        return [{"date": str(r[0]), "total": r[1]} for r in result]
+
+    
     

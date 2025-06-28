@@ -3,6 +3,7 @@ from flask import Flask
 from app.extensions import db, login_manager
 from flask_wtf import CSRFProtect
 
+
 csrf = CSRFProtect()
 
 def create_app():
@@ -31,7 +32,7 @@ def create_app():
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
-    app.register_blueprint(customer_bp, url_prefix='/customer')
+    app.register_blueprint(customer_bp)
     app.register_blueprint(restaurant_bp)
     app.register_blueprint(dish_bp)
     app.register_blueprint(table_bp)

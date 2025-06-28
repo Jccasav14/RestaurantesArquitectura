@@ -1857,3 +1857,78 @@ button[type="submit"]:active {
         width: 100%;
     }
 }
+/* Agregar al final del archivo CSS existente */
+
+/* Flash Messages Styles */
+.flash-messages {
+    margin-bottom: 1.5rem;
+}
+
+.flash-messages div {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.flash-success {
+    background-color: rgba(28, 200, 138, 0.1);
+    color: var(--success-color);
+    border-left: 4px solid var(--success-color);
+}
+
+.flash-error {
+    background-color: rgba(231, 74, 59, 0.1);
+    color: var(--danger-color);
+    border-left: 4px solid var(--danger-color);
+}
+
+.flash-warning {
+    background-color: rgba(246, 194, 62, 0.1);
+    color: var(--warning-color);
+    border-left: 4px solid var(--warning-color);
+}
+
+/* Form Row Styles */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Date and Time Input Styles */
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    background-color: #f8f9fc;
+    font-family: 'Inter', sans-serif;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+}

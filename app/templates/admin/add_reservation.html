@@ -1,84 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <title>Crear Reservación</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Crear Reservación - ReservaElegante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item active">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chair"></i>
+                <span>Mesas</span>
+            </a>
+        </div>
+    </div>
 
-<h1>Crear Nueva Reservación</h1>
-{% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        <div class="flash-messages">
-                            {% for category, message in messages %}
-                                <div class="flash-{{ category }}">
-                                    <i class="fas {{ 'fa-check-circle' if category == 'success' else 'fa-exclamation-circle' }}"></i>
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            
+            <div class="user-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-calendar-plus"></i>
+                    <h1>Crear Nueva Reservación</h1>
+                </div>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-{{ category }}">
+                                <i class="fas {{ 'fa-check-circle' if category == 'success' else 'fa-exclamation-circle' }}"></i>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form method="POST" action="{{ url_for('reservation.create_reservation') }}">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="restaurant_id">Restaurante *</label>
+                            <div class="select-wrapper">
+                                <select name="restaurant_id" id="restaurant_id" required onchange="this.form.submit()">
+                                    <option value="">Seleccione restaurante</option>
+                                    {% for r in restaurants %}
+                                        <option value="{{ r.id }}" {% if r.id == selected_restaurant_id %}selected{% endif %}>{{ r.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
                         </div>
-                    {% endif %}
-                {% endwith %}
 
-<form method="POST" action="{{ url_for('reservation.create_reservation') }}">
-  <div>
-    <label for="restaurant_id">Restaurante *</label>
-    <select name="restaurant_id" id="restaurant_id" required onchange="this.form.submit()">
+                        <div class="form-group">
+                            <label for="customer_id">Cliente *</label>
+                            <div class="select-wrapper">
+                                <select name="customer_id" id="customer_id" required>
+                                    <option value="">Seleccione cliente</option>
+                                    {% for c in customers %}
+                                        <option value="{{ c.id }}">{{ c.username }}</option>
+                                    {% endfor %}
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
 
-      <option value="">Seleccione restaurante</option>
-      {% for r in restaurants %}
-        <option value="{{ r.id }}" {% if r.id == selected_restaurant_id %}selected{% endif %}>{{ r.name }}</option>
-      {% endfor %}
-    </select>
-  </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="table_id">Mesa *</label>
+                            <div class="select-wrapper">
+                                <select name="table_id" id="table_id" required>
+                                    <option value="">Seleccione mesa</option>
+                                    {% for t in tables %}
+                                        <option value="{{ t.id }}">Mesa {{ t.number }} ({{ t.type }}, {{ t.capacity }} personas)</option>
+                                    {% endfor %}
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
 
-  <div>
-    <label for="customer_id">Cliente *</label>
-    <select name="customer_id" id="customer_id" required>
-      <option value="">Seleccione cliente</option>
-      {% for c in customers %}
-        <option value="{{ c.id }}">{{ c.username }}</option>
-      {% endfor %}
-    </select>
-  </div>
+                        <div class="form-group">
+                            <label for="menu">Menú (Plato) - Opcional</label>
+                            <div class="select-wrapper">
+                                <select name="menu" id="menu">
+                                    <option value="">Seleccione un plato</option>
+                                    {% for d in dishes %}
+                                        <option value="{{ d.id }}">{{ d.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
 
-  <div>
-    <label for="table_id">Mesa *</label>
-    <select name="table_id" id="table_id" required>
-      <option value="">Seleccione mesa</option>
-      {% for t in tables %}
-        <option value="{{ t.id }}">Mesa {{ t.number }} ({{ t.type }}, {{ t.capacity }} personas)</option>
-      {% endfor %}
-    </select>
-  </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reservation_date">Fecha de Reservación *</label>
+                            <input type="date" id="reservation_date" name="reservation_date" required>
+                        </div>
 
-  <div>
-    <label for="menu">Menú (Plato) - Opcional</label>
-    <select name="menu" id="menu">
-      <option value="">Seleccione un plato</option>
-      {% for d in dishes %}
-        <option value="{{ d.id }}">{{ d.name }}</option>
-      {% endfor %}
-    </select>
-  </div>
+                        <div class="form-group">
+                            <label for="reservation_time">Hora de Reservación *</label>
+                            <input type="time" id="reservation_time" name="reservation_time" required>
+                        </div>
+                    </div>
 
-  <div>
-    <label for="reservation_date">Fecha de Reservación *</label>
-    <input type="date" id="reservation_date" name="reservation_date" required>
-  </div>
+                    <div class="form-group">
+                        <label for="special_requests">Peticiones Especiales</label>
+                        <textarea id="special_requests" name="special_requests" rows="3"></textarea>
+                    </div>
 
-  <div>
-    <label for="reservation_time">Hora de Reservación *</label>
-    <input type="time" id="reservation_time" name="reservation_time" required>
-  </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Crear Reservación
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-  <div>
-    <label for="special_requests">Peticiones Especiales</label>
-    <textarea id="special_requests" name="special_requests" rows="3"></textarea>
-  </div>
-
-  <button type="submit">Crear Reservación</button>
-</form>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Establecer la fecha mínima como hoy
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('reservation_date').min = today;
+            
+            // Manejar el cambio de restaurante para actualizar mesas
+            document.getElementById('restaurant_id').addEventListener('change', function() {
+                if(this.value) {
+                    this.form.submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

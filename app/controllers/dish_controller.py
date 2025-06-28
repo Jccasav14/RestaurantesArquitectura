@@ -6,6 +6,8 @@ import os
 from app.models.db import Restaurant
 from app.services.dish_service import DishService
 from app.dtos.dish_dto import DishDTO
+from app.services.restaurant_visit_service import RestaurantVisitService
+
 
 dish_bp = Blueprint('dish', __name__)
 
@@ -136,5 +138,9 @@ def view_dishes_by_restaurant(restaurant_id):
 
     restaurant = Restaurant.query.get_or_404(restaurant_id)
     dishes = DishService.get_by_restaurant(restaurant)
+
+    # Registrar visita del cliente al restaurante
+    from app.services.restaurant_visit_service import RestaurantVisitService
+    RestaurantVisitService.register_visit(current_user.id, restaurant.id)
 
     return render_template('customer/restaurant_dishes.html', restaurant=restaurant, dishes=dishes)

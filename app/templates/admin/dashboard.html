@@ -61,15 +61,15 @@
                 </div>
                 
                 <div class="user-profile">
-    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
-    <span class="user-name">{{ current_user.username }}</span>
-    <i class="fas fa-chevron-down"></i>
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
 
-    <div class="dropdown-content">
-        <a href="#">Mi perfil</a>
-        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
-    </div>
-</div>
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
 

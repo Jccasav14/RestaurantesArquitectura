@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- Sidebar Elegante -->
 <aside class="sidebar">
   <div class="logo-container">
     <div class="logo">Reserva Gourmet</div>
@@ -19,7 +18,7 @@
   <nav class="nav-menu">
     <ul>
       <li class="nav-item">
-        <a href="{{ url_for('customer.dashboard') }}" class="nav-link">
+        <a href="{{ url_for('customer.frequent_restaurants') }}" class="nav-link active">
           <i class="fas fa-home"></i>
           <span>Inicio</span>
         </a>
@@ -33,7 +32,7 @@
       </li>
 
       <li class="nav-item">
-        <a href="{{ url_for('reservation.create_reservation_client') }}" class="nav-link active">
+        <a href="{{ url_for('reservation.create_reservation_client') }}" class="nav-link">
           <i class="fas fa-calendar-plus"></i>
           <span>Nueva Reserva</span>
         </a>
@@ -43,20 +42,6 @@
         <a href="{{ url_for('reservation.my_reservations') }}" class="nav-link">
           <i class="fas fa-calendar-check"></i>
           <span>Mis Reservas</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="fas fa-heart"></i>
-          <span>Favoritos</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="fas fa-user-cog"></i>
-          <span>Mi Cuenta</span>
         </a>
       </li>
 
