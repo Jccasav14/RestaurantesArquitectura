@@ -8,12 +8,14 @@ from app.services.dish_service import DishService
 from app.dtos.dish_dto import DishDTO
 from app.services.restaurant_visit_service import RestaurantVisitService
 
-
+#Blueprint para la gestión de platos
 dish_bp = Blueprint('dish', __name__)
 
+#Verifica si el archivo tiene una extensión de imagen permitida
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
+#Permite al admin agregar un nuevo plato a un restaurante
 @dish_bp.route('/admin/restaurants/<int:restaurant_id>/add-dish', methods=['GET', 'POST'])
 @login_required
 def add_dish(restaurant_id):
@@ -56,7 +58,7 @@ def add_dish(restaurant_id):
 
     return render_template('admin/add_dish.html', restaurant=restaurant)
 
-
+#Muestra todos los platos de un restaurante (solo admin)
 @dish_bp.route('/restaurants/<int:restaurant_id>/dishes')
 @login_required
 def view_dishes(restaurant_id):
@@ -67,7 +69,7 @@ def view_dishes(restaurant_id):
     dishes = DishService.get_by_restaurant(restaurant)
     return render_template('admin/restaurant_dishes.html', restaurant=restaurant, dishes=dishes)
 
-
+#Permite al admin editar un plato existente
 @dish_bp.route('/dishes/<int:dish_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_dish(dish_id):
@@ -110,7 +112,7 @@ def edit_dish(dish_id):
 
     return render_template('admin/edit_dish.html', dish=dto, restaurant=restaurant)
 
-
+#Permite al admin eliminar un plato
 @dish_bp.route('/dishes/<int:dish_id>/delete', methods=['POST'])
 @login_required
 def delete_dish(dish_id):
@@ -129,6 +131,7 @@ def delete_dish(dish_id):
 
     return redirect(url_for('dish.view_dishes', restaurant_id=dto.restaurant_id))
 
+#Muestra los platos de un restaurante para clientes y registra su visita
 @dish_bp.route('/customer/restaurants/<int:restaurant_id>/dishes')
 @login_required
 def view_dishes_by_restaurant(restaurant_id):

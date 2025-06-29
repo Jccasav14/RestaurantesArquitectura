@@ -4,6 +4,7 @@ from app.factories.base_factory import AbstractFactory
 
 class RestaurantFactory(AbstractFactory):
 
+    # Convierte un objeto Restaurant (modelo BD) a RestaurantDTO
     def create_dto_from_model(self, restaurant: Restaurant) -> RestaurantDTO:
         return RestaurantDTO(
             id=restaurant.id,
@@ -14,6 +15,7 @@ class RestaurantFactory(AbstractFactory):
             image_filename=restaurant.image_filename
         )
 
+    # Convierte un TableDTO a un RestaurantDTO Restaurant (modelo BD)
     def create_model_from_dto(self, dto: RestaurantDTO) -> Restaurant:
         return Restaurant(
             id=dto.id,

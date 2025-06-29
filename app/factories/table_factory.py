@@ -2,6 +2,8 @@ from app.models.db import Table
 from app.dtos.table_dto import TableDTO
 
 class TableFactory:
+
+    # Convierte un objeto Table (modelo BD) a TableDTO
     @staticmethod
     def create_dto_from_model(table: Table) -> TableDTO:
         return TableDTO(
@@ -13,6 +15,7 @@ class TableFactory:
             restaurant_id=table.restaurant_id
         )
 
+    # Convierte un TableDTO a un objeto Table (modelo BD)
     @staticmethod
     def create_model_from_dto(dto: TableDTO) -> Table:
         return Table(

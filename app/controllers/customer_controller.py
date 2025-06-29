@@ -8,8 +8,10 @@ from app.dtos.restaurant_frequency_dto import RestaurantFrequencyDTO
 from app.services.reservation_stats_service import ReservationStatsService 
 from app.services.reservation_service import ReservationService
 
+#Blueprint para funciones exclusivas del cliente (customer)
 customer_bp = Blueprint('customer', __name__)
 
+#Muestra el panel principal del cliente
 @customer_bp.route('/dashboard')
 @login_required
 def dashboard():
@@ -18,7 +20,7 @@ def dashboard():
         return redirect(url_for('auth.login'))
     return render_template('customer/dashboard.html', user=current_user)
 
-
+#Muestra al cliente sus restaurantes más visitados y estadísticas de reservas
 @customer_bp.route('/frequent-restaurants')
 @login_required
 def frequent_restaurants():
@@ -26,9 +28,11 @@ def frequent_restaurants():
         flash('Acceso no autorizado.', 'error')
         return redirect(url_for('auth.login'))
 
+    #Obtiene el número de visitas por restaurante
     stats = RestaurantVisitService.get_visit_stats(current_user.id)
     dto_list = [RestaurantFrequencyDTO(name or "", count or 0) for name, count in stats.items()]
 
+    #Obtiene estadísticas de reservas por fecha
     reservation_stats = ReservationStatsService.get_reservations_by_date(current_user.id)
 
     return render_template(

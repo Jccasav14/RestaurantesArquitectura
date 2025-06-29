@@ -4,11 +4,10 @@ from app.services.user_service import UserService
 from app.dtos.user_dto import UserDTO
 from app.models.db import User
 
-
-
-
+#Blueprint para funcionalidades exclusivas del administrador
 admin_bp = Blueprint('admin', __name__)
 
+#Muestra el panel principal del admin
 @admin_bp.route('/dashboard')
 @login_required
 def dashboard():
@@ -16,7 +15,7 @@ def dashboard():
         return redirect(url_for('auth.login'))
     return render_template('admin/dashboard.html', user=current_user)
 
-
+#Lista todos los usuarios clientes (excluye admins)
 @admin_bp.route('/usuarios')
 @login_required
 def list_users():
@@ -26,6 +25,7 @@ def list_users():
     users = UserService.get_all_customers()
     return render_template('admin/user_list.html', users=users)
 
+#Permite al admin editar datos de un usuario cliente
 @admin_bp.route('/usuarios/<int:user_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_user(user_id):
@@ -58,9 +58,7 @@ def edit_user(user_id):
 
     return render_template('admin/edit_user.html', user=user)
 
-
-
-
+#Permite al admin eliminar un usuario cliente
 @admin_bp.route('/usuarios/<int:user_id>/delete', methods=['POST'])
 @login_required
 def delete_user(user_id):

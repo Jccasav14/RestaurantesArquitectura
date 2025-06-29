@@ -3,8 +3,10 @@ from flask_login import login_user, logout_user, current_user
 from app.models.db import User
 from app.extensions import db
 
+#Blueprint para autenticación de usuarios (login, logout, registro)
 auth_bp = Blueprint('auth', __name__)
 
+#Permite a un usuario iniciar sesión
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -22,16 +24,19 @@ def login():
     
     return render_template('login.html')
 
+#Cierra la sesión del usuario
 @auth_bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
+#Redirige según el rol del usuario después del login
 def redirect_after_login():
     if current_user.role == 'admin':
         return redirect(url_for('admin.dashboard'))
     return redirect(url_for('customer.frequent_restaurants'))
 
+#Permite registrar un nuevo usuario (cliente o admin)
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -39,9 +44,9 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
-        role = request.form.get('role') or 'customer'  # Asigna 'customer' por defecto si no se indica
+        role = request.form.get('role') or 'customer'  #Asigna 'customer' por defecto
 
-        # Validaciones básicas
+        #Validación de campos
         if not username or not email or not password or not confirm_password:
             flash('Por favor, completa todos los campos.', 'error')
             return render_template('register.html')
@@ -56,7 +61,7 @@ def register():
             flash('El nombre de usuario o el correo ya están registrados.', 'error')
             return render_template('register.html')
 
-        # Crear nuevo usuario
+        #Crear y guardar nuevo usuario
         new_user = User(username=username, email=email, role=role)
         new_user.set_password(password)  # Usa el método seguro del modelo
 
@@ -71,7 +76,7 @@ def register():
 
     return render_template('register.html')
 
-
+#Página de recuperación de contraseña
 @auth_bp.route('/forgot-password', methods=['GET'])
 def forgot_password():
     # Lógica para recuperar contraseña

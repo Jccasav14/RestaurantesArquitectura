@@ -6,14 +6,17 @@ from app.services.table_service import TableService
 from app.dtos.table_dto import TableDTO
 from app.models.db import Restaurant
 
+#Define un Blueprint para la gestión de mesas
 table_bp = Blueprint('table', __name__, url_prefix='/admin/tables')
 
+#Verifica si el usuario es admin
 def check_admin():
     if current_user.role != 'admin':
         flash('No tienes permiso para esta sección', 'error')
         return False
     return True
 
+#Muestra todas las mesas de un restaurante específico
 @table_bp.route('/restaurant/<int:restaurant_id>')
 @login_required
 def list_tables(restaurant_id):
@@ -25,6 +28,7 @@ def list_tables(restaurant_id):
     tables = TableService.get_by_restaurant(restaurant_id)
     return render_template('admin/table_list.html', restaurant=restaurant, tables=tables)
 
+#Permite a un admin crear una nueva mesa para un restaurante
 @table_bp.route('/restaurant/<int:restaurant_id>/new', methods=['GET', 'POST'])
 @login_required
 def add_table(restaurant_id):
@@ -34,6 +38,7 @@ def add_table(restaurant_id):
 
     restaurant = Restaurant.query.get_or_404(restaurant_id)
 
+    #Obtiene y valida los datos del formulario
     if request.method == 'POST':
         number_raw = request.form.get('number', '').strip()
         type = request.form.get('type', '').strip()
@@ -69,6 +74,7 @@ def add_table(restaurant_id):
 
     return render_template('admin/add_table.html', restaurant=restaurant)
 
+#Permite editar una mesa existente
 @table_bp.route('/edit/<int:table_id>', methods=['GET', 'POST'])
 @login_required
 def edit_table(table_id):
@@ -81,6 +87,7 @@ def edit_table(table_id):
         flash('Mesa no encontrada', 'error')
         return redirect(url_for('admin.dashboard'))
 
+    #Toma los nuevos valores del formulario y actualiza la mesa
     if request.method == 'POST':
         number = request.form.get('number', type=int)
         type = request.form.get('type')
@@ -109,6 +116,7 @@ def edit_table(table_id):
 
     return render_template('admin/edit_table.html', table=dto)
 
+#Elimina una mesa
 @table_bp.route('/delete/<int:table_id>', methods=['POST'])
 @login_required
 def delete_table(table_id):

@@ -4,6 +4,7 @@ from app.factories.base_factory import AbstractFactory
 
 class DishFactory(AbstractFactory): 
 
+    # Convierte un objeto Dish (modelo BD) a DishDTO
     def create_dto_from_model(self, dish: Dish) -> DishDTO:
         return DishDTO(
             id=dish.id,
@@ -15,6 +16,7 @@ class DishFactory(AbstractFactory):
             restaurant_id=dish.restaurant_id
         )
 
+    # Convierte un DishDTO a un objeto Dish (modelo BD)
     def create_model_from_dto(self, dto: DishDTO) -> Dish:
         return Dish(
             name=dto.name,

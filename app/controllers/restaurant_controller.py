@@ -11,13 +11,14 @@ import os
 from app.models.db import Dish
 
 
-
+#Crea un Blueprint para la gestión de restaurantes
 restaurant_bp = Blueprint('restaurant', __name__)
 
+#Verifica si la extensión del archivo es permitida
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
-#modificado
+#Permite a un admin agregar un nuevo restaurante
 @restaurant_bp.route('/restaurants/new', methods=['GET', 'POST'])
 @login_required
 def add_restaurant():
@@ -64,7 +65,7 @@ def add_restaurant():
 
     return render_template('admin/add_restaurant.html')
 
-#modificado
+#Lista de restaurantes solo para admins
 @restaurant_bp.route('/restaurants')
 @login_required
 def list_restaurants():
@@ -74,7 +75,7 @@ def list_restaurants():
     restaurants = RestaurantService.get_all()  # ← usa el service que devuelve DTOs
     return render_template('admin/restaurants_list.html', restaurants=restaurants)
 
-#MODIFICADO
+#Lista de restaurantes vista por los clientes
 @restaurant_bp.route('/customer/restaurants')
 @login_required
 def view_restaurants():
@@ -85,7 +86,7 @@ def view_restaurants():
     restaurants = RestaurantService.get_all()  # ← también usa el mismo service
     return render_template('customer/restaurants_list.html', restaurants=restaurants)
 
-
+#Muestra listado de restaurantes para admins (gestión)
 @restaurant_bp.route('/restaurants/manage')
 @login_required
 def list_restaurants_admin():
@@ -95,6 +96,7 @@ def list_restaurants_admin():
     restaurants = RestaurantService.get_all()
     return render_template('admin/restaurant_listes.html', restaurants=restaurants)
 
+#Permite a un admin eliminar un restaurante
 @restaurant_bp.route('/restaurants/<int:restaurant_id>/delete', methods=['POST'])
 @login_required
 def delete_restaurant(restaurant_id):
@@ -108,6 +110,7 @@ def delete_restaurant(restaurant_id):
 
     return redirect(url_for('restaurant.list_restaurants_admin'))
 
+#Permite editar un restaurante
 @restaurant_bp.route('/restaurants/<int:restaurant_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_restaurant(restaurant_id):
@@ -116,6 +119,7 @@ def edit_restaurant(restaurant_id):
 
     restaurant = Restaurant.query.get_or_404(restaurant_id)
 
+    #Actualiza los datos del restaurant
     if request.method == 'POST':
         name = request.form.get('name')
         address = request.form.get('address')
@@ -143,6 +147,7 @@ def edit_restaurant(restaurant_id):
 
     return render_template('admin/edit_restaurant.html', restaurant=restaurant)
 
+#Muestra todos los restaurantes para seleccionar y luego ver sus mesas
 @restaurant_bp.route('/restaurants/tables')
 @login_required
 def list_restaurants_tables():

@@ -8,8 +8,10 @@ from app.services.user_service import UserService
 from app.dtos.reservation_dto import ReservationDTO
 from datetime import datetime
 
+#Blueprint para todas las rutas relacionadas con reservas
 reservation_bp = Blueprint('reservation', __name__, url_prefix='/reservations')
 
+#Muestra todas las reservas (solo admin)
 @reservation_bp.route('/')
 @login_required
 def list_reservations():
@@ -20,7 +22,7 @@ def list_reservations():
     reservations = ReservationService.get_all()  # Aquí deberías implementar este método para traer todas las reservaciones
     return render_template('admin/list_reservations.html', reservations=reservations)
 
-
+#Permite a un admin crear una nueva reserva
 @reservation_bp.route('/new', methods=['GET', 'POST'])
 @login_required
 def create_reservation():
@@ -105,6 +107,7 @@ def create_reservation():
         selected_restaurant_id=selected_restaurant_id
     )
 
+#Permite a un cliente crear su propia reserva
 @reservation_bp.route('/new-client', methods=['GET', 'POST'])
 @login_required
 def create_reservation_client():
@@ -171,6 +174,7 @@ def create_reservation_client():
         selected_restaurant_id=selected_restaurant_id
     )
 
+#Muestra todas las reservas hechas por el cliente actual
 @reservation_bp.route('/my_reservations')
 @login_required
 def my_reservations():

@@ -4,17 +4,21 @@ from app.factories.dish_factory import DishFactory
 from app.dtos.dish_dto import DishDTO
 
 class DishService:
-    factory = DishFactory()  # Usamos una instancia, no métodos estáticos
+    # Se instancia una fábrica para conversión entre modelos y DTOs
+    factory = DishFactory()
 
+    #Devuelve todos los platos de un restaurante específico
     @staticmethod
     def get_by_restaurant(restaurant):
         return [DishService.factory.create_dto_from_model(d) for d in restaurant.dishes]
 
+    # Busca un plato por su ID
     @staticmethod
     def get_by_id(dish_id):
         dish = Dish.query.get(dish_id)
         return DishService.factory.create_dto_from_model(dish) if dish else None
 
+    #Crea un nuevo plato en la base de datos a partir de un DTO
     @staticmethod
     def create(dto: DishDTO) -> bool:
         try:
@@ -27,6 +31,7 @@ class DishService:
             print(f"Error al crear el plato: {e}")
             return False
 
+    #Actualiza los datos de un plato existente
     @staticmethod
     def update(dish_id, dto: DishDTO) -> bool:
         dish = Dish.query.get(dish_id)
@@ -40,6 +45,7 @@ class DishService:
         db.session.commit()
         return True
 
+    #Elimina un plato por ID
     @staticmethod
     def delete(dish_id) -> bool:
         dish = Dish.query.get(dish_id)
@@ -49,6 +55,7 @@ class DishService:
             return True
         return False
     
+    #Devuelve todos los platos pertenecientes a un restaurante por su ID
     @staticmethod
     def get_by_restaurant_id(restaurant_id):
         return Dish.query.filter_by(restaurant_id=restaurant_id).all()

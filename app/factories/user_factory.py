@@ -3,6 +3,7 @@ from app.models.db import User
 from app.dtos.user_dto import UserDTO
 
 class UserFactory(AbstractFactory):
+    # Convierte un objeto User (modelo de BD) a un UserDTO
     def create_dto_from_model(self, model: User) -> UserDTO:
         return UserDTO(
             id=model.id,
@@ -11,6 +12,7 @@ class UserFactory(AbstractFactory):
             role=model.role
         )
 
+    # Convierte un UserDTO a un objeto User (modelo de BD)
     def create_model_from_dto(self, dto: UserDTO) -> User:
         user = User(
             username=dto.username,
