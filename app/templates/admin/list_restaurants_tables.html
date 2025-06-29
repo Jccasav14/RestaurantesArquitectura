@@ -1,70 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración de codificación y viewport para dispositivos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la pestaña -->
     <title>Admin | Restaurantes - ReservaElegante</title>
+    <!-- Fuente tipográfica Inter desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Hoja de estilos personalizada -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+    <!-- Barra lateral de navegación -->
     <div class="sidebar">
+        <!-- Logo y nombre de la marca -->
         <div class="brand">
             <div class="brand-logo">RE</div>
             <div class="brand-name">ReservaElegante</div>
         </div>
         
+        <!-- Menú de navegación principal -->
         <div class="nav-menu">
+            <!-- Enlace a Dashboard -->
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
+            <!-- Enlace a Restaurantes -->
             <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
 
+            <!-- Enlace a Platos -->
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
                 <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
+            <!-- Enlace a Usuarios -->
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
                 <i class="fas fa-users"></i>
                 <span>Usuarios</span>
             </a>
+            <!-- Enlace a Reservaciones -->
             <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
+            <!-- Enlace activo a Mesas -->
             <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item active">
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenido principal -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado con barra de búsqueda y acciones de usuario -->
         <div class="header">
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Buscar restaurantes...">
             </div>
             
+            <!-- Área de acciones del usuario -->
             <div class="user-actions">
+                <!-- Icono de notificaciones con contador -->
                 <div class="notification">
                     <i class="fas fa-bell"></i>
                     <div class="notification-badge">3</div>
                 </div>
                 
+                <!-- Perfil del usuario con avatar, nombre y menú desplegable -->
                 <div class="user-profile">
                     <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
                     <span class="user-name">{{ current_user.username }}</span>
                     <i class="fas fa-chevron-down"></i>
 
+                    <!-- Menú desplegable para perfil y cerrar sesión -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -73,9 +91,9 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Sección principal de contenido -->
         <div class="content">
-            <!-- Mensajes Flash -->
+            <!-- Mensajes flash para mostrar notificaciones -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="flash-messages">
@@ -88,6 +106,7 @@
                 {% endif %}
             {% endwith %}
             
+            <!-- Encabezado de la página con título y botón para nuevo restaurante -->
             <div class="page-header">
                 <div class="header-title">
                     <i class="fas fa-utensils"></i>
@@ -98,17 +117,23 @@
                 </a>
             </div>
             
+            <!-- Contenedor para lista de restaurantes -->
             <div class="restaurants-list-container">
+                <!-- Verifica si hay restaurantes -->
                 {% if restaurants %}
                 <div class="restaurants-grid">
+                    <!-- Itera sobre cada restaurante -->
                     {% for restaurant in restaurants %}
                     <div class="restaurant-card">
                         <div class="restaurant-info">
+                            <!-- Nombre del restaurante -->
                             <h3 class="restaurant-title">{{ restaurant.name }}</h3>
+                            <!-- Dirección y teléfono -->
                             <div class="restaurant-meta">
                                 <p><i class="fas fa-map-marker-alt"></i> {{ restaurant.address }}</p>
                                 <p><i class="fas fa-phone"></i> {{ restaurant.phone }}</p>
                             </div>
+                            <!-- Botones de acción para ver mesas y editar restaurante -->
                             <div class="restaurant-actions">
                                 <a href="{{ url_for('table.list_tables', restaurant_id=restaurant.id) }}" class="btn btn-primary">
                                     <i class="fas fa-chair"></i> Ver Mesas
@@ -122,6 +147,7 @@
                     {% endfor %}
                 </div>
                 {% else %}
+                <!-- Estado vacío cuando no hay restaurantes -->
                 <div class="empty-state">
                     <i class="fas fa-utensils"></i>
                     <h3>No hay restaurantes registrados</h3>
@@ -135,6 +161,7 @@
         </div>
     </div>
 
+    <!-- Scripts para funcionalidades extra -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Aquí puedes agregar interacciones JavaScript si es necesario

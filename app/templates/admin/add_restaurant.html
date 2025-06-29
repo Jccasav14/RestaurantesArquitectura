@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración de codificación y responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título de la pestaña del navegador -->
     <title>Admin | ReservaElegante</title>
+
+    <!-- Fuente personalizada desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Librería de íconos Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Hoja de estilos CSS personalizada -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+
+    <!-- Barra lateral de navegación -->
     <div class="sidebar">
+        <!-- Logo y nombre del sistema -->
         <div class="brand">
-            <div class="brand-logo">RE</div>
-            <div class="brand-name">ReservaElegante</div>
+            <div class="brand-logo">RE</div> <!-- Iniciales -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre completo -->
         </div>
         
+        <!-- Menú de navegación lateral -->
         <div class="nav-menu">
+            <!-- Cada enlace lleva a una sección distinta del panel -->
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -24,7 +38,6 @@
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
-
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
                 <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
@@ -41,30 +54,33 @@
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenedor del contenido principal -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado superior con búsqueda y perfil -->
         <div class="header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Buscar...">
             </div>
             
+            <!-- Acciones del usuario actual -->
             <div class="user-actions">
+                <!-- Notificaciones -->
                 <div class="notification">
                     <i class="fas fa-bell"></i>
                     <div class="notification-badge">3</div>
                 </div>
                 
+                <!-- Perfil del usuario conectado -->
                 <div class="user-profile">
-                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial -->
                     <span class="user-name">{{ current_user.username }}</span>
                     <i class="fas fa-chevron-down"></i>
 
+                    <!-- Menú desplegable de usuario -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -73,48 +89,60 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Contenido principal: formulario -->
         <div class="content">
             <div class="form-container">
+                <!-- Título del formulario -->
                 <h2><i class="fas fa-plus-circle"></i>Agregar Restaurante</h2>
+
+                <!-- Formulario para agregar restaurante -->
                 <form method="POST" enctype="multipart/form-data">
+                    <!-- Campo: nombre del restaurante -->
                     <div class="form-group">
                         <label for="name">Nombre:</label>
                         <input type="text" id="name" name="name" required>
                     </div>
-                    
+
+                    <!-- Campo: dirección -->
                     <div class="form-group">
                         <label for="address">Dirección:</label>
                         <input type="text" id="address" name="address">
                     </div>
-                    
+
+                    <!-- Campo: teléfono -->
                     <div class="form-group">
                         <label for="phone">Teléfono:</label>
                         <input type="text" id="phone" name="phone">
                     </div>
-                    
+
+                    <!-- Campo: descripción -->
                     <div class="form-group">
                         <label for="description">Descripción:</label>
                         <textarea id="description" name="description"></textarea>
                     </div>
-                    
+
+                    <!-- Campo: imagen del restaurante -->
                     <div class="form-group">
                         <label for="image">Imagen:</label>
                         <input type="file" id="image" name="image" accept="image/*" required>
                     </div>
-                    
-                    <button type="submit"><i class="fas fa-save"></i> Guardar</button>
+
+                    <!-- Botón para enviar el formulario -->
+                    <button type="submit">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- Script JS opcional para interacciones -->
     <script>
         // Aquí puedes agregar interacciones JavaScript si es necesario
         document.addEventListener('DOMContentLoaded', function() {
-            // Ejemplo: Alternar sidebar en móviles
+            // Ejemplo: Alternar barra lateral en vista móvil
             const sidebar = document.querySelector('.sidebar');
-            // Puedes agregar un botón de menú para mostrar/ocultar en móviles
+            // Puedes agregar lógica aquí
         });
     </script>
 </body>

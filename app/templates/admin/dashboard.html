@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración de codificación y vista para dispositivos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título de la pestaña del navegador -->
     <title>Admin | ReservaElegante</title>
+
+    <!-- Fuente Inter desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Librería de íconos Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Estilos personalizados para el panel admin -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+
+    <!-- Barra lateral izquierda (navegación) -->
     <div class="sidebar">
         <div class="brand">
-            <div class="brand-logo">RE</div>
-            <div class="brand-name">ReservaElegante</div>
+            <div class="brand-logo">RE</div> <!-- Logo reducido -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre de la aplicación -->
         </div>
         
+        <!-- Menú de navegación del admin -->
         <div class="nav-menu">
+            <!-- Elementos de navegación con íconos -->
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item active">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -24,7 +37,6 @@
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
-
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
                 <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
@@ -41,30 +53,33 @@
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenido principal -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado del panel -->
         <div class="header">
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Buscar...">
             </div>
-            
+
+            <!-- Área de acciones del usuario (notificaciones, perfil) -->
             <div class="user-actions">
                 <div class="notification">
                     <i class="fas fa-bell"></i>
-                    <div class="notification-badge">3</div>
+                    <div class="notification-badge">3</div> <!-- Notificaciones pendientes -->
                 </div>
-                
+
                 <div class="user-profile">
+                    <!-- Avatar con la inicial del usuario -->
                     <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
                     <span class="user-name">{{ current_user.username }}</span>
                     <i class="fas fa-chevron-down"></i>
 
+                    <!-- Menú desplegable del usuario -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -73,26 +88,28 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Zona de contenido dinámico del dashboard -->
         <div class="content">
 
-            <!-- Quick Actions -->
+            <!-- Sección de acciones rápidas -->
             <h2 class="section-title">
                 <i class="fas fa-bolt"></i>
                 Acciones Rápidas
             </h2>
-            
-                <div class="quick-actions">
-                    <a href="{{ url_for('restaurant.add_restaurant') }}" class="action-link">
-                        <div class="action-card">
-                            <div class="action-icon">
-                                <i class="fas fa-plus"></i>
-                            </div>
-                            <h3 class="action-title">Agregar Restaurante</h3>
-                            <p class="action-desc">Registra un nuevo restaurante en la plataforma</p>
+
+            <div class="quick-actions">
+                <!-- Acción: Agregar nuevo restaurante -->
+                <a href="{{ url_for('restaurant.add_restaurant') }}" class="action-link">
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-plus"></i>
                         </div>
-                    </a>
-                
+                        <h3 class="action-title">Agregar Restaurante</h3>
+                        <p class="action-desc">Registra un nuevo restaurante en la plataforma</p>
+                    </div>
+                </a>
+
+                <!-- Acción: Crear nueva reservación -->
                 <div class="action-card">
                     <div class="action-icon">
                         <i class="fas fa-calendar-plus"></i>
@@ -100,7 +117,8 @@
                     <h3 class="action-title">Nueva Reservación</h3>
                     <p class="action-desc">Crea una reservación manualmente</p>
                 </div>
-                
+
+                <!-- Acción: Ver usuarios -->
                 <a href="{{ url_for('admin.list_users') }}" class="action-link">
                     <div class="action-card">
                         <div class="action-icon">
@@ -111,7 +129,7 @@
                     </div>
                 </a>
 
-                
+                <!-- Acción: Exportar datos o reportes -->
                 <div class="action-card">
                     <div class="action-icon">
                         <i class="fas fa-file-export"></i>
@@ -121,13 +139,14 @@
                 </div>
             </div>
 
-            <!-- Recent Activity -->
+            <!-- Sección de actividad reciente -->
             <h2 class="section-title">
                 <i class="fas fa-history"></i>
                 Actividad Reciente
             </h2>
-            
+
             <div class="activity-list">
+                <!-- Ejemplos de actividades recientes -->
                 <div class="activity-item">
                     <div class="activity-icon">
                         <i class="fas fa-utensils"></i>
@@ -138,7 +157,7 @@
                     </div>
                     <div class="activity-badge badge-success">Completado</div>
                 </div>
-                
+
                 <div class="activity-item">
                     <div class="activity-icon">
                         <i class="fas fa-user-edit"></i>
@@ -149,7 +168,7 @@
                     </div>
                     <div class="activity-badge badge-success">Completado</div>
                 </div>
-                
+
                 <div class="activity-item">
                     <div class="activity-icon">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -160,7 +179,7 @@
                     </div>
                     <div class="activity-badge badge-warning">Pendiente</div>
                 </div>
-                
+
                 <div class="activity-item">
                     <div class="activity-icon">
                         <i class="fas fa-dollar-sign"></i>
@@ -171,7 +190,7 @@
                     </div>
                     <div class="activity-badge badge-success">Completado</div>
                 </div>
-                
+
                 <div class="activity-item">
                     <div class="activity-icon">
                         <i class="fas fa-bug"></i>
@@ -186,12 +205,12 @@
         </div>
     </div>
 
+    <!-- Script adicional para interacciones JS (placeholder) -->
     <script>
-        // Aquí puedes agregar interacciones JavaScript si es necesario
         document.addEventListener('DOMContentLoaded', function() {
-            // Ejemplo: Alternar sidebar en móviles
+            // Aquí puedes añadir scripts para mejorar la interacción en móviles, etc.
             const sidebar = document.querySelector('.sidebar');
-            // Puedes agregar un botón de menú para mostrar/ocultar en móviles
+            // Ejemplo: mostrar u ocultar el sidebar con un botón (no implementado aquí)
         });
     </script>
 </body>

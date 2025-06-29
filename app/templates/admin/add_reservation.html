@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración básica de codificación y viewport para responsive -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título de la página -->
     <title>Admin | Crear Reservación - ReservaElegante</title>
+
+    <!-- Fuente personalizada desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Librería de iconos Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Hoja de estilos personalizada -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+    <!-- Barra lateral de navegación -->
     <div class="sidebar">
         <div class="brand">
-            <div class="brand-logo">RE</div>
-            <div class="brand-name">ReservaElegante</div>
+            <div class="brand-logo">RE</div> <!-- Logo abreviado -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre completo -->
         </div>
         
         <div class="nav-menu">
+            <!-- Enlaces del menú lateral -->
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -32,6 +43,7 @@
                 <i class="fas fa-users"></i>
                 <span>Usuarios</span>
             </a>
+            <!-- Sección activa actual -->
             <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item active">
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
@@ -43,9 +55,9 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenedor principal -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado superior con búsqueda y perfil -->
         <div class="header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
@@ -55,14 +67,15 @@
             <div class="user-actions">
                 <div class="notification">
                     <i class="fas fa-bell"></i>
-                    <div class="notification-badge">3</div>
+                    <div class="notification-badge">3</div> <!-- Número de notificaciones -->
                 </div>
                 
                 <div class="user-profile">
-                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
-                    <span class="user-name">{{ current_user.username }}</span>
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial del usuario -->
+                    <span class="user-name">{{ current_user.username }}</span> <!-- Nombre del usuario -->
                     <i class="fas fa-chevron-down"></i>
 
+                    <!-- Menú desplegable perfil -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -71,8 +84,9 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Contenido principal: creación de reservación -->
         <div class="content">
+            <!-- Título de la página/formulario -->
             <div class="page-header">
                 <div class="header-title">
                     <i class="fas fa-calendar-plus"></i>
@@ -80,7 +94,7 @@
                 </div>
             </div>
 
-            <!-- Flash Messages -->
+            <!-- Mensajes flash para mostrar feedback al usuario -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="flash-messages">
@@ -94,13 +108,15 @@
                 {% endif %}
             {% endwith %}
 
-            <!-- Form Container -->
+            <!-- Contenedor del formulario -->
             <div class="form-container">
                 <form method="POST" action="{{ url_for('reservation.create_reservation') }}">
+                    <!-- Selección de restaurante y cliente -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="restaurant_id">Restaurante *</label>
                             <div class="select-wrapper">
+                                <!-- Al cambiar el restaurante, se envía el formulario para cargar mesas correspondientes -->
                                 <select name="restaurant_id" id="restaurant_id" required onchange="this.form.submit()">
                                     <option value="">Seleccione restaurante</option>
                                     {% for r in restaurants %}
@@ -125,6 +141,7 @@
                         </div>
                     </div>
 
+                    <!-- Selección de mesa y menú opcional -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="table_id">Mesa *</label>
@@ -153,6 +170,7 @@
                         </div>
                     </div>
 
+                    <!-- Fecha y hora de reservación -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="reservation_date">Fecha de Reservación *</label>
@@ -165,11 +183,13 @@
                         </div>
                     </div>
 
+                    <!-- Campo para peticiones especiales -->
                     <div class="form-group">
                         <label for="special_requests">Peticiones Especiales</label>
                         <textarea id="special_requests" name="special_requests" rows="3"></textarea>
                     </div>
 
+                    <!-- Botón para enviar el formulario -->
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Crear Reservación
                     </button>
@@ -178,13 +198,14 @@
         </div>
     </div>
 
+    <!-- Script para interacciones adicionales -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Establecer la fecha mínima como hoy
+            // Establecer la fecha mínima del campo fecha como hoy para evitar fechas pasadas
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('reservation_date').min = today;
             
-            // Manejar el cambio de restaurante para actualizar mesas
+            // Evento para enviar el formulario cuando se cambia el restaurante (actualiza mesas)
             document.getElementById('restaurant_id').addEventListener('change', function() {
                 if(this.value) {
                     this.form.submit();

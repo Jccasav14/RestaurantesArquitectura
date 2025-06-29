@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Codificación de caracteres y configuración para diseño adaptable -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título que aparece en la pestaña del navegador -->
     <title>Admin | Editar Restaurante - ReservaElegante</title>
+
+    <!-- Tipografía importada desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Íconos desde Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Archivo de estilos personalizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+    <!-- Barra lateral de navegación -->
     <div class="sidebar">
         <div class="brand">
-            <div class="brand-logo">RE</div>
-            <div class="brand-name">ReservaElegante</div>
+            <div class="brand-logo">RE</div> <!-- Logo textual -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre de la aplicación -->
         </div>
         
+        <!-- Menú de navegación principal -->
         <div class="nav-menu">
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
+            <!-- Elemento activo actualmente: Restaurantes -->
             <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item active">
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
-
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
-                <i class="fas fa-utensil-spoon"></i> 
+                <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
             </a>
             <a href="{{ url_for('admin.list_users') }}" class="nav-item">
@@ -41,30 +52,28 @@
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenedor principal del contenido -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado superior con barra de búsqueda y usuario -->
         <div class="header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Buscar...">
             </div>
-            
             <div class="user-actions">
                 <div class="notification">
                     <i class="fas fa-bell"></i>
-                    <div class="notification-badge">3</div>
+                    <div class="notification-badge">3</div> <!-- Número de notificaciones -->
                 </div>
-                
                 <div class="user-profile">
+                    <!-- Letra inicial del usuario -->
                     <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
                     <span class="user-name">{{ current_user.username }}</span>
                     <i class="fas fa-chevron-down"></i>
-
+                    <!-- Menú desplegable -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -72,7 +81,9 @@
                 </div>
             </div>
         </div>
-{% with messages = get_flashed_messages(with_categories=true) %}
+
+        <!-- Bloque para mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="messages">
                     <ul>
@@ -83,34 +94,41 @@
                 </div>
             {% endif %}
         {% endwith %}
-        <!-- Content -->
+
+        <!-- Sección principal del formulario -->
         <div class="content">
             <div class="form-container">
                 <h2 class="section-title">
                     <i class="fas fa-edit"></i> Editar Restaurante
                 </h2>
                 
+                <!-- Formulario para editar los datos del restaurante -->
                 <form method="POST" enctype="multipart/form-data" class="restaurant-form">
+                    <!-- Campo: Nombre del restaurante -->
                     <div class="form-group">
                         <label for="name">Nombre:</label>
                         <input type="text" id="name" name="name" value="{{ restaurant.name }}" required>
                     </div>
                     
+                    <!-- Campo: Dirección -->
                     <div class="form-group">
                         <label for="address">Dirección:</label>
                         <input type="text" id="address" name="address" value="{{ restaurant.address }}">
                     </div>
                     
+                    <!-- Campo: Teléfono -->
                     <div class="form-group">
                         <label for="phone">Teléfono:</label>
                         <input type="text" id="phone" name="phone" value="{{ restaurant.phone }}">
                     </div>
                     
+                    <!-- Campo: Descripción del restaurante -->
                     <div class="form-group">
                         <label for="description">Descripción:</label>
                         <textarea id="description" name="description">{{ restaurant.description }}</textarea>
                     </div>
                     
+                    <!-- Campo: Subir imagen -->
                     <div class="form-group">
                         <label for="image">Nueva Imagen:</label>
                         <div class="file-upload">
@@ -122,6 +140,7 @@
                         </div>
                     </div>
                     
+                    <!-- Mostrar imagen actual si existe -->
                     {% if restaurant.image_filename %}
                     <div class="current-image">
                         <p><strong>Imagen actual:</strong></p>
@@ -131,6 +150,7 @@
                     </div>
                     {% endif %}
                     
+                    <!-- Botones de acción -->
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Guardar cambios
@@ -144,9 +164,9 @@
         </div>
     </div>
 
+    <!-- Script para actualizar el nombre del archivo al seleccionarlo -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Actualizar nombre del archivo seleccionado
             const fileInput = document.getElementById('image');
             const fileNameSpan = document.getElementById('file-name');
             

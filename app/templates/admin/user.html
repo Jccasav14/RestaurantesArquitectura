@@ -3,28 +3,37 @@
 <head>
     <title>Lista de Usuarios</title>
     <style>
+        /* Estilo para la tabla */
         table {
-            width: 100%;
-            border-collapse: collapse;
+            width: 100%; /* Ocupa todo el ancho disponible */
+            border-collapse: collapse; /* Une los bordes de las celdas */
         }
+
+        /* Estilo para celdas de encabezado y datos */
         th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            padding: 12px; /* Espaciado interno */
+            text-align: left; /* Alineación del texto */
+            border-bottom: 1px solid #ddd; /* Línea inferior */
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #f2f2f2; /* Fondo gris claro para encabezado */
         }
+
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: #f5f5f5; /* Efecto hover al pasar el mouse */
         }
     </style>
 </head>
 <body>
+    <!-- Título principal de la página -->
     <h1>Usuarios Registrados</h1>
+
+    <!-- Tabla de usuarios -->
     <table>
         <thead>
             <tr>
+                <!-- Encabezados de las columnas -->
                 <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
@@ -33,13 +42,15 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Bucle que muestra cada usuario -->
             {% for user in users %}
             <tr>
+                <!-- Datos del usuario -->
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.role }}</td>
-                <td>{{ 'Sí' if user.password_hash else 'No' }}</td>
+                <td>{{ 'Sí' if user.password_hash else 'No' }}</td> <!-- Verifica si tiene contraseña -->
             </tr>
             {% endfor %}
         </tbody>

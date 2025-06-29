@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración básica del documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Mesas - ReservaElegante</title>
+
+    <!-- Fuentes e íconos -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Estilos CSS del panel admin -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <!-- Sidebar -->
+    <!-- Sidebar: menú lateral -->
     <div class="sidebar">
         <div class="brand">
-            <div class="brand-logo">RE</div>
-            <div class="brand-name">ReservaElegante</div>
+            <div class="brand-logo">RE</div> <!-- Inicial del nombre del sistema -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre del sistema -->
         </div>
         
+        <!-- Navegación lateral -->
         <div class="nav-menu">
+            <!-- Enlaces a secciones del panel -->
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -25,7 +32,6 @@
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
-
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
                 <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
@@ -42,30 +48,32 @@
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenido principal -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado superior -->
         <div class="header">
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Buscar mesas...">
             </div>
             
+            <!-- Área del perfil del usuario y notificaciones -->
             <div class="user-actions">
                 <div class="notification">
                     <i class="fas fa-bell"></i>
-                    <div class="notification-badge">3</div>
+                    <div class="notification-badge">3</div> <!-- Número de notificaciones -->
                 </div>
                 
                 <div class="user-profile">
-                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial del usuario -->
                     <span class="user-name">{{ current_user.username }}</span>
                     <i class="fas fa-chevron-down"></i>
 
+                    <!-- Menú desplegable del usuario -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -74,9 +82,9 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Sección de contenido -->
         <div class="content">
-            <!-- Mensajes Flash -->
+            <!-- Mensajes flash (éxito, error, etc.) -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="flash-messages">
@@ -88,17 +96,20 @@
                     </div>
                 {% endif %}
             {% endwith %}
-            
+
+            <!-- Encabezado de la página -->
             <div class="page-header">
                 <div class="header-title">
                     <i class="fas fa-chair"></i>
                     <h1>Mesas del restaurante: {{ restaurant.name }}</h1>
                 </div>
+                <!-- Botón para agregar nueva mesa -->
                 <a href="{{ url_for('table.add_table', restaurant_id=restaurant.id) }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Agregar Mesa
                 </a>
             </div>
             
+            <!-- Tabla de listado de mesas -->
             <div class="table-container">
                 <div class="table-responsive">
                     <table class="tables-list">
@@ -113,17 +124,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Itera sobre cada mesa -->
                             {% for table in tables %}
                             <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>{{ table.number }}</td>
-                                <td>{{ table.type }}</td>
-                                <td>{{ table.capacity }}</td>
-                                <td>{{ table.description }}</td>
+                                <td>{{ loop.index }}</td> <!-- Número de fila -->
+                                <td>{{ table.number }}</td> <!-- Número de la mesa -->
+                                <td>{{ table.type }}</td> <!-- Tipo de mesa -->
+                                <td>{{ table.capacity }}</td> <!-- Capacidad -->
+                                <td>{{ table.description }}</td> <!-- Descripción -->
                                 <td class="actions">
+                                    <!-- Editar mesa -->
                                     <a href="{{ url_for('table.edit_table', table_id=table.id) }}" class="btn btn-sm btn-edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                    <!-- Eliminar mesa -->
                                     <form action="{{ url_for('table.delete_table', table_id=table.id) }}" method="post" class="delete-form">
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta mesa?')">
                                             <i class="fas fa-trash"></i>
@@ -132,10 +146,12 @@
                                 </td>
                             </tr>
                             {% else %}
+                            <!-- Si no hay mesas -->
                             <tr>
                                 <td colspan="6" class="empty-table">
                                     <i class="fas fa-chair"></i>
                                     <p>No hay mesas registradas</p>
+                                    <!-- Botón para agregar mesa desde la tabla vacía -->
                                     <a href="{{ url_for('table.add_table', restaurant_id=restaurant.id) }}" class="btn btn-primary">
                                         <i class="fas fa-plus"></i> Agregar Mesa
                                     </a>
@@ -149,6 +165,7 @@
         </div>
     </div>
 
+    <!-- Script para funcionalidades adicionales -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Aquí puedes agregar interacciones JavaScript si es necesario

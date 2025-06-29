@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Estadísticas | Reserva Gourmet</title>
+  <!-- Metadatos del documento -->
+  <meta charset="UTF-8" /> <!-- Define el conjunto de caracteres -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- Escala para dispositivos móviles -->
+  <title>Estadísticas | Reserva Gourmet</title> <!-- Título de la página -->
+
+  <!-- Enlace a la hoja de estilos principal del cliente -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}"/>
+  <!-- Enlace a la librería de iconos Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+
+  <!-- Inclusión de Chart.js y plugin para etiquetas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </head>
 <body>
 
+<!-- Menú lateral de navegación -->
 <aside class="sidebar">
   <div class="logo-container">
-    <div class="logo">Reserva Gourmet</div>
-    <div class="logo-subtitle">Experiencias culinarias premium</div>
+    <div class="logo">Reserva Gourmet</div> <!-- Nombre de la plataforma -->
+    <div class="logo-subtitle">Experiencias culinarias premium</div> <!-- Subtítulo -->
   </div>
   <nav class="nav-menu">
     <ul>
+      <!-- Enlaces de navegación -->
       <li class="nav-item">
         <a href="{{ url_for('customer.frequent_restaurants') }}" class="nav-link active">
           <i class="fas fa-home"></i><span>Inicio</span>
@@ -47,13 +55,15 @@
   </nav>
 </aside>
 
+<!-- Contenido principal de la página -->
 <div class="main-content">
   <header class="topbar">
+    <!-- Perfil de usuario en la barra superior -->
     <div class="user-profile" id="userProfile">
-      <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
-      <span class="user-name">{{ current_user.username }}</span>
+      <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial del usuario -->
+      <span class="user-name">{{ current_user.username }}</span> <!-- Nombre del usuario -->
       <i class="fas fa-chevron-down"></i>
-      <div class="user-dropdown">
+      <div class="user-dropdown"> <!-- Menú desplegable -->
         <a href="#"><i class="fas fa-user"></i> Mi Perfil</a>
         <a href="#"><i class="fas fa-cog"></i> Configuración</a>
         <div class="divider"></div>
@@ -62,22 +72,22 @@
     </div>
   </header>
 
+  <!-- Contenido estadístico principal -->
   <main class="content-wrapper">
     <h1 class="page-title">Estadísticas del Cliente</h1>
 
+    <!-- Tarjetas con métricas principales -->
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="card-header">
           <div class="card-icon"><i class="fas fa-utensils"></i></div>
           <div>
             <div class="card-title">Restaurantes Visitados</div>
-            <div class="card-value">{{ stats|length }}</div>
+            <div class="card-value">{{ stats|length }}</div> <!-- Conteo de restaurantes -->
           </div>
         </div>
         <p class="card-description">Restaurantes visitados</p>
       </div>
-
-      
 
       <div class="metric-card">
         <div class="card-header">
@@ -89,6 +99,7 @@
         </div>
         <p class="card-description">Total agrupado por fechas</p>
       </div>
+
       <div class="metric-card">
         <div class="card-header">
           <div class="card-icon warning"><i class="fas fa-star"></i></div>
@@ -96,8 +107,8 @@
             <div class="card-title">Favorito</div>
             <div class="card-value">
               {% if stats %}
-                {% set max_count = stats|map(attribute='count')|max %}
-                {% set favorite = stats|selectattr('count', 'equalto', max_count)|first %}
+                {% set max_count = stats|map(attribute='count')|max %} <!-- Busca el máximo -->
+                {% set favorite = stats|selectattr('count', 'equalto', max_count)|first %} <!-- Obtiene restaurante favorito -->
                 {{ favorite.name }}
               {% else %}
                 N/A
@@ -109,10 +120,12 @@
       </div>
     </div>
 
+    <!-- Sección de gráficos analíticos -->
     <div class="analytics-section">
       <div class="analytics-card">
         <div class="chart-header">
           <h2 class="chart-title">Restaurantes Más Frecuentados</h2>
+          <!-- Botones para cambiar tipo de gráfico -->
           <div class="chart-actions">
             <button class="chart-btn active" onclick="changeChartType('bar')">Barras</button>
             <button class="chart-btn" onclick="changeChartType('doughnut')">Dona</button>
@@ -132,120 +145,118 @@
 </div>
 
 <script>
+  // Variable global para guardar la instancia del gráfico de restaurantes
   let restaurantChart;
+
+  // Colores que se usarán para las barras o segmentos del gráfico
   const chartColors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#5a5c69', '#858796', '#6f42c1', '#fd7e14', '#20c997'];
 
+  // Función que inicializa los dos gráficos: de restaurantes y de reservas por día
   function initChart() {
+    // Obtener el contexto del canvas para el gráfico de restaurantes más visitados
     const ctx = document.getElementById('frequentRestaurantsChart').getContext('2d');
+
+    // Crear el gráfico de barras con Chart.js
     restaurantChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'bar', // Tipo de gráfico: barras
       data: {
-        labels: {{ stats | map(attribute='name') | map('default', '') | list | tojson }},
+        labels: {{ stats | map(attribute='name') | map('default', '') | list | tojson }}, // Nombres de los restaurantes
         datasets: [{
           label: 'Visitas',
-          data: {{ stats | map(attribute='count') | map('default', 0) | list | tojson }},
-          backgroundColor: chartColors,
-          borderColor: '#fff',
-          borderWidth: 2,
-          borderRadius: 8,
-          barPercentage: 0.7
+          data: {{ stats | map(attribute='count') | map('default', 0) | list | tojson }}, // Cantidad de visitas por restaurante
+          backgroundColor: chartColors, // Colores de fondo
+          borderColor: '#fff', // Color del borde
+          borderWidth: 2, // Grosor del borde
+          borderRadius: 8, // Bordes redondeados para las barras
+          barPercentage: 0.7 // Ancho relativo de cada barra
         }]
       },
-      options: getChartOptions('bar'),
-      plugins: [ChartDataLabels]
+      options: getChartOptions('bar'), // Opciones del gráfico
+      plugins: [ChartDataLabels] // Plugin para mostrar etiquetas de datos
     });
 
-    // Reemplaza la inicialización actual del gráfico de reservas con este código:
-const ctx2 = document.getElementById('reservationChart').getContext('2d');
-new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: {{ reservation_stats | map(attribute='date') | list | tojson }},
+    // Crear el gráfico de línea para las reservas por día
+    const ctx2 = document.getElementById('reservationChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'line', // Tipo de gráfico: línea
+      data: {
+        labels: {{ reservation_stats | map(attribute='date') | list | tojson }}, // Fechas de las reservas
         datasets: [{
-            label: 'Reservas por Día',
-            data: {{ reservation_stats | map(attribute='total') | list | tojson }},
-            borderColor: '#4e73df',
-            backgroundColor: 'rgba(78, 115, 223, 0.1)',
-            borderWidth: 3,
-            pointBackgroundColor: '#fff',
-            pointBorderColor: '#4e73df',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            fill: true,
-            tension: 0.4,
-            cubicInterpolationMode: 'monotone'
+          label: 'Reservas por Día',
+          data: {{ reservation_stats | map(attribute='total') | list | tojson }}, // Número de reservas por fecha
+          borderColor: '#4e73df', // Color de la línea
+          backgroundColor: 'rgba(78, 115, 223, 0.1)', // Color de fondo debajo de la línea
+          borderWidth: 3, // Grosor de la línea
+          pointBackgroundColor: '#fff', // Color de fondo de los puntos
+          pointBorderColor: '#4e73df', // Color del borde de los puntos
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          fill: true, // Rellenar el área bajo la línea
+          tension: 0.4, // Curvatura de la línea
+          cubicInterpolationMode: 'monotone' // Suavizado de la línea
         }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
+      },
+      options: {
+        responsive: true, // Ajuste automático al tamaño de la pantalla
+        maintainAspectRatio: false, // No mantener la proporción del canvas
         plugins: {
-            legend: {
-                position: 'top',
-                labels: {
-                    boxWidth: 12,
-                    padding: 20,
-                    font: {
-                        size: 12
-                    },
-                    usePointStyle: true
-                }
-            },
-            tooltip: {
-                backgroundColor: 'rgba(0,0,0,0.85)',
-                titleFont: {
-                    size: 14,
-                    weight: 'bold'
-                },
-                bodyFont: {
-                    size: 12
-                },
-                padding: 12,
-                cornerRadius: 8,
-                displayColors: true,
-                usePointStyle: true,
-                callbacks: {
-                    label: function(context) {
-                        return ` ${context.parsed.y} reserva${context.parsed.y !== 1 ? 's' : ''}`;
-                    }
-                }
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              padding: 20,
+              font: { size: 12 },
+              usePointStyle: true
             }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 12 },
+            padding: 12,
+            cornerRadius: 8,
+            displayColors: true,
+            usePointStyle: true,
+            callbacks: {
+              // Personaliza el texto mostrado en el tooltip
+              label: function(context) {
+                return ` ${context.parsed.y} reserva${context.parsed.y !== 1 ? 's' : ''}`;
+              }
+            }
+          }
         },
         scales: {
-            y: {
-                beginAtZero: true,
-                grid: {
-                    drawBorder: false,
-                    color: 'rgba(0, 0, 0, 0.03)'
-                },
-                ticks: {
-                    precision: 0,
-                    font: {
-                        size: 12
-                    }
-                }
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+              color: 'rgba(0, 0, 0, 0.03)'
             },
-            x: {
-                grid: {
-                    display: false,
-                    drawBorder: false
-                },
-                ticks: {
-                    font: {
-                        size: 12
-                    }
-                }
+            ticks: {
+              precision: 0,
+              font: { size: 12 }
             }
+          },
+          x: {
+            grid: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              font: { size: 12 }
+            }
+          }
         },
         interaction: {
-            intersect: false,
-            mode: 'index'
+          intersect: false,
+          mode: 'index'
         }
-    }
-});
+      }
+    });
   }
 
+  // Función que retorna las opciones de configuración de los gráficos
   function getChartOptions(type) {
     return {
       responsive: true,
@@ -269,6 +280,7 @@ new Chart(ctx2, {
           displayColors: true,
           usePointStyle: true,
           callbacks: {
+            // Texto que se muestra cuando se pasa el cursor por encima
             label: function(context) {
               return `${context.dataset.label}: ${context.raw}`;
             }
@@ -277,7 +289,7 @@ new Chart(ctx2, {
         datalabels: {
           color: '#fff',
           font: { weight: 'bold', size: 12 },
-          formatter: value => value > 0 ? value : '',
+          formatter: value => value > 0 ? value : '', // Mostrar solo si el valor es mayor a 0
           anchor: 'end',
           align: 'end'
         }
@@ -285,12 +297,17 @@ new Chart(ctx2, {
     };
   }
 
+  // Función que permite cambiar entre gráfico de barras y de dona
   function changeChartType(type) {
+    // Actualiza el estado visual de los botones
     document.querySelectorAll('.chart-btn').forEach(btn => {
       btn.classList.toggle('active', btn.textContent.toLowerCase() === type);
     });
 
+    // Destruye el gráfico actual para reemplazarlo
     restaurantChart.destroy();
+
+    // Crea un nuevo gráfico con el tipo seleccionado
     const ctx = document.getElementById('frequentRestaurantsChart').getContext('2d');
     restaurantChart = new Chart(ctx, {
       type: type,
@@ -309,16 +326,25 @@ new Chart(ctx2, {
     });
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    initChart();
-    document.getElementById('userProfile').addEventListener('click', function (e) {
-      e.stopPropagation();
-      document.querySelector('.user-dropdown').classList.toggle('show');
-    });
-    document.addEventListener('click', function () {
-      document.querySelector('.user-dropdown').classList.remove('show');
-    });
+
+// Espera que todo el contenido del DOM esté cargado antes de ejecutar el script
+document.addEventListener('DOMContentLoaded', function () {
+  
+  // Llama a la función para inicializar los gráficos
+  initChart();
+
+  // Añade un evento al perfil de usuario para mostrar u ocultar el menú desplegable (dropdown)
+  document.getElementById('userProfile').addEventListener('click', function (e) {
+    e.stopPropagation(); // Evita que el clic se propague y cierre el menú inmediatamente
+    document.querySelector('.user-dropdown').classList.toggle('show'); // Alterna la visibilidad del menú
   });
+
+  // Si el usuario hace clic en cualquier otra parte del documento, se cierra el menú desplegable
+  document.addEventListener('click', function () {
+    document.querySelector('.user-dropdown').classList.remove('show');
+  });
+});
+
 </script>
 
 </body>

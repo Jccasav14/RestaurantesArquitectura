@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Configuración del conjunto de caracteres y adaptabilidad para móviles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título que se muestra en la pestaña del navegador -->
     <title>Admin | Editar Mesa - ReservaElegante</title>
+
+    <!-- Fuente personalizada desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos desde Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilo general del panel administrativo -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+    <!-- Barra lateral (sidebar) de navegación -->
     <div class="sidebar">
+        <!-- Branding/logo -->
         <div class="brand">
             <div class="brand-logo">RE</div>
             <div class="brand-name">ReservaElegante</div>
         </div>
         
+        <!-- Menú de navegación -->
         <div class="nav-menu">
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
@@ -24,7 +36,6 @@
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
-
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
                 <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
@@ -37,17 +48,17 @@
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservaciones</span>
             </a>
+            <!-- OJO: 'ative' probablemente es un error de escritura y debería ser 'active' -->
             <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item ative">
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenido principal de la página -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Encabezado con buscador y acciones de usuario -->
         <div class="header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
@@ -55,11 +66,13 @@
             </div>
             
             <div class="user-actions">
+                <!-- Notificaciones -->
                 <div class="notification">
                     <i class="fas fa-bell"></i>
                     <div class="notification-badge">3</div>
                 </div>
                 
+                <!-- Perfil del usuario con menú desplegable -->
                 <div class="user-profile">
                     <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
                     <span class="user-name">{{ current_user.username }}</span>
@@ -73,14 +86,14 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Contenido central con el formulario de edición -->
         <div class="content">
             <div class="form-container">
                 <h2 class="section-title">
                     <i class="fas fa-edit"></i> Editar Mesa Número {{ table.number }}
                 </h2>
 
-                <!-- Mensajes Flash -->
+                <!-- Mostrar mensajes flash si existen (éxito o error) -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         <div class="flash-messages">
@@ -94,12 +107,15 @@
                     {% endif %}
                 {% endwith %}
 
+                <!-- Formulario para editar los datos de la mesa -->
                 <form method="POST" action="{{ url_for('table.edit_table', table_id=table.id) }}" class="table-form">
+                    <!-- Campo: Número de mesa -->
                     <div class="form-group">
                         <label for="number">Número de Mesa *</label>
                         <input type="number" id="number" name="number" min="1" required value="{{ table.number }}">
                     </div>
                     
+                    <!-- Campo: Tipo de mesa (select con opciones) -->
                     <div class="form-group">
                         <label for="type">Tipo de Mesa *</label>
                         <div class="select-wrapper">
@@ -114,16 +130,19 @@
                         </div>
                     </div>
                     
+                    <!-- Campo: Capacidad de personas -->
                     <div class="form-group">
                         <label for="capacity">Capacidad de Personas *</label>
                         <input type="number" id="capacity" name="capacity" min="1" required value="{{ table.capacity }}">
                     </div>
                     
+                    <!-- Campo: Descripción (opcional) -->
                     <div class="form-group">
                         <label for="description">Descripción (opcional)</label>
                         <textarea id="description" name="description" rows="3">{{ table.description }}</textarea>
                     </div>
                     
+                    <!-- Botones de acción -->
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Actualizar Mesa
@@ -137,6 +156,7 @@
         </div>
     </div>
 
+    <!-- Script JS para interacciones adicionales (actualmente vacío) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Aquí puedes agregar interacciones JavaScript si es necesario

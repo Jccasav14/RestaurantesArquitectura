@@ -1,53 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurantes - Reserva Gourmet</title>
+    <meta charset="UTF-8"><!-- Codificación UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Para que sea responsive -->
+    <title>Restaurantes - Reserva Gourmet</title><!-- Título de la pestaña -->
+    
+    <!-- Estilos CSS personalizados -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
+<!-- Barra lateral (sidebar) con navegación -->
 <aside class="sidebar">
   <div class="logo-container">
+    <!-- Logo principal -->
     <div class="logo">Reserva Gourmet</div>
     <div class="logo-subtitle">Experiencias culinarias premium</div>
   </div>
 
+  <!-- Menú de navegación -->
   <nav class="nav-menu">
     <ul>
+      <!-- Enlaces de navegación -->
       <li class="nav-item">
         <a href="{{ url_for('customer.frequent_restaurants') }}" class="nav-link active">
-          <i class="fas fa-home"></i>
+          <i class="fas fa-home"></i><!-- Icono Home -->
           <span>Inicio</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a href="{{ url_for('restaurant.view_restaurants') }}" class="nav-link">
-          <i class="fas fa-utensils"></i>
+          <i class="fas fa-utensils"></i><!-- Icono utensilios -->
           <span>Restaurantes</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a href="{{ url_for('reservation.create_reservation_client') }}" class="nav-link">
-          <i class="fas fa-calendar-plus"></i>
+          <i class="fas fa-calendar-plus"></i><!-- Icono calendario + -->
           <span>Nueva Reserva</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a href="{{ url_for('reservation.my_reservations') }}" class="nav-link">
-          <i class="fas fa-calendar-check"></i>
+          <i class="fas fa-calendar-check"></i><!-- Icono calendario check -->
           <span>Mis Reservas</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a href="{{ url_for('auth.logout') }}" class="nav-link">
-          <i class="fas fa-sign-out-alt"></i>
+          <i class="fas fa-sign-out-alt"></i><!-- Icono cerrar sesión -->
           <span>Cerrar Sesión</span>
         </a>
       </li>
@@ -57,13 +64,15 @@
 
 <!-- Contenido Principal -->
 <div class="main-content">
-  <!-- Topbar -->
+  <!-- Barra superior -->
   <header class="topbar">
     <div class="user-profile" id="userProfile">
+      <!-- Inicial del usuario para avatar -->
       <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
       <span class="user-name">{{ current_user.username }}</span>
       <i class="fas fa-chevron-down"></i>
 
+      <!-- Menú desplegable del usuario -->
       <div class="user-dropdown">
         <a href="#"><i class="fas fa-user"></i> Mi Perfil</a>
         <a href="#"><i class="fas fa-cog"></i> Configuración</a>
@@ -73,61 +82,67 @@
     </div>
   </header>
 
-  <!-- Contenido de Restaurantes -->
+  <!-- Contenido principal: lista de restaurantes -->
   <main class="content-wrapper">
+    <!-- Mostrar mensajes flash si existen -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="messages">
-                    <ul>
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endwith %}
+      {% if messages %}
+        <div class="messages">
+          <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+    
+    <!-- Título de la página -->
     <h1 class="page-title">Restaurantes Disponibles</h1>
 
+    <!-- Grid con tarjetas de restaurantes -->
     <div class="restaurants-grid">
-        {% for r in restaurants %}
-        <div class="restaurant-card">
-            <div class="restaurant-image">
-                {% if r.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' + r.image_filename) }}" alt="{{ r.name }}">
-                {% else %}
-                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurante">
-                {% endif %}
-            </div>
-            <div class="restaurant-info">
-                <h3 class="restaurant-name">{{ r.name }}</h3>
-                
-                <p class="restaurant-description">{{ r.description }}</p>
-                <div class="restaurant-details">
-                    <p><i class="fas fa-map-marker-alt"></i> {{ r.address }}</p>
-                    <p><i class="fas fa-phone"></i> {{ r.phone }}</p>
-                </div>
-                <a href="{{ url_for('dish.view_dishes_by_restaurant', restaurant_id=r.id) }}" class="btn-view-dishes">
-                    Ver Platos
-                </a>
-            </div>
+      {% for r in restaurants %}
+      <div class="restaurant-card">
+        <div class="restaurant-image">
+          <!-- Mostrar imagen si existe, si no, una imagen por defecto -->
+          {% if r.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' + r.image_filename) }}" alt="{{ r.name }}">
+          {% else %}
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurante">
+          {% endif %}
         </div>
-        {% else %}
-        <div class="empty-state">
-            <p>No hay restaurantes disponibles.</p>
+        <div class="restaurant-info">
+          <h3 class="restaurant-name">{{ r.name }}</h3>
+          <p class="restaurant-description">{{ r.description }}</p>
+          <div class="restaurant-details">
+            <p><i class="fas fa-map-marker-alt"></i> {{ r.address }}</p><!-- Dirección -->
+            <p><i class="fas fa-phone"></i> {{ r.phone }}</p><!-- Teléfono -->
+          </div>
+          <!-- Botón para ver los platos de este restaurante -->
+          <a href="{{ url_for('dish.view_dishes_by_restaurant', restaurant_id=r.id) }}" class="btn-view-dishes">
+            Ver Platos
+          </a>
         </div>
-        {% endfor %}
+      </div>
+      {% else %}
+      <!-- Mensaje si no hay restaurantes disponibles -->
+      <div class="empty-state">
+        <p>No hay restaurantes disponibles.</p>
+      </div>
+      {% endfor %}
     </div>
   </main>
 </div>
 
 <script>
-  // Dropdown de usuario
+  // Toggle para mostrar/ocultar menú desplegable del usuario
   document.getElementById('userProfile').addEventListener('click', function(e) {
-    e.stopPropagation();
+    e.stopPropagation(); // Evita que el click cierre el menú inmediatamente
     document.querySelector('.user-dropdown').classList.toggle('show');
   });
 
-  // Cerrar dropdown al hacer clic fuera
+  // Cierra el menú desplegable si se hace click fuera del menú
   document.addEventListener('click', function() {
     document.querySelector('.user-dropdown').classList.remove('show');
   });

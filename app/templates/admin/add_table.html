@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Codificación y configuración responsive -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título de la página -->
     <title>Admin | Agregar Mesa - ReservaElegante</title>
+
+    <!-- Fuente Inter desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Íconos de Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Estilos personalizados del panel de administrador -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+
+    <!-- Barra lateral izquierda -->
     <div class="sidebar">
+        <!-- Marca del sistema -->
         <div class="brand">
-            <div class="brand-logo">RE</div>
-            <div class="brand-name">ReservaElegante</div>
+            <div class="brand-logo">RE</div> <!-- Iniciales de la marca -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre completo -->
         </div>
         
+        <!-- Menú de navegación del panel admin -->
         <div class="nav-menu">
+            <!-- Cada ítem dirige a una sección del panel -->
             <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -24,7 +38,6 @@
                 <i class="fas fa-utensils"></i>
                 <span>Restaurantes</span>
             </a>
-
             <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
                 <i class="fas fa-utensil-spoon"></i>
                 <span>Platos</span>
@@ -41,13 +54,13 @@
                 <i class="fas fa-chart-line"></i>
                 <span>Mesas</span>
             </a>
-            
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Contenedor principal del contenido -->
     <div class="main-content">
-        <!-- Header -->
+        
+        <!-- Encabezado superior con barra de búsqueda y usuario -->
         <div class="header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
@@ -55,16 +68,19 @@
             </div>
             
             <div class="user-actions">
+                <!-- Icono de notificaciones -->
                 <div class="notification">
                     <i class="fas fa-bell"></i>
                     <div class="notification-badge">3</div>
                 </div>
                 
+                <!-- Perfil del usuario actual -->
                 <div class="user-profile">
-                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial del nombre -->
                     <span class="user-name">{{ current_user.username }}</span>
                     <i class="fas fa-chevron-down"></i>
 
+                    <!-- Menú desplegable del usuario -->
                     <div class="dropdown-content">
                         <a href="#">Mi perfil</a>
                         <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
@@ -73,14 +89,14 @@
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Contenido principal del formulario -->
         <div class="content">
             <div class="form-container">
                 <h2 class="section-title">
                     <i class="fas fa-plus-circle"></i> Agregar Mesa a {{ restaurant.name }}
                 </h2>
 
-                <!-- Mensajes Flash -->
+                <!-- Mostrar mensajes flash (éxito o error) -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         <div class="flash-messages">
@@ -94,12 +110,16 @@
                     {% endif %}
                 {% endwith %}
 
+                <!-- Formulario para agregar una nueva mesa -->
                 <form method="POST" action="{{ url_for('table.add_table', restaurant_id=restaurant.id) }}" class="table-form">
+                    
+                    <!-- Campo: número de mesa -->
                     <div class="form-group">
                         <label for="number">Número de Mesa *</label>
                         <input type="number" id="number" name="number" min="1" required>
                     </div>
                     
+                    <!-- Campo: tipo de mesa (select) -->
                     <div class="form-group">
                         <label for="type">Tipo de Mesa *</label>
                         <div class="select-wrapper">
@@ -114,16 +134,19 @@
                         </div>
                     </div>
                     
+                    <!-- Campo: capacidad -->
                     <div class="form-group">
                         <label for="capacity">Capacidad de Personas *</label>
                         <input type="number" id="capacity" name="capacity" min="1" required>
                     </div>
                     
+                    <!-- Campo: descripción (opcional) -->
                     <div class="form-group">
                         <label for="description">Descripción (opcional)</label>
                         <textarea id="description" name="description" rows="3"></textarea>
                     </div>
                     
+                    <!-- Botones de acción -->
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Agregar Mesa
@@ -137,6 +160,7 @@
         </div>
     </div>
 
+    <!-- Script opcional para interactividad -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Aquí puedes agregar interacciones JavaScript si es necesario
