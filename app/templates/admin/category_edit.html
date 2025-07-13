@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Codificación de caracteres y configuración para dispositivos móviles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título que aparece en la pestaña del navegador -->
+    <title>Admin | Editar Categoría - ReservaElegante</title>
+
+    <!-- Fuente tipográfica Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Iconos Font Awesome para la interfaz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Hoja de estilos personalizada para administración -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    
+    <!-- Estilos adicionales específicos para formularios -->
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e3e6f0;
+        }
+        
+        .description-counter {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+        
+        .current-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-left: 10px;
+            vertical-align: middle;
+            border: 1px solid #e3e6f0;
+        }
+        
+        .color-option {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .color-option input {
+            margin-right: 5px;
+        }
+        
+        .color-sample {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 5px;
+            border: 1px solid #e3e6f0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra lateral de navegación -->
+    <div class="sidebar">
+        <!-- Logo y nombre de la marca -->
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <!-- Menú de navegación principal -->
+        <div class="nav-menu">
+            <!-- Enlace a Dashboard -->
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Enlace a la sección Restaurantes -->
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+
+            <!-- Enlace a la sección de Platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+
+            <!-- Enlace a Usuarios -->
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+
+            <!-- Enlace a Reservaciones -->
+            <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+
+            <!-- Enlace a Mesas -->
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chair"></i>
+                <span>Mesas</span>
+            </a>
+            
+           
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Encabezado con barra de búsqueda y acciones de usuario -->
+        <div class="header">
+            <!-- Barra de búsqueda -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            
+            <!-- Área de acciones del usuario -->
+            <div class="user-actions">
+                <!-- Icono de notificaciones con contador -->
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <!-- Perfil del usuario con avatar, nombre y menú desplegable -->
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+
+                    <!-- Menú desplegable para perfil y cerrar sesión -->
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de contenido principal -->
+        <div class="content">
+            <!-- Mostrar mensajes flash si existen -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Encabezado de página -->
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-tags"></i>
+                    <h1>Editar Categoría: {{ category.name }}</h1>
+                </div>
+                <a href="{{ url_for('category.list_categories') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+            
+            <!-- Formulario para editar categoría -->
+            <div class="form-container">
+                <form method="POST">
+                    <!-- Grupo para el nombre -->
+                    <div class="form-group">
+                        <label for="name">Nombre de la categoría <span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" class="form-control" 
+                               value="{{ category.name }}" required 
+                               placeholder="Ej: Entradas, Platos principales, Postres...">
+                    </div>
+                 
+                    <!-- Acciones del formulario -->
+                    <div class="form-actions">
+                        <a href="{{ url_for('category.list_categories') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Actualizar Categoría
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts para interactividad -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Contador de caracteres para la descripción
+            const description = document.getElementById('description');
+            const counter = document.getElementById('description-counter');
+            
+            if (description && counter) {
+                description.addEventListener('input', function() {
+                    const length = this.value.length;
+                    counter.textContent = `${length}/200 caracteres`;
+                    
+                    if (length > 180) {
+                        counter.style.color = 'var(--warning-color)';
+                    } else {
+                        counter.style.color = 'var(--secondary-color)';
+                    }
+                    
+                    if (length >= 200) {
+                        counter.style.color = 'var(--danger-color)';
+                    }
+                });
+            }
+            
+            // Validación básica del formulario
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const nameInput = document.getElementById('name');
+                    if (nameInput.value.trim() === '') {
+                        e.preventDefault();
+                        alert('Por favor ingrese un nombre para la categoría');
+                        nameInput.focus();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

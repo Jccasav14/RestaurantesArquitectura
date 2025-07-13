@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platos - {{ restaurant.name }} | Reserva Gourmet</title>
+    
+    <!-- Estilos CSS personalizados para cliente -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<!-- Sidebar lateral con navegación -->
+<aside class="sidebar">
+  <div class="logo-container">
+    <div class="logo">Reserva Gourmet</div>
+    <div class="logo-subtitle">Experiencias culinarias premium</div>
+  </div>
+
+  <!-- Menú de navegación -->
+  <nav class="nav-menu">
+    <ul>
+      <li class="nav-item">
+        <a href="{{ url_for('customer.frequent_restaurants') }}" class="nav-link">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('restaurant.view_restaurants') }}" class="nav-link active">
+          <i class="fas fa-utensils"></i>
+          <span>Restaurantes</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('reservation.create_reservation_client') }}" class="nav-link">
+          <i class="fas fa-calendar-plus"></i>
+          <span>Nueva Reserva</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('reservation.my_reservations') }}" class="nav-link">
+          <i class="fas fa-calendar-check"></i>
+          <span>Mis Reservas</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('auth.logout') }}" class="nav-link">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- Contenido principal -->
+<div class="main-content">
+  <!-- Barra superior o topbar -->
+  <header class="topbar">
+    <div class="user-profile" id="userProfile">
+      <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+      <span class="user-name">{{ current_user.username }}</span>
+      <i class="fas fa-chevron-down"></i>
+
+      <!-- Menú desplegable del usuario -->
+      <div class="user-dropdown">
+        <a href="#"><i class="fas fa-user"></i> Mi Perfil</a>
+        <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+        <div class="divider"></div>
+        <a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sección principal con platos -->
+  <main class="content-wrapper">
+    <!-- Enlace para volver a la lista de restaurantes -->
+    <a href="{{ url_for('restaurant.view_restaurants') }}" class="back-link">
+      <i class="fas fa-arrow-left"></i> Volver a Restaurantes
+    </a>
+
+    <!-- Título de la página con el nombre del restaurante -->
+    <h1 class="page-title">Platos de {{ restaurant.name }}</h1>
+
+    <!-- Condicional para verificar si hay platos -->
+    {% if dishes %}
+    <div class="dishes-grid">
+      <!-- Bucle para mostrar cada plato -->
+      {% for dish in dishes %}
+      <div class="dish-card">
+        <!-- Mostrar imagen del plato o imagen por defecto -->
+        {% if dish.image_filename %}
+          <img src="{{ url_for('static', filename='uploads/' + dish.image_filename) }}" alt="{{ dish.name }}">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="{{ dish.name }}">
+        {% endif %}
+        <!-- Nombre del plato -->
+        <h3 class="dish-name">{{ dish.name }}</h3>
+        <!-- Ingredientes del plato -->
+        <p class="dish-ingredients"><strong>Ingredientes:</strong> {{ dish.ingredients }}</p>
+        <!-- Descripción, solo si existe -->
+        {% if dish.description %}
+          <p class="dish-desc"><strong>Descripción:</strong> {{ dish.description }}</p>
+        {% endif %}
+        <!-- Precio formateado a dos decimales -->
+        <p class="dish-price"><strong>Precio:</strong> ${{ '%.2f'|format(dish.price) }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Mensaje si no hay platos -->
+    <div class="no-dishes">
+      <p>No hay platos disponibles para este restaurante.</p>
+    </div>
+    {% endif %}
+  </main>
+</div>
+
+<!-- ChatBot flotante -->
+<div id="chat-bubble" onclick="toggleChat()">
+  <i class="fas fa-comment-dots"></i>
+</div>
+<div id="chat-box">
+  <div id="chat-header">
+    <span>Asistente Gourmet</span>
+    <button id="chat-close-btn" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="chat-messages"></div>
+  <div class="chat-input-container">
+    <input id="chat-input" placeholder="Escribe tu mensaje..." />
+    <button id="chat-send-btn" onclick="sendMessage()">Enviar</button>
+  </div>
+</div>
+
+<script>
+  // Función para alternar la visibilidad del chat
+  function toggleChat() {
+    const chatBox = document.getElementById('chat-box');
+    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+    
+    if (chatBox.style.display === 'flex') {
+      document.getElementById('chat-input').focus();
+    }
+  }
+
+  // Función para enviar mensajes al chatbot
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    const messages = document.getElementById('chat-messages');
+    
+    // Agregar mensaje del usuario
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-message user-message';
+    userMsg.textContent = message;
+    messages.appendChild(userMsg);
+    
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+      // Mostrar indicador de carga
+      const loadingMsg = document.createElement('div');
+      loadingMsg.className = 'chat-message bot-message';
+      loadingMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+      messages.appendChild(loadingMsg);
+      messages.scrollTop = messages.scrollHeight;
+
+      // Enviar mensaje al backend
+      const response = await fetch('/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message })
+      });
+
+      const data = await response.json();
+      
+      // Eliminar indicador de carga
+      messages.removeChild(loadingMsg);
+      
+      // Mostrar respuesta del bot
+      if (data.response) {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-message bot-message';
+        botMsg.textContent = data.response;
+        messages.appendChild(botMsg);
+      } else {
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'chat-message bot-message';
+        errorMsg.textContent = "No pude procesar tu solicitud. Inténtalo de nuevo.";
+        messages.appendChild(errorMsg);
+      }
+    } catch (error) {
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'chat-message bot-message';
+      errorMsg.textContent = "Error de conexión. Inténtalo más tarde.";
+      messages.appendChild(errorMsg);
+    }
+    
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // Inicialización cuando el DOM está cargado
+  document.addEventListener('DOMContentLoaded', function() {
+    // Manejo del dropdown del usuario
+    const userProfile = document.getElementById('userProfile');
+    const userDropdown = document.querySelector('.user-dropdown');
+
+    userProfile.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userDropdown.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function() {
+      userDropdown.classList.remove('show');
+    });
+
+    // Permitir enviar mensajes con Enter
+    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

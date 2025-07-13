@@ -1,0 +1,1041 @@
+:root {
+    /* Variables globales de color y dimensiones para fácil mantenimiento */
+    --primary-color: #4e73df;
+    --primary-hover: #3a5fce;
+    --primary-light: rgba(78, 115, 223, 0.1);
+    --secondary-color: #858796;
+    --success-color: #1cc88a;
+    --info-color: #36b9cc;
+    --warning-color: #f6c23e;
+    --danger-color: #e74a3b;
+    --light-color: #f8f9fc;
+    --dark-color: #5a5c69;
+    --white: #ffffff;
+    --gray-100: #f8f9fc;
+    --gray-200: #eaecf4;
+    --gray-300: #dddfeb;
+    --gray-400: #d1d3e2;
+
+    /* Dimensiones base */
+    --sidebar-width: 280px;
+    --topbar-height: 70px;
+    --border-radius: 6px;
+    --box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    --transition: all 0.2s ease;
+}
+
+/* Reset general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos base del body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--gray-100);
+    color: var(--dark-color);
+    line-height: 1.6;
+    display: flex;  /* Para layout sidebar + main */
+    min-height: 100vh;
+}
+
+/* Sidebar fijo lateral */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--white);
+    height: 100vh;
+    position: fixed; /* fijo para que no se mueva */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.03);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--gray-200);
+}
+
+/* Logo dentro sidebar */
+.logo-container {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--gray-200);
+    text-align: center;
+}
+
+.logo {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.logo-subtitle {
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-weight: 400;
+}
+
+/* Menu navegación */
+.nav-menu {
+    flex: 1; /* toma todo el espacio disponible */
+    padding: 1.5rem 0;
+    overflow-y: auto; /* scroll vertical si excede altura */
+}
+
+.nav-menu ul {
+    list-style: none; /* sin bullets */
+    padding: 0;
+}
+
+.nav-item {
+    margin: 0.25rem 1.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: var(--dark-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-right: 12px;
+    color: var(--secondary-color);
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.nav-link:hover i {
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 0.125rem 0.25rem rgba(78, 115, 223, 0.2);
+}
+
+.nav-link.active i {
+    color: var(--white);
+}
+
+/* Contenido principal ajustado al sidebar */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+}
+
+/* Barra superior fija y estilizada */
+.topbar {
+    height: var(--topbar-height);
+    background: var(--white);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.03);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+/* Perfil usuario en topbar */
+.user-profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+/* Dropdown menú usuario oculto por defecto */
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    display: none;
+    border: 1px solid var(--gray-200);
+}
+
+/* Mostrar dropdown cuando tiene clase 'show' */
+.user-dropdown.show {
+    display: block;
+}
+
+.user-dropdown a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.user-dropdown a i {
+    width: 20px;
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+.user-dropdown a:hover {
+    background-color: var(--gray-100);
+    color: var(--primary-color);
+}
+
+.user-dropdown a:hover i {
+    color: var(--primary-color);
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--gray-200);
+    margin: 0.5rem 0;
+}
+
+/* Wrapper para contenido */
+.content-wrapper {
+    padding: 2rem;
+}
+
+/* Sección de bienvenida */
+.welcome-section {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--gray-200);
+}
+
+.welcome-title {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.welcome-text {
+    color: var(--secondary-color);
+    max-width: 600px;
+}
+
+/* Grid para métricas */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.metric-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Ícono dentro de la tarjeta métrica */
+.card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;            /* círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: var(--white);
+    font-size: 1rem;
+    background-color: var(--primary-color);
+}
+
+/* Variantes de color para ícono según estado */
+.card-icon.success {
+    background-color: var(--success-color);
+}
+
+.card-icon.warning {
+    background-color: var(--warning-color);
+}
+
+/* Títulos, valores y descripciones dentro de la tarjeta */
+.card-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+.card-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin: 0.5rem 0;
+}
+
+.card-description {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+}
+
+/* Responsividad para sidebar y menú móvil */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%); /* ocultar sidebar fuera de pantalla */
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.show {
+        transform: translateX(0); /* mostrar sidebar */
+    }
+    
+    .main-content {
+        margin-left: 0;  /* quitar margen izquierdo cuando sidebar oculto */
+        width: 100%;     /* contenido ocupa todo el ancho */
+    }
+    
+    .topbar {
+        justify-content: space-between; /* para espacio entre menú y avatar */
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--dark-color);
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 993px) {
+    .mobile-menu-btn {
+        display: none; /* botón menú móvil oculto en pantallas grandes */
+    }
+}
+
+.content-wrapper {
+    padding: 2rem;
+}
+
+/* Título general de página */
+.page-title {
+    color: var(--dark-color);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Grid de restaurantes: cards adaptables */
+.restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Estilo de cada tarjeta restaurante */
+.restaurant-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--gray-200);
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen del restaurante */
+.restaurant-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover; /* recorte de imagen proporcional */
+}
+
+/* Info y texto dentro de la card */
+.restaurant-info {
+    padding: 1.5rem;
+}
+
+.restaurant-name {
+    color: var(--dark-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.restaurant-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    color: var(--warning-color);
+    font-weight: 500;
+}
+
+.restaurant-description {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.restaurant-details {
+    margin-bottom: 1rem;
+}
+
+.restaurant-details p {
+    display: flex;
+    align-items: center;
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.restaurant-details i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+    width: 16px;
+    text-align: center;
+}
+
+/* Botón para ver platos */
+.btn-view-dishes {
+    display: inline-block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.btn-view-dishes:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Estado vacío (sin restaurantes) */
+.empty-state {
+    grid-column: 1 / -1; /* ocupa toda la fila */
+    text-align: center;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.empty-state p {
+    color: var(--secondary-color);
+}
+
+/* Responsive para restaurantes (pantallas pequeñas) */
+@media (max-width: 768px) {
+    .restaurants-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .restaurant-image img {
+        height: 200px;
+    }
+}
+
+/* Estilos grilla de platos y sus cards */
+.dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.dish-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+    transition: var(--transition);
+    border: 1px solid var(--gray-200);
+}
+
+/* Efecto hover en card de plato */
+.dish-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen del plato */
+.dish-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+/* Nombre e info del plato */
+.dish-name {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.dish-ingredients,
+.dish-desc,
+.dish-price {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+/* Precio del plato destacado */
+.dish-price {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+/* Enlace para volver */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    color: var(--primary-hover);
+}
+
+.back-link i {
+    margin-right: 0.5rem;
+}
+
+/* Mensaje cuando no hay platos */
+.no-dishes {
+    color: var(--secondary-color);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* Responsive para grilla de platos (1 columna) */
+@media (max-width: 768px) {
+    .dishes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Formulario de reservación: diseño y estilos */
+.reservation-form {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    border: 1px solid var(--gray-200);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Espaciado y etiquetas */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+/* Inputs y textarea con estilos y focus */
+.form-group select,
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    background-color: var(--white);
+}
+
+.form-group select:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="time"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Botón enviar con hover */
+.btn-submit {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Mensajes flash: estilos para éxito y error */
+.flash-messages {
+    margin-bottom: 1.5rem;
+}
+
+.flash-success,
+.flash-error {
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.flash-success {
+    background-color: rgba(28, 200, 138, 0.1);
+    border-left: 4px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.flash-error {
+    background-color: rgba(231, 74, 59, 0.1);
+    border-left: 4px solid var(--danger-color);
+    color: var(--danger-color);
+}
+
+.flash-success i,
+.flash-error i {
+    margin-right: 0.75rem;
+}
+
+/* Responsive: Formulario en dos columnas en pantallas grandes */
+@media (min-width: 768px) {
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    
+    .btn-submit {
+        width: auto;
+        min-width: 200px;
+    }
+}
+
+/* Contenedor principal de mis reservaciones */
+.reservations-container {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    border: 1px solid var(--gray-200);
+    overflow-x: auto;
+}
+
+/* Tabla de reservaciones: estilo básico */
+.reservations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+/* Encabezados de tabla de reservaciones */
+.reservations-table th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 500;
+}
+
+/* Celdas de tabla de reservaciones */
+.reservations-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--dark-color);
+}
+
+/* Filas pares con fondo alterno */
+.reservations-table tr:nth-child(even) {
+    background-color: var(--gray-100);
+}
+
+/* Hover en filas de tabla */
+.reservations-table tr:hover {
+    background-color: var(--primary-light);
+}
+
+/* Mensaje cuando no hay reservaciones */
+.no-reservations {
+    text-align: center;
+    padding: 2rem;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* Responsive para tabla: scroll horizontal y padding reducido */
+@media (max-width: 768px) {
+    .reservations-container {
+        padding: 1rem;
+    }
+    
+    .reservations-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .reservations-table th,
+    .reservations-table td {
+        padding: 0.75rem;
+    }
+}
+
+/* Tarjetas para sección de analíticas */
+.analytics-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    border: 1px solid var(--gray-200);
+}
+
+/* Contenedor para gráficos */
+.chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 2rem;
+}
+
+/* Resumen estadístico en grilla */
+.stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Tarjeta individual de estadística */
+.stat-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+    border: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
+}
+
+/* Efecto hover en tarjeta estadística */
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Ícono circular de estadística */
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+}
+
+/* Título dentro de tarjeta estadística */
+.stat-content h3 {
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+/* Valor numérico destacado */
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin: 0;
+}
+
+/* Responsive: Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+    
+    .stats-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Contenedor principal de estadísticas */
+.analytics-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* Tarjeta individual de estadísticas */
+.analytics-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  border: 1px solid var(--gray-200);
+}
+
+/* Contenedor para gráficos */
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+/* Cabecera de gráficos (título y botones) */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Título del gráfico */
+.chart-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+/* Botones para selección de métricas */
+.chart-btn {
+  background: var(--gray-100);
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover en botones */
+.chart-btn:hover {
+  background: var(--gray-200);
+}
+
+/* Botón activo */
+.chart-btn.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Grilla de métricas */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Tooltip personalizado para gráficos Chart.js */
+.chartjs-tooltip {
+  background: rgba(0, 0, 0, 0.85) !important;
+  border-radius: var(--border-radius) !important;
+  padding: 0.5rem 1rem !important;
+}
+
+/* Indicador de color en tooltip */
+.chartjs-tooltip-key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+#chat-bubble {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #007bff;
+      color: #fff;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10000;
+      font-size: 24px;
+    }
+
+    #chat-box {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+    }
+
+    #chat-header {
+      background: #007bff;
+      color: #fff;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      max-width: 80%;
+    }
+
+    .user-message {
+      background-color: #e3f2fd;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+
+    .bot-message {
+      background-color: #f1f1f1;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-input-container {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #chat-input {
+      flex: 1;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 8px 15px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    #chat-send-btn {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 15px;
+      margin-left: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #chat-close-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }

@@ -1,0 +1,2330 @@
+/* Estilos base */
+:root {
+/* Variables globales: colores y tamaños del layout */
+--primary-color: #4e73df;
+--primary-hover: #3a5fce;
+--secondary-color: #858796;
+--success-color: #1cc88a;
+--info-color: #36b9cc;
+--warning-color: #f6c23e;
+--danger-color: #e74a3b;
+--light-color: #f8f9fc;
+--dark-color: #5a5c69;
+--sidebar-width: 14rem;
+--sidebar-collapsed-width: 6.5rem;
+--topbar-height: 4.375rem;
+}
+* {
+/* Estilos base: quita márgenes y rellenos, caja consistente */
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+/* Texto base y fondo claro, sin scroll horizontal */
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+background-color: #f8f9fc;
+color: #333;
+line-height: 1.6;
+overflow-x: hidden;
+}
+
+/* Barra lateral fija con fondo degradado y sombra */
+.sidebar {
+position: fixed;
+top: 0;
+left: 0;
+width: var(--sidebar-width);
+height: 100vh;
+background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+color: white;
+transition: all 0.3s;
+z-index: 1000;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.brand {
+/* Contenedor de marca: horizontal, centrado y con borde inferior */
+display: flex;
+align-items: center;
+padding: 1.5rem 1rem;
+height: var(--topbar-height);
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand-logo {
+/* Logo de marca: círculo blanco semitransparente con texto centrado */
+font-size: 1.5rem;
+font-weight: 800;
+color: white;
+background: rgba(255, 255, 255, 0.2);
+border-radius: 50%;
+width: 2.5rem;
+height: 2.5rem;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 0.75rem;
+}
+
+.brand-name {
+/* Nombre de la marca: tamaño y peso moderado, sin salto de línea */
+font-size: 1.2rem;
+font-weight: 600;
+white-space: nowrap;
+}
+
+.nav-menu {
+/* Contenedor del menú de navegación con padding vertical */
+padding: 0.5rem 0;
+}
+
+.nav-item {
+/* Ítems del menú: flex para alinear, padding, margen, color y transición */
+display: flex;
+align-items: center;
+padding: 0.75rem 1rem;
+margin: 0 0.5rem;
+color: rgba(255, 255, 255, 0.8);
+text-decoration: none;
+border-radius: 0.35rem;
+transition: all 0.3s;
+}
+
+.nav-item i {
+/* Ícono dentro del ítem: tamaño pequeño, margen y centrado */
+font-size: 0.85rem;
+margin-right: 0.5rem;
+width: 1.5rem;
+text-align: center;
+}
+
+.nav-item span {
+/* Texto dentro del ítem: tamaño pequeño, peso medio, sin salto de línea */
+font-size: 0.85rem;
+font-weight: 500;
+white-space: nowrap;
+}
+
+.nav-item:hover {
+/* Hover del ítem: fondo semitransparente y texto blanco */
+background-color: rgba(255, 255, 255, 0.1);
+color: white;
+}
+
+.nav-item.active {
+/* Ítem activo: fondo más visible, texto blanco y negrita */
+background-color: rgba(255, 255, 255, 0.2);
+color: white;
+font-weight: 600;
+}
+
+/* Contenido principal: margen para barra lateral y altura mínima */
+.main-content {
+margin-left: var(--sidebar-width);
+min-height: 100vh;
+transition: all 0.3s;
+}
+
+/* Encabezado: layout flex, espacio entre elementos, fondo blanco, sombra y fijo al tope */
+.header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1rem 1.5rem;
+background-color: white;
+height: var(--topbar-height);
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+position: sticky;
+top: 0;
+z-index: 999;
+}
+
+/* Barra de búsqueda: contenedor relativo con ancho fijo */
+.search-bar {
+position: relative;
+width: 20rem;
+}
+
+/* Ícono en barra de búsqueda: posición absoluta centrado verticalmente */
+.search-bar i {
+position: absolute;
+top: 50%;
+left: 1rem;
+transform: translateY(-50%);
+color: var(--secondary-color);
+font-size: 0.9rem;
+}
+
+/* Input búsqueda: ancho completo, padding con espacio para ícono, borde y fondo claro */
+.search-bar input {
+width: 100%;
+padding: 0.5rem 1rem 0.5rem 2.5rem;
+border-radius: 0.35rem;
+border: 1px solid #d1d3e2;
+background-color: #f8f9fc;
+transition: all 0.3s;
+font-size: 0.85rem;
+}
+
+/* Input búsqueda enfocado: resalta borde y sombra */
+.search-bar input:focus {
+outline: none;
+border-color: var(--primary-color);
+background-color: white;
+box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Contenedor acciones usuario: flex con separación entre elementos */
+.user-actions {
+display: flex;
+align-items: center;
+gap: 1.5rem;
+}
+
+/* Icono notificaciones: posición relativa, color y cursor pointer */
+.notification {
+position: relative;
+color: var(--dark-color);
+cursor: pointer;
+transition: all 0.3s;
+}
+
+/* Icono notificaciones al pasar mouse: cambia color */
+.notification:hover {
+color: var(--primary-color);
+}
+
+/* Badge notificación: posición absoluta, círculo rojo con texto blanco */
+.notification-badge {
+position: absolute;
+top: -0.5rem;
+right: -0.5rem;
+background-color: var(--danger-color);
+color: white;
+border-radius: 50%;
+width: 1.25rem;
+height: 1.25rem;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.6rem;
+font-weight: 600;
+}
+
+/* Contenedor perfil usuario: flex, centrado y cursor pointer */
+.user-profile {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+position: relative;
+cursor: pointer;
+}
+
+/* Avatar usuario: círculo con fondo color primario, texto blanco y centrado */
+.user-avatar {
+width: 2.5rem;
+height: 2.5rem;
+border-radius: 50%;
+background-color: var(--primary-color);
+color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 600;
+text-transform: uppercase;
+}
+
+/* Nombre usuario: texto oscuro, tamaño pequeño y sin salto de línea */
+.user-name {
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+white-space: nowrap;
+}
+
+/* Icono en perfil usuario: tamaño pequeño y color secundario */
+.user-profile i {
+font-size: 0.7rem;
+color: var(--secondary-color);
+}
+
+/* Contenedor desplegable: oculto por defecto, posición absoluta bajo el perfil */
+.dropdown-content {
+display: none;
+position: absolute;
+top: 100%;
+right: 0;
+background-color: white;
+min-width: 12rem;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+border-radius: 0.35rem;
+z-index: 1000;
+padding: 0.5rem 0;
+}
+
+/* Enlaces dentro del desplegable: color oscuro, padding, bloque y transición */
+.dropdown-content a {
+color: var(--dark-color);
+padding: 0.5rem 1rem;
+text-decoration: none;
+display: block;
+font-size: 0.85rem;
+transition: all 0.2s;
+}
+
+/* Enlaces en hover: fondo claro y color primario */
+.dropdown-content a:hover {
+background-color: #f8f9fc;
+color: var(--primary-color);
+}
+
+/* Mostrar menú desplegable al pasar mouse sobre perfil */
+.user-profile:hover .dropdown-content {
+display: block;
+}
+
+/* Contenedor general de contenido con padding */
+.content {
+padding: 1.5rem;
+}
+
+/* Título de sección: tamaño, peso y color, con icono */
+.section-title {
+font-size: 1.25rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 1.5rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+/* Color primario para icono en título */
+.section-title i {
+color: var(--primary-color);
+}
+
+/* Contenedor de acciones rápidas: grid responsivo */
+.quick-actions {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+gap: 1.5rem;
+margin-bottom: 2.5rem;
+}
+
+/* Enlaces sin subrayado */
+.action-link {
+text-decoration: none;
+}
+
+/* Tarjeta de acción: fondo blanco, sombra, borde lateral primario */
+.action-card {
+background-color: white;
+border-radius: 0.35rem;
+padding: 1.5rem;
+transition: all 0.3s;
+border-left: 0.25rem solid var(--primary-color);
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+height: 100%;
+}
+
+/* Tarjeta de acción en hover: elevación y sombra más fuerte */
+.action-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+/* Icono en tarjeta: círculo, color primario y fondo semitransparente */
+.action-icon {
+width: 2.5rem;
+height: 2.5rem;
+border-radius: 50%;
+background-color: rgba(78, 115, 223, 0.1);
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 1rem;
+color: var(--primary-color);
+font-size: 1rem;
+}
+
+/* Título dentro de la acción: tamaño y peso medio */
+.action-title {
+font-size: 1rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+}
+
+/* Descripción en acción: texto más pequeño y color secundario */
+.action-desc {
+font-size: 0.85rem;
+color: var(--secondary-color);
+margin-bottom: 0;
+}
+
+/* Lista de actividades: fondo blanco, borde redondeado y sombra */
+.activity-list {
+background-color: white;
+border-radius: 0.35rem;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+overflow: hidden;
+}
+
+/* Elemento de actividad: flex para alinear contenido, padding y borde inferior */
+.activity-item {
+display: flex;
+align-items: center;
+padding: 1.25rem 1.5rem;
+border-bottom: 1px solid #e3e6f0;
+transition: all 0.3s;
+}
+
+/* Último item sin borde inferior */
+.activity-item:last-child {
+border-bottom: none;
+}
+
+/* Hover en item: fondo claro */
+.activity-item:hover {
+background-color: #f8f9fc;
+}
+
+/* Icono en actividad: círculo con fondo semitransparente y color primario */
+.activity-icon {
+width: 2.5rem;
+height: 2.5rem;
+border-radius: 50%;
+background-color: rgba(78, 115, 223, 0.1);
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 1rem;
+color: var(--primary-color);
+font-size: 0.9rem;
+}
+
+/* Contenido textual de la actividad, ocupa todo el espacio restante */
+.activity-content {
+flex: 1;
+}
+
+/* Título de actividad: tamaño mediano, peso medio y color oscuro */
+.activity-title {
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.25rem;
+}
+
+/* Hora o tiempo de actividad: texto pequeño y color secundario */
+.activity-time {
+font-size: 0.8rem;
+color: var(--secondary-color);
+}
+
+/* Badge de actividad: texto pequeño, mayúsculas y borde redondeado */
+.activity-badge {
+font-size: 0.7rem;
+font-weight: 600;
+padding: 0.25rem 0.5rem;
+border-radius: 0.35rem;
+text-transform: uppercase;
+}
+
+/* Variantes de badge con colores según estado */
+.badge-success {
+background-color: rgba(28, 200, 138, 0.1);
+color: var(--success-color);
+}
+
+.badge-warning {
+background-color: rgba(246, 194, 62, 0.1);
+color: var(--warning-color);
+}
+
+.badge-danger {
+background-color: rgba(231, 74, 59, 0.1);
+color: var(--danger-color);
+}
+
+/* Estilos responsivos para pantallas ≤ 992px */
+@media (max-width: 992px) {
+/* Sidebar colapsada */
+.sidebar {
+    width: var(--sidebar-collapsed-width);
+}
+
+/* Ocultar texto en nombre de marca y menú */
+.brand-name, .nav-item span {
+    display: none;
+}
+
+/* Centrar marca y ajustar padding */
+.brand {
+    justify-content: center;
+    padding: 1.5rem 0;
+}
+
+/* Centrar ítems del menú y reducir margen */
+.nav-item {
+    justify-content: center;
+    padding: 0.75rem 0;
+    margin: 0 0.25rem;
+}
+
+/* Ajuste iconos del menú */
+.nav-item i {
+    margin-right: 0;
+    font-size: 1rem;
+}
+
+/* Ajustar margen del contenido principal */
+.main-content {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Barra de búsqueda ajustable */
+.search-bar {
+    width: auto;
+}
+
+/* Input de búsqueda oculto por defecto */
+.search-bar input {
+    width: 0;
+    padding: 0.5rem 0;
+    border: none;
+    background-color: transparent;
+}
+
+/* Input de búsqueda visible al enfocar */
+.search-bar input:focus {
+    width: 15rem;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: 1px solid #d1d3e2;
+    background-color: white;
+}
+}
+
+/* Estilos responsivos para pantallas ≤ 768px */
+@media (max-width: 768px) {
+/* Sidebar oculta */
+.sidebar {
+    transform: translateX(-100%);
+}
+
+/* Sidebar visible cuando tiene clase show */
+.sidebar.show {
+    transform: translateX(0);
+}
+
+/* Contenido principal sin margen lateral */
+.main-content {
+    margin-left: 0;
+}
+
+/* Quick actions en una sola columna */
+.quick-actions {
+    grid-template-columns: 1fr;
+}
+
+/* Ajustar padding del header */
+.header {
+    padding: 1rem;
+}
+
+/* Ocultar nombre de usuario */
+.user-name {
+    display: none;
+}
+}
+
+/* Animación y estilos para sidebar colapsada */
+.sidebar-collapse {
+width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-collapse .brand-name, 
+.sidebar-collapse .nav-item span {
+display: none;
+}
+
+.sidebar-collapse .brand {
+justify-content: center;
+padding: 1.5rem 0;
+}
+
+.sidebar-collapse .nav-item {
+justify-content: center;
+padding: 0.75rem 0;
+margin: 0 0.25rem;
+}
+
+.sidebar-collapse .nav-item i {
+margin-right: 0;
+font-size: 1rem;
+}
+
+/* Ajuste del contenido cuando sidebar está colapsada */
+.main-content-expand {
+margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Estilos para el contenedor de formularios */
+.form-container {
+background-color: white;
+border-radius: 0.35rem;
+padding: 2rem;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+max-width: 800px;
+margin: 0 auto;
+}
+
+/* Título del formulario con icono */
+.form-container h2 {
+font-size: 1.5rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 1.5rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+.form-container h2 i {
+color: var(--primary-color);
+}
+
+/* Grupo de campos del formulario con margen inferior */
+.form-group {
+margin-bottom: 1.5rem;
+}
+
+/* Etiquetas de formulario */
+.form-group label {
+display: block;
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+}
+
+/* Inputs, selects y textarea estilos base */
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea,
+.form-group select {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #d1d3e2;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+transition: all 0.3s;
+background-color: #f8f9fc;
+}
+
+/* Ajuste específico para input file */
+.form-group input[type="file"] {
+padding: 0.5rem 1rem;
+}
+
+/* Textarea tamaño mínimo y posibilidad de redimensionar vertical */
+.form-group textarea {
+min-height: 120px;
+resize: vertical;
+}
+
+/* Estilos al enfocar inputs, textarea y select */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+outline: none;
+border-color: var(--primary-color);
+background-color: white;
+box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Botón submit estilos base */
+button[type="submit"] {
+background-color: var(--primary-color);
+color: white;
+border: none;
+padding: 0.75rem 1.5rem;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s;
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+/* Hover efecto para botón */
+button[type="submit"]:hover {
+background-color: var(--primary-hover);
+transform: translateY(-2px);
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* Estado activo para botón */
+button[type="submit"]:active {
+transform: translateY(0);
+}
+
+/* Estilos responsivos para formularios en pantallas ≤ 768px */
+@media (max-width: 768px) {
+.form-container {
+    padding: 1.5rem;
+}
+}
+
+/* Estilos responsivos para formularios en pantallas ≤ 576px */
+@media (max-width: 576px) {
+.form-container {
+    padding: 1rem;
+}
+
+.form-container h2 {
+    font-size: 1.25rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea,
+.form-group select {
+    padding: 0.6rem 0.8rem;
+}
+
+button[type="submit"] {
+    width: 100%;
+    justify-content: center;
+}
+}
+
+/* Título principal de página */
+.page-title {
+font-size: 1.5rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 1.5rem;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+
+.page-title i {
+color: var(--primary-color);
+font-size: 1.3rem;
+}
+
+/* Grid para tarjetas de restaurantes */
+.restaurants-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+gap: 1.5rem;
+margin-bottom: 2rem;
+}
+
+/* Tarjeta individual de restaurante */
+.restaurant-card {
+background-color: white;
+border-radius: 0.5rem;
+overflow: hidden;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+transition: all 0.3s ease;
+display: flex;
+flex-direction: column;
+}
+
+/* Hover efecto para tarjeta restaurante */
+.restaurant-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+/* Contenedor de imagen en tarjeta */
+.restaurant-image {
+height: 200px;
+overflow: hidden;
+}
+
+/* Imagen con ajuste y transición */
+.restaurant-image img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.3s ease;
+}
+
+/* Zoom imagen al hacer hover */
+.restaurant-card:hover .restaurant-image img {
+transform: scale(1.05);
+}
+
+/* Cuerpo de la tarjeta con padding y estructura */
+.restaurant-body {
+padding: 1.5rem;
+flex: 1;
+display: flex;
+flex-direction: column;
+}
+
+/* Título del restaurante */
+.restaurant-title {
+font-size: 1.25rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 1rem;
+}
+
+/* Información adicional del restaurante */
+.restaurant-info {
+margin-bottom: 1.5rem;
+flex: 1;
+}
+
+.restaurant-info p {
+font-size: 0.9rem;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+line-height: 1.5;
+}
+
+.restaurant-info p strong {
+font-weight: 600;
+color: var(--dark-color);
+}
+
+/* Contenedor para acciones (botones, links) */
+.restaurant-actions {
+display: flex;
+gap: 0.75rem;
+margin-top: auto;
+}
+
+/* Botones base */
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 0.5rem;
+padding: 0.5rem 1rem;
+border-radius: 0.35rem;
+font-size: 0.85rem;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.3s;
+text-decoration: none;
+border: none;
+}
+
+/* Iconos en botones */
+.btn i {
+font-size: 0.8rem;
+}
+
+/* Botón primario */
+.btn-primary {
+background-color: var(--primary-color);
+color: white;
+}
+
+/* Hover botón primario */
+.btn-primary:hover {
+background-color: var(--primary-hover);
+color: white;
+}
+
+/* Botón secundario */
+.btn-secondary {
+background-color: #e2e8f0;
+color: var(--dark-color);
+}
+
+/* Hover botón secundario */
+.btn-secondary:hover {
+background-color: #cbd5e1;
+color: var(--dark-color);
+}
+
+/* Estado vacío para listas o grids */
+.empty-state {
+grid-column: 1 / -1;
+text-align: center;
+padding: 3rem 2rem;
+background-color: white;
+border-radius: 0.5rem;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+}
+
+/* Icono en estado vacío */
+.empty-state i {
+font-size: 3rem;
+color: var(--primary-color);
+margin-bottom: 1.5rem;
+}
+
+/* Título en estado vacío */
+.empty-state h3 {
+font-size: 1.5rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+}
+
+/* Texto en estado vacío */
+.empty-state p {
+font-size: 1rem;
+color: var(--secondary-color);
+margin-bottom: 1.5rem;
+}
+
+/* Responsive para grid restaurantes (pantallas ≤ 992px) */
+@media (max-width: 992px) {
+.restaurants-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+}
+
+/* Responsive para grid y botones (pantallas ≤ 768px) */
+@media (max-width: 768px) {
+.restaurants-grid {
+    grid-template-columns: 1fr;
+}
+
+.restaurant-actions {
+    flex-direction: column;
+}
+
+.btn {
+    width: 100%;
+}
+}
+
+/* Ajustes para pantallas pequeñas ≤ 576px */
+@media (max-width: 576px) {
+.page-title {
+    font-size: 1.25rem;
+}
+
+.empty-state {
+    padding: 2rem 1rem;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+}
+
+.empty-state h3 {
+    font-size: 1.25rem;
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+}
+}
+
+/* Contenedor y estilos de cabecera de página */
+.page-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 2rem;
+flex-wrap: wrap;
+gap: 1rem;
+}
+
+/* Título principal con icono */
+.header-title {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+/* Texto del título */
+.header-title h1 {
+font-size: 1.75rem;
+font-weight: 600;
+color: var(--dark-color);
+margin: 0;
+}
+
+/* Icono junto al título */
+.header-title i {
+color: var(--primary-color);
+font-size: 1.5rem;
+}
+
+/* Contenedor general de platos */
+.dishes-container {
+margin-top: 1.5rem;
+}
+
+/* Grid para mostrar platos en tarjetas */
+.dishes-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+gap: 1.5rem;
+}
+
+/* Estilo general de la carta del plato */
+.dish-card {
+background-color: white;
+border-radius: 0.5rem;
+overflow: hidden;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+transition: all 0.3s ease;
+display: flex;
+flex-direction: column;
+}
+
+/* Efecto hover para elevar la carta */
+.dish-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+/* Contenedor de la imagen del plato */
+.dish-image {
+height: 200px;
+overflow: hidden;
+position: relative;
+}
+
+/* Imagen ajustada al contenedor */
+.dish-image img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.3s ease;
+}
+
+/* Zoom imagen al pasar el mouse */
+.dish-card:hover .dish-image img {
+transform: scale(1.05);
+}
+
+/* Estilo para cuando no hay imagen disponible */
+.no-image {
+width: 100%;
+height: 100%;
+background-color: #f1f5f9;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #94a3b8;
+}
+
+.no-image i {
+font-size: 3rem;
+}
+
+/* Información general del plato */
+.dish-info {
+padding: 1.5rem;
+flex: 1;
+display: flex;
+flex-direction: column;
+}
+
+/* Título del plato */
+.dish-title {
+font-size: 1.25rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+}
+
+/* Meta información (precio y otros) */
+.dish-meta {
+margin-bottom: 1rem;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+/* Precio del plato */
+.dish-price {
+font-size: 1.1rem;
+font-weight: 700;
+color: var(--primary-color);
+background-color: rgba(78, 115, 223, 0.1);
+padding: 0.25rem 0.75rem;
+border-radius: 1rem;
+}
+
+/* Detalles descriptivos */
+.dish-details {
+margin-bottom: 1.5rem;
+flex: 1;
+}
+
+.dish-details p {
+font-size: 0.9rem;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+line-height: 1.5;
+}
+
+.dish-details p strong {
+font-weight: 600;
+color: var(--dark-color);
+}
+
+/* Contenedor de acciones (botones, links) */
+.dish-actions {
+display: flex;
+gap: 0.75rem;
+margin-top: auto;
+}
+
+/* Botones pequeños */
+.btn-sm {
+padding: 0.4rem 0.8rem;
+font-size: 0.8rem;
+}
+
+/* Botón de edición */
+.btn-edit {
+background-color: rgba(54, 185, 204, 0.1);
+color: var(--info-color);
+}
+
+.btn-edit:hover {
+background-color: rgba(54, 185, 204, 0.2);
+color: var(--info-color);
+}
+
+/* Botón de peligro / eliminar */
+.btn-danger {
+background-color: rgba(231, 74, 59, 0.1);
+color: var(--danger-color);
+}
+
+.btn-danger:hover {
+background-color: rgba(231, 74, 59, 0.2);
+color: var(--danger-color);
+}
+
+/* Estilos responsivos para la grilla de platos y botones */
+@media (max-width: 992px) {
+.dishes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+}
+
+@media (max-width: 768px) {
+.dishes-grid {
+    grid-template-columns: 1fr;
+}
+
+.page-header {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.dish-actions {
+    flex-direction: column;
+}
+
+.btn-sm {
+    width: 100%;
+    text-align: center;
+}
+}
+
+@media (max-width: 576px) {
+.header-title h1 {
+    font-size: 1.5rem;
+}
+
+.dish-title {
+    font-size: 1.1rem;
+}
+
+.dish-price {
+    font-size: 1rem;
+}
+}
+
+/* Estilos para contenedor de imagen actual */
+.current-image {
+margin: 1.5rem 0;
+padding: 1rem;
+background-color: #f8f9fc;
+border-radius: 0.35rem;
+}
+
+.current-image p {
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.75rem;
+}
+
+/* Previsualización de imagen */
+.image-preview {
+max-width: 300px;
+border-radius: 0.25rem;
+overflow: hidden;
+box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.image-preview img {
+width: 100%;
+height: auto;
+display: block;
+}
+
+/* Ajustes responsivos para previsualización */
+@media (max-width: 768px) {
+.image-preview {
+    max-width: 100%;
+}
+}
+
+/* Contenedor y sombra para tabla */
+.table-container {
+background-color: white;
+border-radius: 0.5rem;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+padding: 1.5rem;
+margin-top: 1.5rem;
+}
+
+/* Contenedor con scroll horizontal para tablas */
+.table-responsive {
+overflow-x: auto;
+}
+
+/* Tabla usuarios: estilos base */
+.users-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+
+/* Encabezado tabla */
+.users-table th {
+background-color: #f8f9fc;
+color: var(--dark-color);
+font-weight: 600;
+text-align: left;
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+}
+
+/* Celdas tabla */
+.users-table td {
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+vertical-align: middle;
+}
+
+/* Quitar borde en última fila */
+.users-table tr:last-child td {
+border-bottom: none;
+}
+
+/* Hover fila tabla */
+.users-table tr:hover {
+background-color: #f8f9fc;
+}
+
+/* Badges para roles */
+.role-badge {
+display: inline-block;
+padding: 0.25rem 0.75rem;
+border-radius: 1rem;
+font-size: 0.75rem;
+font-weight: 600;
+text-transform: capitalize;
+}
+
+/* Badge admin */
+.role-badge.admin {
+background-color: rgba(78, 115, 223, 0.1);
+color: var(--primary-color);
+}
+
+/* Badge usuario */
+.role-badge.user {
+background-color: rgba(28, 200, 138, 0.1);
+color: var(--success-color);
+}
+
+/* Badge propietario */
+.role-badge.owner {
+background-color: rgba(246, 194, 62, 0.1);
+color: var(--warning-color);
+}
+
+/* Contenedor acciones */
+.actions {
+display: flex;
+gap: 0.5rem;
+}
+
+/* Estilo formulario eliminar sin margen */
+.delete-form {
+margin: 0;
+}
+
+/* Estado vacio de tabla */
+.empty-table {
+text-align: center;
+padding: 2rem;
+color: var(--secondary-color);
+}
+
+.empty-table i {
+font-size: 2rem;
+margin-bottom: 1rem;
+color: #d1d3e2;
+}
+
+.empty-table p {
+margin: 0;
+}
+
+/* Estilos responsivos para tabla */
+@media (max-width: 768px) {
+/* Mostrar tabla en bloque para móvil */
+.users-table {
+    display: block;
+}
+
+/* Ocultar encabezado */
+.users-table thead {
+    display: none;
+}
+
+/* Cada fila como bloque */
+.users-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+/* Celdas como flex, con etiquetas antes */
+.users-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: none;
+}
+
+/* Etiquetas antes del contenido */
+.users-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-right: 1rem;
+}
+
+/* Sin borde en última celda */
+.users-table td:last-child {
+    border-bottom: none;
+}
+
+/* Alinea acciones al final */
+.actions {
+    justify-content: flex-end;
+}
+}
+
+/* Tabla restaurantes: estilos base */
+.restaurants-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+
+/* Encabezado tabla restaurantes */
+.restaurants-table th {
+background-color: #f8f9fc;
+color: var(--dark-color);
+font-weight: 600;
+text-align: left;
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+}
+
+/* Celdas tabla restaurantes */
+.restaurants-table td {
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+vertical-align: middle;
+}
+
+/* Quitar borde en última fila */
+.restaurants-table tr:last-child td {
+border-bottom: none;
+}
+
+/* Hover fila tabla restaurantes */
+.restaurants-table tr:hover {
+background-color: #f8f9fc;
+}
+
+/* Estilos responsivos tabla restaurantes */
+@media (max-width: 768px) {
+/* Tabla en bloque para móvil */
+.restaurants-table {
+    display: block;
+}
+
+/* Ocultar encabezado */
+.restaurants-table thead {
+    display: none;
+}
+
+/* Cada fila como bloque */
+.restaurants-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+/* Celdas como flex con etiquetas antes */
+.restaurants-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: none;
+}
+
+/* Etiquetas antes del contenido */
+.restaurants-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-right: 1rem;
+}
+
+/* Sin borde en última celda */
+.restaurants-table td:last-child {
+    border-bottom: none;
+}
+
+/* Acciones en columna */
+.actions {
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Botones a 100% ancho en móvil */
+.btn-sm {
+    width: 100%;
+    justify-content: center;
+}
+}
+
+/* Formulario restaurante margen superior */
+.restaurant-form {
+margin-top: 1.5rem;
+}
+
+/* Contenedor imagen actual */
+.current-image {
+margin: 1.5rem 0;
+padding: 1rem;
+background-color: #f8f9fc;
+border-radius: 0.35rem;
+}
+
+/* Texto imagen actual */
+.current-image p {
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.75rem;
+}
+
+/* Vista previa imagen */
+.image-preview {
+max-width: 300px;
+border-radius: 0.25rem;
+overflow: hidden;
+box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen dentro vista previa */
+.image-preview img {
+width: 100%;
+height: auto;
+display: block;
+max-height: 200px;
+object-fit: cover;
+}
+
+/* Ajustes responsivos para imagen y botones */
+@media (max-width: 768px) {
+.image-preview {
+    max-width: 100%;
+}
+
+.form-actions {
+    flex-direction: column;
+}
+
+.btn {
+    width: 100%;
+}
+}
+
+/* Mensajes de estado */
+.messages {
+margin-bottom: 20px;
+}
+
+.messages ul {
+list-style: none;
+}
+
+.messages li {
+padding: 12px;
+margin-bottom: 10px;
+border-radius: 8px;
+font-size: 14px;
+}
+
+/* Mensaje de error */
+.messages .error {
+background-color: #ffebee;
+color: #c62828;
+border-left: 4px solid #c62828;
+}
+
+/* Mensaje de éxito */
+.messages .success {
+background-color: #e8f5e9;
+color: #2e7d32;
+border-left: 4px solid #2e7d32;
+}
+
+/* Estilos base tabla de mesas */
+.tables-list {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+
+/* Encabezado tabla mesas */
+.tables-list th {
+background-color: #f8f9fc;
+color: var(--dark-color);
+font-weight: 600;
+text-align: left;
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+}
+
+/* Celdas tabla mesas */
+.tables-list td {
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+vertical-align: middle;
+}
+
+/* Última fila sin borde */
+.tables-list tr:last-child td {
+border-bottom: none;
+}
+
+/* Hover fila tabla mesas */
+.tables-list tr:hover {
+background-color: #f8f9fc;
+}
+
+/* Badges tipos mesa */
+.type-badge {
+display: inline-block;
+padding: 0.25rem 0.75rem;
+border-radius: 1rem;
+font-size: 0.75rem;
+font-weight: 600;
+text-transform: capitalize;
+}
+
+.type-badge.standard {
+background-color: rgba(78, 115, 223, 0.1);
+color: var(--primary-color);
+}
+
+.type-badge.vip {
+background-color: rgba(246, 194, 62, 0.1);
+color: var(--warning-color);
+}
+
+.type-badge.family {
+background-color: rgba(28, 200, 138, 0.1);
+color: var(--success-color);
+}
+
+/* Responsive: ocultar columna 5 en tabletas */
+@media (max-width: 992px) {
+.tables-list td:nth-child(5),
+.tables-list th:nth-child(5) {
+    display: none;
+}
+}
+
+/* Responsive: tabla móvil como bloques */
+@media (max-width: 768px) {
+.tables-list {
+    display: block;
+}
+
+.tables-list thead {
+    display: none;
+}
+
+.tables-list tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.tables-list td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: none;
+}
+
+.tables-list td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-right: 1rem;
+}
+
+.tables-list td:last-child {
+    border-bottom: none;
+}
+
+.actions {
+    justify-content: flex-end;
+}
+}
+
+/* Responsive: ocultar columna 4 en móviles pequeños */
+@media (max-width: 576px) {
+.tables-list td:nth-child(4),
+.tables-list th:nth-child(4) {
+    display: none;
+}
+}
+
+/* Contenedor y grid lista de restaurantes */
+.restaurants-list-container {
+margin-top: 1.5rem;
+}
+
+.restaurants-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 1.5rem;
+}
+
+/* Tarjeta restaurante */
+.restaurant-card {
+background-color: white;
+border-radius: 0.5rem;
+padding: 1.5rem;
+box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+transition: all 0.3s ease;
+}
+
+.restaurant-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+/* Título restaurante */
+.restaurant-title {
+font-size: 1.25rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 1rem;
+}
+
+/* Meta información restaurante */
+.restaurant-meta {
+margin-bottom: 1.5rem;
+}
+
+.restaurant-meta p {
+font-size: 0.9rem;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+.restaurant-meta i {
+color: var(--primary-color);
+width: 1rem;
+}
+
+/* Acciones restaurante */
+.restaurant-actions {
+display: flex;
+gap: 0.75rem;
+align-items: center;
+}
+
+/* Responsive: lista restaurantes en móvil */
+@media (max-width: 768px) {
+.restaurants-grid {
+    grid-template-columns: 1fr;
+}
+
+.restaurant-actions {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.restaurant-actions .btn {
+    width: 100%;
+}
+}
+
+/* Formulario para mesas: margen y espaciado */
+.table-form {
+margin-top: 1.5rem;
+}
+
+.table-form .form-group {
+margin-bottom: 1.5rem;
+}
+
+/* Etiquetas de formulario */
+.table-form label {
+display: block;
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+}
+
+/* Indicador de campo requerido */
+.table-form label:after {
+content: " *";
+color: var(--danger-color);
+opacity: 0;
+}
+
+.table-form label[required]:after {
+opacity: 1;
+}
+
+/* Inputs y selects form mesas */
+.table-form input[type="number"],
+.table-form textarea,
+.table-form select {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #d1d3e2;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+transition: all 0.3s;
+background-color: #f8f9fc;
+}
+
+/* Textarea altura mínima y redimensionable */
+.table-form textarea {
+min-height: 100px;
+resize: vertical;
+}
+
+/* Focus inputs form */
+.table-form input:focus,
+.table-form textarea:focus,
+.table-form select:focus {
+outline: none;
+border-color: var(--primary-color);
+background-color: white;
+box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Wrapper select con icono */
+.select-wrapper {
+position: relative;
+}
+
+.select-wrapper i {
+position: absolute;
+right: 1rem;
+top: 50%;
+transform: translateY(-50%);
+color: var(--secondary-color);
+pointer-events: none;
+}
+
+.table-form select {
+appearance: none;
+padding-right: 2.5rem;
+}
+
+/* Flash messages */
+.flash-messages {
+margin-bottom: 1.5rem;
+}
+
+.flash-messages div {
+padding: 1rem;
+margin-bottom: 0.5rem;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+font-weight: 500;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+
+/* Mensaje éxito */
+.flash-success {
+background-color: rgba(28, 200, 138, 0.1);
+color: var(--success-color);
+border-left: 4px solid var(--success-color);
+}
+
+/* Mensaje error */
+.flash-error {
+background-color: rgba(231, 74, 59, 0.1);
+color: var(--danger-color);
+border-left: 4px solid var(--danger-color);
+}
+
+/* Responsive: botones y acciones formulario */
+@media (max-width: 768px) {
+.form-actions {
+    flex-direction: column;
+}
+
+.btn {
+    width: 100%;
+}
+}
+
+/* Tabla reservas: estructura y estilos básicos */
+.reservations-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+
+.reservations-table th {
+background-color: #f8f9fc;
+color: var(--dark-color);
+font-weight: 600;
+text-align: left;
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+}
+
+.reservations-table td {
+padding: 1rem;
+border-bottom: 1px solid #e3e6f0;
+vertical-align: middle;
+}
+
+.reservations-table tr:last-child td {
+border-bottom: none;
+}
+
+.reservations-table tr:hover {
+background-color: #f8f9fc;
+}
+
+/* Status Badges: estilos para etiquetas de estado */
+.status-badge {
+display: inline-block;
+padding: 0.25rem 0.75rem;
+border-radius: 1rem;
+font-size: 0.75rem;
+font-weight: 600;
+text-transform: capitalize;
+}
+
+.status-badge.confirmed {
+background-color: rgba(28, 200, 138, 0.1);
+color: var(--success-color);
+}
+
+.status-badge.pending {
+background-color: rgba(246, 194, 62, 0.1);
+color: var(--warning-color);
+}
+
+.status-badge.cancelled {
+background-color: rgba(231, 74, 59, 0.1);
+color: var(--danger-color);
+}
+
+.status-badge.completed {
+background-color: rgba(54, 185, 204, 0.1);
+color: var(--info-color);
+}
+
+/* Responsive Table: ocultar columnas en pantallas pequeñas */
+@media (max-width: 1200px) {
+.reservations-table td:nth-child(7),
+.reservations-table th:nth-child(7) {
+    display: none;
+}
+}
+
+@media (max-width: 992px) {
+.reservations-table td:nth-child(1),
+.reservations-table th:nth-child(1) {
+    display: none;
+}
+}
+
+/* Responsive Table: convertir tabla en bloques en pantallas pequeñas */
+@media (max-width: 768px) {
+.reservations-table {
+    display: block;
+}
+
+.reservations-table thead {
+    display: none;
+}
+
+.reservations-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.reservations-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: none;
+}
+
+.reservations-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-right: 1rem;
+}
+
+.reservations-table td:last-child {
+    border-bottom: none;
+}
+
+.actions {
+    justify-content: flex-end;
+}
+}
+
+/* Reservation Form: margen superior */
+.reservation-form {
+margin-top: 1.5rem;
+}
+
+/* Reservation Form: diseño en grid para filas */
+.reservation-form .form-row {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 1.5rem;
+margin-bottom: 1.5rem;
+}
+
+/* Reservation Form: margen inferior para grupos */
+.reservation-form .form-group {
+margin-bottom: 1.5rem;
+}
+
+/* Reservation Form: etiquetas */
+.reservation-form label {
+display: block;
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--dark-color);
+margin-bottom: 0.5rem;
+}
+
+/* Reservation Form: asterisco para campos requeridos */
+.reservation-form label:after {
+content: " *";
+color: var(--danger-color);
+opacity: 0;
+}
+
+.reservation-form label[required]:after {
+opacity: 1;
+}
+
+/* Reservation Form: inputs, textarea y select estilos */
+.reservation-form input[type="text"],
+.reservation-form input[type="number"],
+.reservation-form input[type="date"],
+.reservation-form input[type="time"],
+.reservation-form textarea,
+.reservation-form select {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #d1d3e2;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+transition: all 0.3s;
+background-color: #f8f9fc;
+}
+
+/* Reservation Form: textarea altura mínima y redimensionable */
+.reservation-form textarea {
+min-height: 100px;
+resize: vertical;
+}
+
+/* Reservation Form: focus styles */
+.reservation-form input:focus,
+.reservation-form textarea:focus,
+.reservation-form select:focus {
+outline: none;
+border-color: var(--primary-color);
+background-color: white;
+box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Input with Icon: contenedor relativo para posicionar el ícono */
+.input-with-icon {
+position: relative;
+}
+
+/* Ícono dentro del input: posición absoluta, centrado verticalmente */
+.input-with-icon i {
+position: absolute;
+left: 1rem;
+top: 50%;
+transform: translateY(-50%);
+color: var(--secondary-color);
+}
+
+/* Input con espacio a la izquierda para que no quede sobre el ícono */
+.input-with-icon input {
+padding-left: 2.5rem !important;
+}
+
+/* Responsive Styles para pantallas menores a 768px */
+@media (max-width: 768px) {
+/* La fila del formulario cambia a columna única */
+.reservation-form .form-row {
+    grid-template-columns: 1fr;
+}
+
+/* Contenedores de acciones cambian a columna */
+.form-actions {
+    flex-direction: column;
+}
+
+/* Botones toman todo el ancho */
+.btn {
+    width: 100%;
+}
+}
+
+/* Flash Messages Styles: estilos para mensajes de notificación */
+.flash-messages {
+margin-bottom: 1.5rem;
+}
+
+/* Contenedor de cada mensaje con padding y separación */
+.flash-messages div {
+padding: 1rem;
+margin-bottom: 0.75rem;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+font-weight: 500;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+
+/* Mensajes de éxito */
+.flash-success {
+background-color: rgba(28, 200, 138, 0.1);
+color: var(--success-color);
+border-left: 4px solid var(--success-color);
+}
+
+/* Mensajes de error */
+.flash-error {
+background-color: rgba(231, 74, 59, 0.1);
+color: var(--danger-color);
+border-left: 4px solid var(--danger-color);
+}
+
+/* Mensajes de advertencia */
+.flash-warning {
+background-color: rgba(246, 194, 62, 0.1);
+color: var(--warning-color);
+border-left: 4px solid var(--warning-color);
+}
+
+/* Form Row Styles: diseño en grid para filas en formularios */
+.form-row {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 1.5rem;
+margin-bottom: 1.5rem;
+}
+
+/* Date and Time Input Styles: estilos para inputs tipo fecha y hora */
+input[type="date"],
+input[type="time"] {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #d1d3e2;
+border-radius: 0.35rem;
+font-size: 0.9rem;
+transition: all 0.3s;
+background-color: #f8f9fc;
+font-family: 'Inter', sans-serif;
+}
+
+/* Focus para inputs de fecha y hora */
+input[type="date"]:focus,
+input[type="time"]:focus {
+outline: none;
+border-color: var(--primary-color);
+background-color: white;
+box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Responsive Adjustments para pantallas pequeñas */
+@media (max-width: 768px) {
+/* Form row pasa a una sola columna */
+.form-row {
+    grid-template-columns: 1fr;
+}
+
+/* Ajuste del margen inferior para grupos de formulario */
+.form-group {
+    margin-bottom: 1rem;
+}
+}
+
+/* Colores para las tarjetas de categorías */
+.category-card.primary { border-left-color: var(--primary-color); }
+.category-card.success { border-left-color: var(--success-color); }
+.category-card.info { border-left-color: var(--info-color); }
+.category-card.warning { border-left-color: var(--warning-color); }
+.category-card.danger { border-left-color: var(--danger-color); }
+.category-card.secondary { border-left-color: var(--secondary-color); }
+
+/* Estilo para el grid de categorías */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Tarjeta de categoría */
+.category-card {
+    background-color: white;
+    border-radius: 0.35rem;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    border-left: 0.25rem solid;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.category-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.category-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.category-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.empty-categories {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+}
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-title i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-dark);
+}
+.action-report-links a {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  color: #333;
+  font-weight: 500;
+}
+.action-report-links a:hover {
+  background: #e0e0e0;
+}
+/* ===== Report Card ===== */
+.report-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.report-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Header dentro de la tarjeta */
+.report-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.report-header .action-icon {
+  font-size: 1.5rem;
+  color: #4a90e2;
+  margin-right: 12px;
+}
+
+/* Botones de reporte */
+.report-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.report-buttons .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+/* Botón Excel */
+.btn-excel {
+  background: #2e7d32;
+  color: #fff;
+}
+.btn-excel:hover {
+  background: #27672c;
+}
+
+/* Botón PDF */
+.btn-pdf {
+  background: #c62828;
+  color: #fff;
+}
+.btn-pdf:hover {
+  background: #a71e1e;
+}
+
+/* Descripción */
+.report-card .action-desc {
+  font-size: 0.9rem;
+  color: #666666;
+  text-align: center;
+  margin: 0;
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- Configuración de codificación y vista para dispositivos -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Título de la pestaña del navegador -->
+  <title>Admin | ReservaElegante</title>
+
+  <!-- Fuente Inter desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Librería de íconos Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Estilos personalizados para el panel admin -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+
+  <!-- Barra lateral izquierda (navegación) -->
+  <div class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">RE</div>
+      <div class="brand-name">ReservaElegante</div>
+    </div>
+
+    <!-- Menú de navegación del admin -->
+    <div class="nav-menu">
+      <a href="{{ url_for('admin.dashboard') }}" class="nav-item active">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+        <i class="fas fa-utensils"></i>
+        <span>Restaurantes</span>
+      </a>
+      <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+        <i class="fas fa-utensil-spoon"></i>
+        <span>Platos</span>
+      </a>
+      <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+        <i class="fas fa-users"></i>
+        <span>Usuarios</span>
+      </a>
+      <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
+        <i class="fas fa-calendar-check"></i>
+        <span>Reservaciones</span>
+      </a>
+      <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>Mesas</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <!-- Encabezado del panel -->
+    <div class="header">
+      <!-- Barra de búsqueda -->
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar...">
+      </div>
+
+      <!-- Área de acciones del usuario (notificaciones, perfil) -->
+      <div class="user-actions">
+        <div class="notification">
+          <i class="fas fa-bell"></i>
+          <div class="notification-badge">3</div>
+        </div>
+
+        <div class="user-profile">
+          <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+          <span class="user-name">{{ current_user.username }}</span>
+          <i class="fas fa-chevron-down"></i>
+
+          <div class="dropdown-content">
+            <a href="#">Mi perfil</a>
+            <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zona de contenido dinámico del dashboard -->
+    <div class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        <ul>
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
+      <!-- Sección de acciones rápidas -->
+      <h2 class="section-title">
+        <i class="fas fa-bolt"></i>
+        Acciones Rápidas
+      </h2>
+
+      <div class="quick-actions">
+        <a href="{{ url_for('restaurant.add_restaurant') }}" class="action-link">
+          <div class="action-card">
+            <div class="action-icon">
+              <i class="fas fa-plus"></i>
+            </div>
+            <h3 class="action-title">Agregar Restaurante</h3>
+            <p class="action-desc">Registra un nuevo restaurante en la plataforma</p>
+          </div>
+        </a>
+
+
+        <a href="{{ url_for('reservation.create_reservation') }}" class="action-link">
+          <div class="action-card">
+            <div class="action-icon">
+              <i class="fas fa-calendar-plus"></i>
+            </div>
+            <h3 class="action-title">Nueva Reservación</h3>
+            <p class="action-desc">Crea una reservación manualmente</p>
+          </div>
+        </a>
+        <a href="{{ url_for('admin.list_users') }}" class="action-link">
+          <div class="action-card">
+            <div class="action-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="action-title">Lista de Clientes</h3>
+            <p class="action-desc">Visualiza todos los usuarios registrados como clientes</p>
+          </div>
+        </a>
+
+        <!-- Reemplaza tu bloque de “Generar Reporte” por esto -->
+<div class="action-link">
+  <div class="action-card report-card">
+    <div class="report-header">
+      <div class="action-icon">
+        <i class="fas fa-file-export"></i>
+      </div>
+      <h3 class="action-title">Generar Reporte</h3>
+    </div>
+
+    <div class="report-buttons">
+      <a href="{{ url_for('admin_report.generate_report', fmt='excel') }}" class="btn btn-excel">
+        <i class="fas fa-file-excel"></i>
+        <span>Excel</span>
+      </a>
+      <a href="{{ url_for('admin_report.generate_report', fmt='pdf') }}" class="btn btn-pdf">
+        <i class="fas fa-file-pdf"></i>
+        <span>PDF</span>
+      </a>
+    </div>
+
+    <p class="action-desc">Descarga el reporte en el formato que prefieras</p>
+  </div>
+</div>
+
+      </div>
+
+
+      <!-- Sección de actividad reciente -->
+      <h2 class="section-title">
+        <i class="fas fa-history"></i>
+        Actividad Reciente
+      </h2>
+
+      <div class="activity-list">
+
+        <!-- Reservas recientes -->
+        {% if recent_reservations %}
+        {% for r in recent_reservations %}
+        <div class="activity-item">
+          <div class="activity-icon"><i class="fas fa-calendar-check"></i></div>
+          <div class="activity-content">
+            <div class="activity-title">
+              Reservación #{{ r.id }} creada por {{ r.username }}
+            </div>
+            <div class="activity-time">
+              {{ r.reservation_date }} {{ r.reservation_time }}
+            </div>
+          </div>
+          <div class="activity-badge badge-success">Reservado</div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="activity-item">
+          <p style="text-align:center; color:gray;">No hay reservas recientes.</p>
+        </div>
+        {% endif %}
+
+        <!-- Usuarios recientes -->
+        {% if recent_users %}
+        {% for u in recent_users %}
+        <div class="activity-item">
+          <div class="activity-icon"><i class="fas fa-user-plus"></i></div>
+          <div class="activity-content">
+            <div class="activity-title">
+              Nuevo usuario: {{ u.username }}
+            </div>
+            <div class="activity-time">
+              {{ u.created_at }}
+            </div>
+          </div>
+          <div class="activity-badge badge-info">Nuevo</div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="activity-item">
+          <p style="text-align:center; color:gray;">No hay usuarios recientes.</p>
+        </div>
+        {% endif %}
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- Script adicional para interacciones JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const sidebar = document.querySelector('.sidebar');
+    });
+  </script>
+</body>
+
+</html>

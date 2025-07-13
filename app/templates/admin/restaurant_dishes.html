@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Configuración de codificación y viewport para dispositivos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la pestaña -->
+    <title>Admin | Platos - ReservaElegante</title>
+    <!-- Fuente tipográfica Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <!-- Barra lateral de navegación -->
+    <div class="sidebar">
+        <!-- Logo y nombre de la marca -->
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+
+        <!-- Menú de navegación -->
+        <div class="nav-menu">
+            <!-- Enlace al Dashboard -->
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <!-- Enlace a Restaurantes -->
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+
+            <!-- Enlace activo a Platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item active">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+            <!-- Enlace a Usuarios -->
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <!-- Enlace a Reservaciones -->
+            <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <!-- Enlace a Mesas -->
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Cabecera con barra de búsqueda y acciones de usuario -->
+        <div class="header">
+            <!-- Barra de búsqueda -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar platos...">
+            </div>
+
+            <!-- Área de acciones del usuario -->
+            <div class="user-actions">
+                <!-- Notificaciones con contador -->
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+
+                <!-- Perfil del usuario con avatar y menú desplegable -->
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+
+                    <!-- Menú desplegable para perfil y cerrar sesión -->
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección principal de contenido -->
+        <div class="content">
+            <!-- Mensajes flash para mostrar notificaciones -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Encabezado de página con título y botón para agregar platos -->
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-utensils"></i>
+                    <h1>Platos de {{ restaurant.name }}</h1>
+                </div>
+
+                <div class="header-actions">
+                    <a href="{{ url_for('dish.add_dish', restaurant_id=restaurant.id) }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Agregar Plato
+                    </a>
+                    <a href="{{ url_for('category.list_categories') }}" class="btn btn-secondary">
+                        <i class="fas fa-tags"></i> Gestionar Categorías
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Contenedor para mostrar los platos -->
+            <div class="dishes-container">
+                <!-- Si hay platos disponibles -->
+                {% if dishes %}
+                <div class="dishes-grid">
+                    <!-- Iterar sobre cada plato -->
+                    {% for dish in dishes %}
+                    <div class="dish-card">
+                        <div class="dish-image">
+                            <!-- Mostrar imagen del plato si existe -->
+                            {% if dish.image_filename %}
+                            <img src="{{ url_for('static', filename='uploads/' + dish.image_filename) }}"
+                                alt="{{ dish.name }}">
+                            {% else %}
+                            <!-- Imagen por defecto si no hay -->
+                            <div class="no-image">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="dish-info">
+                            <!-- Nombre del plato -->
+                            <h3 class="dish-title">{{ dish.name }}</h3>
+                            <div class="dish-meta">
+                                <!-- Precio formateado con dos decimales -->
+                                <span class="dish-price">${{ '%.2f'|format(dish.price) }}</span>
+                            </div>
+                            <div class="dish-details">
+                                <!-- Ingredientes -->
+                                <p><strong>Ingredientes:</strong> {{ dish.ingredients }}</p>
+                                <!-- Descripción solo si existe -->
+                                {% if dish.description %}
+                                <p><strong>Descripción:</strong> {{ dish.description }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="dish-actions">
+                                <!-- Botón para editar plato -->
+                                <a href="{{ url_for('dish.edit_dish', dish_id=dish.id) }}" class="btn btn-sm btn-edit">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+
+                                <!-- Formulario para eliminar plato -->
+                                <form action="{{ url_for('dish.delete_dish', dish_id=dish.id) }}" method="POST"
+                                    class="delete-form">
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('¿Estás seguro de eliminar este plato?')">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Mensaje cuando no hay platos registrados -->
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-utensils"></i>
+                    <h3>No hay platos registrados</h3>
+                    <p>Comienza agregando tu primer plato</p>
+                    <a href="{{ url_for('dish.add_dish', restaurant_id=restaurant.id) }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Agregar Plato
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts para funcionalidad adicional -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Aquí puedes agregar interacciones JavaScript si es necesario
+        });
+    </script>
+</body>
+
+</html>
