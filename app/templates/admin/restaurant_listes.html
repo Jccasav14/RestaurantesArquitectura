@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Codificación de caracteres y configuración para dispositivos móviles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título que aparece en la pestaña del navegador -->
+    <title>Admin | Gestión de Restaurantes - ReservaElegante</title>
+
+    <!-- Fuente tipográfica Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Iconos Font Awesome para la interfaz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Hoja de estilos personalizada para administración -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <!-- Barra lateral de navegación -->
+    <div class="sidebar">
+        <!-- Logo y nombre de la marca -->
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <!-- Menú de navegación principal -->
+        <div class="nav-menu">
+            <!-- Enlace a Dashboard -->
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Enlace activo a la sección Restaurantes -->
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item active">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+
+            <!-- Enlace a la sección de Platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+
+            <!-- Enlace a Usuarios -->
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+
+            <!-- Enlace a Reservaciones -->
+            <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+
+            <!-- Enlace a Mesas -->
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Encabezado con barra de búsqueda y acciones de usuario -->
+        <div class="header">
+            <!-- Barra de búsqueda -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar restaurantes...">
+            </div>
+            
+            <!-- Área de acciones del usuario -->
+            <div class="user-actions">
+                <!-- Icono de notificaciones con contador -->
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <!-- Perfil del usuario con avatar, nombre y menú desplegable -->
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+
+                    <!-- Menú desplegable para perfil y cerrar sesión -->
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de contenido principal -->
+        <div class="content">
+            <!-- Mostrar mensajes flash si existen -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Encabezado de página con título y botón para agregar restaurante -->
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-utensils"></i>
+                    <h1>Gestión de Restaurantes</h1>
+                </div>
+                <a href="{{ url_for('restaurant.add_restaurant') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Restaurante
+                </a>
+            </div>
+            
+            <!-- Contenedor de la tabla de restaurantes -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="restaurants-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Iterar sobre cada restaurante -->
+                            {% for restaurant in restaurants %}
+                            <tr>
+                                <td>{{ restaurant.name }}</td>
+                                <td>{{ restaurant.address }}</td>
+                                <td>{{ restaurant.phone }}</td>
+                                <td class="actions">
+                                    <!-- Botón para editar restaurante -->
+                                    <a href="{{ url_for('restaurant.edit_restaurant', restaurant_id=restaurant.id) }}" class="btn btn-sm btn-edit">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <!-- Formulario para eliminar restaurante -->
+                                    <form action="{{ url_for('restaurant.delete_restaurant', restaurant_id=restaurant.id) }}" method="POST" class="delete-form">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este restaurante?')">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <!-- Mensaje cuando no hay restaurantes registrados -->
+                            <tr>
+                                <td colspan="4" class="empty-table">
+                                    <i class="fas fa-utensils"></i>
+                                    <p>No hay restaurantes registrados</p>
+                                    <a href="{{ url_for('restaurant.add_restaurant') }}" class="btn btn-primary" style="margin-top: 15px;">
+                                        <i class="fas fa-plus"></i> Agregar Restaurante
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts para interactividad -->
+    <script>
+        // Espera a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Puedes agregar aquí funciones JS para mejorar la experiencia de usuario
+        });
+    </script>
+</body>
+</html>

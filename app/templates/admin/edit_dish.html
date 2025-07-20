@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Configuración de codificación y diseño responsivo -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título de la página -->
+    <title>Admin | Editar Plato - ReservaElegante</title>
+
+    <!-- Tipografía desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Íconos desde Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Estilo personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <!-- Barra lateral izquierda (menú de navegación) -->
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">RE</div> <!-- Logo con iniciales -->
+            <div class="brand-name">ReservaElegante</div> <!-- Nombre del sistema -->
+        </div>
+
+        <!-- Enlaces de navegación -->
+        <div class="nav-menu">
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item active">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="{{ url_for('reservation.list_reservations') }}" class="nav-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenedor principal del contenido -->
+    <div class="main-content">
+        <!-- Encabezado superior con búsqueda y acciones de usuario -->
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar...">
+            </div>
+
+            <div class="user-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div> <!-- Indicador de notificaciones -->
+                </div>
+
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial del usuario -->
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido central -->
+        <div class="content">
+            <div class="form-container">
+                <!-- Título del formulario -->
+                <h2><i class="fas fa-edit"></i> Editar Plato</h2>
+
+                <!-- Formulario para editar el plato -->
+                <form method="POST" enctype="multipart/form-data" class="dish-form">
+                    <!-- Campo: nombre del plato -->
+                    <div class="form-group">
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="name" name="name" value="{{ dish.name }}" required>
+                    </div>
+
+                    <!-- Campo: ingredientes -->
+                    <div class="form-group">
+                        <label for="ingredients">Ingredientes:</label>
+                        <textarea id="ingredients" name="ingredients" required>{{ dish.ingredients }}</textarea>
+                    </div>
+
+                    <!-- Campo: descripción -->
+                    <div class="form-group">
+                        <label for="description">Descripción:</label>
+                        <textarea id="description" name="description">{{ dish.description }}</textarea>
+                    </div>
+
+                    <!-- Fila con dos campos: precio e imagen -->
+                    <div class="form-row">
+                        <!-- Campo: precio -->
+                        <div class="form-group">
+                            <label for="price">Precio:</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                                <input type="number" id="price" name="price" step="0.01" value="{{ dish.price }}"
+                                    min="0" required>
+                            </div>
+                        </div>
+
+                        <!-- Campo: imagen nueva -->
+                        <div class="form-group">
+                            <label for="image">Nueva Imagen:</label>
+                            <div class="file-upload">
+                                <label for="image">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span id="file-name">Seleccionar imagen</span>
+                                </label>
+                                <input type="file" id="image" name="image" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mostrar imagen actual si existe -->
+                    {% if dish.image_filename %}
+                    <div class="current-image">
+                        <p><strong>Imagen actual:</strong></p>
+                        <div class="image-preview">
+                            <img src="{{ url_for('static', filename='uploads/' + dish.image_filename) }}"
+                                alt="{{ dish.name }}">
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- Selector de categoría -->
+                    <div class="form-group">
+                        <label for="category_id">Categoría:</label>
+                        <select name="category_id" id="category_id" required>
+                            <option value="">Selecciona una categoría</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id==dish.category_id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <!-- Botones para guardar o cancelar -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar cambios
+                        </button>
+                        <a href="{{ url_for('dish.view_dishes', restaurant_id=restaurant.id) }}"
+                            class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para mostrar el nombre del archivo seleccionado -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('image');
+            const fileNameSpan = document.getElementById('file-name');
+
+            fileInput.addEventListener('change', function () {
+                if (this.files && this.files.length > 0) {
+                    fileNameSpan.textContent = this.files[0].name;
+                } else {
+                    fileNameSpan.textContent = 'Seleccionar imagen';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

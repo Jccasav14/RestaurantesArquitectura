@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configuración de codificación y viewport para dispositivos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la pestaña -->
+    <title>Admin | Reservaciones - ReservaElegante</title>
+    <!-- Fuente tipográfica Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <!-- Barra lateral de navegación -->
+    <div class="sidebar">
+        <!-- Logo y nombre de la marca -->
+        <div class="brand">
+            <div class="brand-logo">RE</div>
+            <div class="brand-name">ReservaElegante</div>
+        </div>
+        
+        <!-- Menú de navegación -->
+        <div class="nav-menu">
+            <!-- Enlace a Dashboard -->
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <!-- Enlace a Restaurantes -->
+            <a href="{{ url_for('restaurant.list_restaurants_admin') }}" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurantes</span>
+            </a>
+
+            <!-- Enlace a Platos -->
+            <a href="{{ url_for('restaurant.list_restaurants') }}" class="nav-item">
+                <i class="fas fa-utensil-spoon"></i>
+                <span>Platos</span>
+            </a>
+            <!-- Enlace a Usuarios -->
+            <a href="{{ url_for('admin.list_users') }}" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <!-- Enlace activo a Reservaciones -->
+            <a href="{{ url_for('reservation.create_reservation') }}" class="nav-item active">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservaciones</span>
+            </a>
+            <!-- Enlace a Mesas -->
+            <a href="{{ url_for('restaurant.list_restaurants_tables') }}" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Mesas</span>
+            </a>
+            
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Cabecera con barra de búsqueda y acciones de usuario -->
+        <div class="header">
+            <!-- Barra de búsqueda -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar reservaciones...">
+            </div>
+            
+            <!-- Área de acciones del usuario -->
+            <div class="user-actions">
+                <!-- Icono de notificaciones con contador -->
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                
+                <!-- Perfil del usuario con avatar, nombre y menú desplegable -->
+                <div class="user-profile">
+                    <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+                    <span class="user-name">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+
+                    <!-- Menú desplegable para perfil y cerrar sesión -->
+                    <div class="dropdown-content">
+                        <a href="#">Mi perfil</a>
+                        <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección principal del contenido -->
+        <div class="content">
+            <!-- Mensajes flash para mostrar alertas o confirmaciones -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        <ul>
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Encabezado de la página con título y botón para agregar nueva reservación -->
+            <div class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-calendar-check"></i>
+                    <h1>Lista de Reservaciones</h1>
+                </div>
+                <a href="{{ url_for('reservation.create_reservation') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Agregar Reservación
+                </a>
+            </div>
+            
+            <!-- Contenedor de tabla con las reservaciones -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="reservations-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Restaurante</th>
+                                <th>Mesa</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Iteración sobre las reservaciones -->
+                            {% for res in reservations %}
+                            <tr>
+                                <!-- Mostrar id de reservación -->
+                                <td>{{ res.id }}</td>
+                                <!-- Mostrar cliente o texto por defecto si no existe -->
+                                <td>{{ res.customer.username if res.customer else 'Cliente no disponible' }}</td>
+                                <!-- Mostrar restaurante o texto por defecto -->
+                                <td>{{ res.restaurant.name if res.restaurant else 'Restaurante no disponible' }}</td>
+                                <!-- Mostrar número de mesa o N/A -->
+                                <td>Mesa #{{ res.table.number if res.table else 'N/A' }}</td>
+                                <!-- Mostrar fecha formateada -->
+                                <td>{{ res.reservation_date.strftime('%d/%m/%Y') }}</td>
+                                <!-- Mostrar hora formateada -->
+                                <td>{{ res.reservation_time.strftime('%H:%M') }}</td>
+                                <!-- Mostrar estado con clase CSS para estilos -->
+                                <td>
+                                    <span class="status-badge {{ res.status }}">{{ res.status|capitalize }}</span>
+                                </td>
+                                <!-- Acciones: editar y eliminar -->
+                                <td class="actions">
+                                    <a href="#" class="btn btn-sm btn-edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ url_for('reservation.delete_reservation', reservation_id=res.id) }}" method="POST" class="delete-form">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta reservación?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <!-- Mensaje cuando no hay reservaciones -->
+                            <tr>
+                                <td colspan="8" class="empty-table">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <p>No hay reservaciones registradas</p>
+                                    <a href="{{ url_for('reservation.create_reservation') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Crear Reservación
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aquí puedes agregar interacciones JavaScript si es necesario
+        });
+    </script>
+</body>
+</html>

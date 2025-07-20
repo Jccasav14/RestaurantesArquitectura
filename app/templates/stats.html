@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas del Clúster</title>
+    <style>
+        body { font-family: sans-serif; padding: 2em; background: #f5f5f5; }
+        .card { background: white; padding: 1em; margin-bottom: 1em; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 400px; }
+    </style>
+</head>
+<body>
+    <h1>📊 Estadísticas del Clúster</h1>
+    <p><strong>Usuario administrador:</strong> {{ user }}</p>
+
+    {% for instancia, count in stats.items() %}
+        <div class="card">
+            <p><strong>Contenedor:</strong> {{ instancia }}</p>
+            <p><strong>Peticiones atendidas:</strong> {{ count }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

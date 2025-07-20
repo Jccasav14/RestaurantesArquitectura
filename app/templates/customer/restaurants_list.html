@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurantes - Reserva Gourmet</title>
+    
+    <!-- Estilos CSS personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<!-- Barra lateral (sidebar) con navegación -->
+<aside class="sidebar">
+  <div class="logo-container">
+    <div class="logo">Reserva Gourmet</div>
+    <div class="logo-subtitle">Experiencias culinarias premium</div>
+  </div>
+
+  <!-- Menú de navegación -->
+  <nav class="nav-menu">
+    <ul>
+      <li class="nav-item">
+        <a href="{{ url_for('customer.frequent_restaurants') }}" class="nav-link">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('restaurant.view_restaurants') }}" class="nav-link active">
+          <i class="fas fa-utensils"></i>
+          <span>Restaurantes</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('reservation.create_reservation_client') }}" class="nav-link">
+          <i class="fas fa-calendar-plus"></i>
+          <span>Nueva Reserva</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('reservation.my_reservations') }}" class="nav-link">
+          <i class="fas fa-calendar-check"></i>
+          <span>Mis Reservas</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('auth.logout') }}" class="nav-link">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- Contenido Principal -->
+<div class="main-content">
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="user-profile" id="userProfile">
+      <div class="user-avatar">{{ current_user.username[0]|upper }}</div>
+      <span class="user-name">{{ current_user.username }}</span>
+      <i class="fas fa-chevron-down"></i>
+
+      <!-- Menú desplegable del usuario -->
+      <div class="user-dropdown">
+        <a href="#"><i class="fas fa-user"></i> Mi Perfil</a>
+        <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+        <div class="divider"></div>
+        <a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal: lista de restaurantes -->
+  <main class="content-wrapper">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="messages">
+          <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+    
+    <h1 class="page-title">Restaurantes Disponibles</h1>
+
+    <div class="restaurants-grid">
+      {% for r in restaurants %}
+      <div class="restaurant-card">
+        <div class="restaurant-image">
+          {% if r.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' + r.image_filename) }}" alt="{{ r.name }}">
+          {% else %}
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurante">
+          {% endif %}
+        </div>
+        <div class="restaurant-info">
+          <h3 class="restaurant-name">{{ r.name }}</h3>
+          <p class="restaurant-description">{{ r.description }}</p>
+          <div class="restaurant-details">
+            <p><i class="fas fa-map-marker-alt"></i> {{ r.address }}</p>
+            <p><i class="fas fa-phone"></i> {{ r.phone }}</p>
+          </div>
+          <a href="{{ url_for('dish.view_dishes_by_restaurant', restaurant_id=r.id) }}" class="btn-view-dishes">
+            Ver Platos
+          </a>
+        </div>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <p>No hay restaurantes disponibles.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+</div>
+
+<!-- ChatBot flotante -->
+<div id="chat-bubble" onclick="toggleChat()">
+  <i class="fas fa-comment-dots"></i>
+</div>
+<div id="chat-box">
+  <div id="chat-header">
+    <span>Asistente Gourmet</span>
+    <button id="chat-close-btn" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="chat-messages"></div>
+  <div class="chat-input-container">
+    <input id="chat-input" placeholder="Escribe tu mensaje..." />
+    <button id="chat-send-btn" onclick="sendMessage()">Enviar</button>
+  </div>
+</div>
+
+<script>
+  // Función para alternar la visibilidad del chat
+  function toggleChat() {
+    const chatBox = document.getElementById('chat-box');
+    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+    
+    if (chatBox.style.display === 'flex') {
+      document.getElementById('chat-input').focus();
+    }
+  }
+
+  // Función para enviar mensajes al chatbot
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    const messages = document.getElementById('chat-messages');
+    
+    // Agregar mensaje del usuario
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-message user-message';
+    userMsg.textContent = message;
+    messages.appendChild(userMsg);
+    
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+      // Mostrar indicador de carga
+      const loadingMsg = document.createElement('div');
+      loadingMsg.className = 'chat-message bot-message';
+      loadingMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+      messages.appendChild(loadingMsg);
+      messages.scrollTop = messages.scrollHeight;
+
+      // Enviar mensaje al backend
+      const response = await fetch('/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message })
+      });
+
+      const data = await response.json();
+      
+      // Eliminar indicador de carga
+      messages.removeChild(loadingMsg);
+      
+      // Mostrar respuesta del bot
+      if (data.response) {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-message bot-message';
+        botMsg.textContent = data.response;
+        messages.appendChild(botMsg);
+      } else {
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'chat-message bot-message';
+        errorMsg.textContent = "No pude procesar tu solicitud. Inténtalo de nuevo.";
+        messages.appendChild(errorMsg);
+      }
+    } catch (error) {
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'chat-message bot-message';
+      errorMsg.textContent = "Error de conexión. Inténtalo más tarde.";
+      messages.appendChild(errorMsg);
+    }
+    
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // Inicialización cuando el DOM está cargado
+  document.addEventListener('DOMContentLoaded', function() {
+    // Manejo del dropdown del usuario
+    const userProfile = document.getElementById('userProfile');
+    const userDropdown = document.querySelector('.user-dropdown');
+
+    userProfile.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userDropdown.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function() {
+      userDropdown.classList.remove('show');
+    });
+
+    // Permitir enviar mensajes con Enter
+    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

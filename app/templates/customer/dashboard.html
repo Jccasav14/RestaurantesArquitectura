@@ -1,0 +1,195 @@
+{% extends 'customer/base.html' %}
+{% block title %}Estadísticas | Reserva Gourmet{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Estadísticas del Cliente</h1>
+  <!-- Aquí va todo tu contenido de métricas y gráficos... -->
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    // Tu código de Chart.js que ya tenías...
+  </script>
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Metadatos de la página -->
+  <meta charset="UTF-8"> <!-- Codificación de caracteres -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Diseño responsivo -->
+  <title>Dashboard - Reserva Gourmet</title> <!-- Título de la pestaña -->
+
+  <!-- Enlaces a estilos -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<!-- Barra lateral (Sidebar) -->
+<aside class="sidebar">
+  <div class="logo-container">
+    <div class="logo">Reserva Gourmet</div> <!-- Nombre del sistema -->
+    <div class="logo-subtitle">Experiencias culinarias premium</div> <!-- Eslogan -->
+  </div>
+
+  <!-- Menú de navegación -->
+  <nav class="nav-menu">
+    <ul>
+      <li class="nav-item">
+        <a href="#" class="nav-link active"> <!-- Página actual: Inicio -->
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+
+      <!-- Resto de enlaces de navegación -->
+      <li class="nav-item">
+        <a href="{{ url_for('restaurant.view_restaurants') }}" class="nav-link">
+          <i class="fas fa-utensils"></i>
+          <span>Restaurantes</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('reservation.create_reservation_client') }}" class="nav-link">
+          <i class="fas fa-calendar-plus"></i>
+          <span>Nueva Reserva</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('reservation.my_reservations') }}" class="nav-link">
+          <i class="fas fa-calendar-check"></i>
+          <span>Mis Reservas</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-heart"></i>
+          <span>Favoritos</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-user-cog"></i>
+          <span>Mi Cuenta</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ url_for('auth.logout') }}" class="nav-link">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- Contenido principal -->
+<div class="main-content">
+  <!-- Barra superior con información del usuario -->
+  <header class="topbar">
+    <div class="user-profile" id="userProfile">
+      <div class="user-avatar">{{ current_user.username[0]|upper }}</div> <!-- Inicial del usuario -->
+      <span class="user-name">{{ current_user.username }}</span> <!-- Nombre del usuario -->
+      <i class="fas fa-chevron-down"></i> <!-- Flecha para desplegar menú -->
+
+      <!-- Menú desplegable del usuario -->
+      <div class="user-dropdown">
+        <a href="#"><i class="fas fa-user"></i> Mi Perfil</a>
+        <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+        <div class="divider"></div>
+        <a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Área principal del contenido -->
+  <main class="content-wrapper">
+    <!-- Mensajes flash (éxito, error, etc.) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Sección de bienvenida -->
+    <section class="welcome-section">
+      <h1 class="welcome-title">Bienvenido, {{ current_user.username }}</h1>
+      <p class="welcome-text">Gestiona tus reservas, descubre nuevos restaurantes y disfruta de experiencias gastronómicas exclusivas.</p>
+    </section>
+
+    <!-- Tarjetas con métricas del usuario -->
+    <div class="metrics-grid">
+      <!-- Tarjeta 1: Restaurantes favoritos -->
+      <div class="metric-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <div>
+            <div class="card-title">Restaurantes Favoritos</div>
+            <div class="card-value">5</div> <!-- Número de favoritos -->
+          </div>
+        </div>
+        <p class="card-description">Tus lugares preferidos guardados para visitar nuevamente</p>
+      </div>
+
+      <!-- Tarjeta 2: Reservas activas -->
+      <div class="metric-card">
+        <div class="card-header">
+          <div class="card-icon success">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div>
+            <div class="card-title">Reservas Activas</div>
+            <div class="card-value">3</div> <!-- Número de reservas -->
+          </div>
+        </div>
+        <p class="card-description">Próximas reservas confirmadas en tus restaurantes favoritos</p>
+      </div>
+
+      <!-- Tarjeta 3: Puntos acumulados -->
+      <div class="metric-card">
+        <div class="card-header">
+          <div class="card-icon warning">
+            <i class="fas fa-star"></i>
+          </div>
+          <div>
+            <div class="card-title">Puntos Acumulados</div>
+            <div class="card-value">1,250</div> <!-- Puntos del usuario -->
+          </div>
+        </div>
+        <p class="card-description">Canjea tus puntos por beneficios exclusivos</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Script para manejar el dropdown del perfil de usuario -->
+<script>
+  // Mostrar/ocultar menú del usuario al hacer clic
+  document.getElementById('userProfile').addEventListener('click', function(e) {
+    e.stopPropagation(); // Evita propagación del evento
+    document.querySelector('.user-dropdown').classList.toggle('show');
+  });
+
+  // Ocultar el dropdown si se hace clic fuera
+  document.addEventListener('click', function() {
+    document.querySelector('.user-dropdown').classList.remove('show');
+  });
+</script>
+
+</body>
+</html>

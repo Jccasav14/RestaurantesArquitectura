@@ -1,0 +1,13 @@
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Datos en Caché</title>
+</head>
+<body>
+    <h1>📦 Datos en Redis (Solo Admin)</h1>
+    {% for clave, valor in datos.items() %}
+        <h3>🔑 {{ clave }}</h3>
+        <pre>{{ valor | tojson(indent=2) }}</pre>
+    {% endfor %}
+</body>
+</html>
